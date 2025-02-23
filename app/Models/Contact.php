@@ -11,6 +11,7 @@ class Contact extends Model
     /** @use HasFactory<\Database\Factories\ContactFactory> */
     use HasFactory;
 
+    //Mass ASSIGNMENT
     protected $fillable = [
         'name', 'email', 'subject', 'message', 'response',
     ];

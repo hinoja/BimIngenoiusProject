@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('context');
             $table->string('slug');
             $table->string('image')->nullable();
-            $table->publishAt()->nullable();
+            $table->date('published_at')->nullable();
             $table->softDeletes();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();

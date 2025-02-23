@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Actions\UpdateUserStatus;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class UsersController extends Controller
 {
@@ -13,12 +16,37 @@ class UsersController extends Controller
      */
     public function index()
     {
+
         return view('admin.users.index', [
-            'users' => User::query() 
-                            ->get(['id', 'name', 'email']),
+            'users' => User::query()
+                ->with('role:id,name')
+                ->get(['id', 'name', 'email', 'role_id', 'slug', 'is_active']),
         ]);
     }
 
+    /**
+     * Enable or disable user account
+     */
+    public function updateStatus(UpdateUserStatus $updateUserStatus, User $user): RedirectResponse
+    {
+
+        if (! $user->is_active && ($user->disabled_by !== Auth::id()) && $user->disabled_at) {
+            notify()->info(__('You cannot enable this account because it was disabled by its owner.'));
+
+            return back();
+        }
+
+        $updateUserStatus->handle($user);
+
+        $message = match (intval($user->is_active)) {
+            1 => __('Account has been successfully unblocked.'),
+            0 => __('Account has been successfully blocked.'),
+        };
+
+        notify()->success($message);
+
+        return back();
+    }
     /**
      * Show the form for creating a new resource.
      */
