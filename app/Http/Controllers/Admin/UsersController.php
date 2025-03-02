@@ -43,8 +43,8 @@ class UsersController extends Controller
             0 => __('Account has been successfully blocked.'),
         };
 
-        notify()->success($message);
-
+          notify()->success($message);
+        // emotify('success', $message);
         return back();
     }
     /**

@@ -39,9 +39,46 @@
 </head>
 
 <body>
-    @if (session('notify'))
-        @notify(session('notify'))
-    @endif
+    <style>
+        .notify {
+            position: fixed;
+            /* Position fixe pour que la notification reste en place */
+            bottom: 20px;
+            /* Distance depuis le bas de la page */
+            right: 20px;
+            /* Distance depuis la droite de la page */
+            z-index: 9999;
+            /* Assure que la notification est au-dessus de tout autre contenu */
+            max-width: 500px;
+            /* Largeur maximale de la notification */
+            padding: 15px 20px;
+            /* Espacement interne pour le texte */
+            border-radius: 8px;
+            /* Coins arrondis */
+            font-family: Arial, sans-serif;
+            /* Police de caractères */
+            font-size: 14px;
+            /* Taille de la police */
+            color: #333333;
+            /* Couleur du texte */
+            animation: slideInFromBottom 0.5s ease-out;
+            /* Animation d'entrée modifiée */
+        }
+
+        /* Animation pour faire glisser la notification depuis le bas et la droite */
+        @keyframes slideInFromBottom {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+
     {{-- @include('sweetalert::alert') --}}
     @include('notify::components.notify')
 
@@ -88,6 +125,8 @@
 
     @livewireScripts
 
+    @notifyJs
+    <x-notify::notify />
     @stack('js')
 
 </body>
