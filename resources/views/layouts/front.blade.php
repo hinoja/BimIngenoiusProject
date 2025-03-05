@@ -2,82 +2,149 @@
 @php
     $locale = str_replace('_', '-', app()->getLocale());
 @endphp
-<!--[if IE 8 ]><html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ $locale }}" lang="{{ $locale }}"><!--<![endif]-->
 
-<!-- Mirrored from themes247.net/html5/construction/demo/home-hero-slideshow.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Feb 2025 00:01:14 GMT -->
+<html class="no-js" lang="{{ $locale }}"><!--<![endif]-->
+
 <head>
-    <!-- Basic Page Needs -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     
-    <title>@yield('subtitle') - {{ config('app.name', 'BIM INGENIOUS BTP') }}</title>
-    <meta name="description" content="...">
-    <meta name="keywords" content="...">
-    <meta name="author" content="blogwp.com">
+    <!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>@yield('subtitle') - {{ config('app.name') }}</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- Theme Style -->
-    <link rel="stylesheet" type="text/css" href="{{ ('assets/front/style.css') }}">
+	<!-- Font
+  ================================================== -->
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+	
+	
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="{{ asset('assets/front/css/bootstrap.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('assets/front/css/owl.carousel.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('assets/front/style.css') }}"/>
+	<link rel="stylesheet" id="fullcolor-css" href="#" type="text/css" media="all">
+	
+	<!-- Favicons
+	================================================== -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 
-    <!-- Favicon and touch icons  -->
-    <link rel="shortcut icon" href="{{ asset('assets/front/assets/icon/bim-favicon.png') }}">
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/front/assets/icon/apple-touch-icon-158-precomposed.png') }}">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <style>
-      .indicator-online {
-        background-color: #4cd94c; /* Couleur verte lorsque l'utilisateur est connecté */
-      }
-
-      .indicator-offline {
-        background-color: #adadce; /* Couleur grise lorsque l'utilisateur n'est pas connecté */
-      }
-    </style>
     @stack('css')
 </head>
 
-<body class="front-page no-sidebar site-layout-full-width menu-has-cart menu-has-search header-sticky">
+<body class="{{ request()->routeIs('front.home') ? 'homepage' : '' }}">
+  
+  <div class="images-preloader">
+    <div id="preloader_1" class="rectangle-bounce">
+        <span></span>
+        <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <div class="top-line"></div>
 
-<div id="wrapper" class="animsition">
-<div id="page" class="clearfix">
+  @include('includes.front.header')
 
-@include('includes.front.header')    <!-- /#site-header-wrap -->
+  <!-- Main Content -->
+  <div id="content">
+    <div class="entry-content">
+      <div class="page-content">
 
-<!-- Main Content -->
-@yield('content')
+        @yield('content')
 
-<!-- Footer -->
-@include('includes.front.footer')
+      </div>
+    </div>		
+  </div>
 
-<!-- Bottom -->
-@include('includes.front.bottom-bar-menu')
+  <!-- Footer -->
+  @include('includes.front.footer')
 
-</div><!-- /#page -->
-</div><!-- /#wrapper -->
+  <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
-<a id="scroll-top">TOP</a>
+  <script type="text/javascript" src="{{ asset('assets/front/js/jquery.min.js') }}"></script> 
+  <script type="text/javascript" src="{{ asset('assets/front/js/owl.carousel.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/front/js/classie.js') }}"></script>
+  <script type="text/javascript"> 
+  (function($) { "use strict";
+    $('.vimeo a,.youtube a').click(function (e) {
+      e.preventDefault();
+      var videoLink = $(this).attr('href');
+      var classeV = $(this).parent();
+      var PlaceV = $(this).parent();
+      if ($(this).parent().hasClass('youtube')) {
+        $(this).parent().wrapAll('<div class="video-wrapper">');
+        $(PlaceV).html('<iframe frameborder="0" height="333" src="' + videoLink + '?autoplay=1&showinfo=0" title="YouTube video player" width="100%"></iframe>');
+      } else {
+        $(this).parent().wrapAll('<div class="video-wrapper">');
+        $(PlaceV).html('<iframe src="' + videoLink + '?title=0&amp;byline=0&amp;portrait=0&amp;autoplay=1&amp;color=cfa144" width="100%" height="300" frameborder="0"></iframe>');
+      }
+    });		
+  })(jQuery);
+  </script>
+  <script type="text/javascript" src="{{ asset('assets/front/js/custom-index.js') }}"></script> 
+  <script type="text/javascript">
 
-<!-- Javascript -->
-<script type="text/javascript" src="{{ ('assets/front/assets/js/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/animsition.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/plugins.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/countTo.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/fitText.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/flexslider.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/vegas.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/owlCarousel.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/cube.portfolio.js') }}"></script>
-<script type="text/javascript" src="{{ ('assets/front/assets/js/main.js') }}"></script>
+      jQuery(document).ready(function() {
 
-@stack('js')
+        jQuery(".custom-show").hide();
+        
+        jQuery(".custom-close").click(function(){
+            jQuery(this).hide();
+            jQuery(this).next().show();
+            jQuery(this).parent().animate({'left': '+=108px'},'medium');
+        });
+        
+
+        jQuery(".custom-show").click(function(){
+            jQuery(this).hide();
+            jQuery(this).prev().show();
+            jQuery(this).parent().animate({'left': '-=108px'},'medium');
+        });
+
+
+        jQuery("#body-layout").on('change', function(){
+            $( 'body' ).toggleClass( "boxed" );
+        });
+        
+        jQuery(".s1 .color1").click(function(){
+            jQuery("#fullcolor-css").attr("href", "css/colors/color1.css");
+        });
+        
+        jQuery(".s1 .color2").click(function(){
+            jQuery("#fullcolor-css").attr("href", "css/colors/color2.css");
+        });
+        
+        jQuery(".s1 .color3").click(function(){
+            jQuery("#fullcolor-css").attr("href", "css/colors/color3.css");
+        });
+        
+        jQuery(".s1 .color4").click(function(){
+            jQuery("#fullcolor-css").attr("href", "css/colors/color4.css");
+        });
+        
+        jQuery(".s1 .color5").click(function(){
+            jQuery("#fullcolor-css").attr("href", "css/colors/color5.css");
+        });
+        
+        jQuery(".s1 .color6").click(function(){
+            jQuery("#fullcolor-css").attr("href", "css/colors/color6.css");
+        });
+
+
+      });
+
+  </script>
+
+  @stack('js')
 
 </body>
 

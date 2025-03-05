@@ -7,6 +7,9 @@ use App\Http\Controllers\Front\PagesController;
 Route::controller(PagesController::class)->name('front.')->group(function(){
     Route::get('/', 'home')->name('home');
     Route::get('/about', 'about')->name('about');
+    Route::get('/projects', 'projects')->name('projects');
+    Route::get('/plans', 'plans')->name('plans');
+    Route::get('/news', 'news')->name('news');
     Route::get('/contact', 'contact')->name('contact');
 });
 
