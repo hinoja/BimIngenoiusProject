@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Front\PagesController;
+use App\Http\Controllers\LanguageController;
 
 Route::controller(PagesController::class)->name('front.')->group(function(){
     Route::get('/', 'home')->name('home');
@@ -12,6 +13,8 @@ Route::controller(PagesController::class)->name('front.')->group(function(){
     Route::get('/news', 'news')->name('news');
     Route::get('/contact', 'contact')->name('contact');
 });
+
+Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

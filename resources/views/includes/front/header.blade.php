@@ -1,5 +1,6 @@
 @php
     $currentRouteName = Route::currentRouteName();
+    $langIsFr = app()->getLocale() === 'fr';
 @endphp
 
 <header class="static">		
@@ -52,7 +53,9 @@
                         @endauth
                     </ul>
                 </li>
-                <li><a href="#" class=""><i class="fa fa-globe"></i> FR</a></li>
+                <li>
+                    <a href="{{ route('lang.switch', $langIsFr ? 'en' : 'fr') }}"><i class="fa fa-globe"></i>{{ $langIsFr ? 'EN' : 'FR' }}</a>
+                </li>
             </ul>
         </nav>
     </div>

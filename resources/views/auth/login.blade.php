@@ -18,7 +18,7 @@
                                     <label for="email">@lang('Email')</label>
                                     <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="@lang('Email')" required>
                                     @error('email')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="form-group {{ $errors->has('password') ? 'has-error': '' }}">
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="checkbox">
                                   <label>
-                                    <input type="checkbox" name="remember"> @lang('Remember me')
+                                    <input type="checkbox" name="remember"> @lang('Remember Me')
                                   </label>
                                 </div>
                                 <div class="text-right">
