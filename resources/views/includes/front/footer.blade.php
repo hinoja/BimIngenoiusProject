@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="widget">
-                        <h4><img src="images/logo-footer.png" alt=""></h4>
+                        <h4><a href="{{ route('front.home') }}"><img src="{{ asset('assets/front/images/logos/main-logo.png')}}" alt="{{ config('app.name') }}"></a></h4>
                         <p>Continal is a clean PSD theme suitable for corporate, construction. You can customize it very easy to fit your needs, semper suscipit metus accumsan at. Vestibulum et lacus urna. </p>
                     </div>
                 </div>

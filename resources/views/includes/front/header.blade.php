@@ -2,10 +2,10 @@
     $currentRouteName = Route::currentRouteName();
 @endphp
 
-<header class="header3">		
+<header class="static">		
     <div class="container">
         <h1 class="logo">
-            <a href="index.html"><img src="{{ asset('assets/front/images/logos/main-logo.png')}}" alt="{{ config('app.name') }}"></a>
+            <a href="{{ route('front.home') }}"><img src="{{ asset('assets/front/images/logos/main-logo.png')}}" alt="{{ config('app.name') }}"></a>
         </h1>						
         <div class="top-info">
             <p><span>@lang('Free Call:')</span> (+1)-96-716-6879</p>
@@ -39,21 +39,20 @@
                     <ul class="dropdown-menu">
                         @auth
                             <li><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <li>
-                                    <a href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                    this.closest('form').submit();"
-                                    class="dropdown-item"> @lang('Logout')
-                                    </a>
-                                </li>
-                            </form>
+                            <li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    @lang('Logout')
+                                </a>
+                            </li>
                         @else
                             <li><a href="{{ route('login') }}">@lang('Login')</a></li>
                         @endauth
                     </ul>
                 </li>
+                <li><a href="#" class=""><i class="fa fa-globe"></i> FR</a></li>
             </ul>
         </nav>
     </div>
