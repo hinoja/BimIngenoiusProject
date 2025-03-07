@@ -18,7 +18,7 @@ Route::controller(PagesController::class)->name('front.')->group(function(){
 
 Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
-Route::get('/dashboard', function () {
+Route::get('admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

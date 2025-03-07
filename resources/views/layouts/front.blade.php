@@ -21,7 +21,8 @@
 	<!-- Font
   ================================================== -->
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-	
+		<!-- Favicons
+	================================================== -->
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 	<!-- CSS
   ================================================== -->
@@ -33,13 +34,14 @@
 	<link rel="stylesheet" href="{{ asset('assets/front/style.css') }}"/>
 	
 	<link rel="stylesheet" id="fullcolor-css" href="#" type="text/css" media="all">
-	<!-- Favicons
-	================================================== -->
-	
+
+  @stack('css')
+
 </head>
 
 <body class="{{ $isHome ? 'homepage' : '' }}">
-  
+  <!-- Preloader -->
+
   <div class="images-preloader">
     <div id="preloader_1" class="rectangle-bounce">
         <span></span>
@@ -59,6 +61,7 @@
       @if (!$isHome)
         <div class="page-title">
           <div class="container">
+            <img src="{{ asset('assets/front/images/home-slider1/slide2.jpg') }}" alt="">
             <h1>@yield('subtitle')</h1>
           </div>
         </div>
@@ -83,7 +86,7 @@
   @include('includes.front.footer')
 
   <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
-  
+
   <script type="text/javascript" src="{{ asset('assets/front/js/jquery.min.js') }}"></script> 
   <script type="text/javascript" src="{{ asset('assets/front/js/owl.carousel.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/classie.js') }}"></script>
