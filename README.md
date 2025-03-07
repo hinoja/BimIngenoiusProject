@@ -1,11 +1,6 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="logo.jpg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ 
 
  # CRÉATION D’UN SITE VITRINE DE BIM INGENIOUS BTP
 ## About Laravel
@@ -34,14 +29,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 Le présent document fait suite à celui soumis précédemment par BIM INGENIOUS BTP, dont le contenu portait sur la description dudit projet. Celui-ci vient donc en complément en termes fonctionnels et comportera le devis du projet module par module.
 
-## Sommaire
-
-1. Contexte
-2. Objectifs
-3. Les acteurs
-4. Modules fonctionnels
-5. Durée estimative
-8. Livrables
+ 
 
 ## Contexte
 
@@ -86,6 +74,4 @@ Le projet pourra être développé et livré sur une période allant de **2 à 3
 - Planning projet
 - Cahier de recettes (tests)
 - Documentation technique
-
  
-_Lisez attentivement ce document et n’hésitez pas à nous faire part de vos remarques._

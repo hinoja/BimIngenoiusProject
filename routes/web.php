@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Front\PagesController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Admin\UsersController;
 
 Route::controller(PagesController::class)->name('front.')->group(function(){
     Route::get('/', 'home')->name('home');
@@ -27,4 +28,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+//---------------------ADMIN ROUTES---------------------
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::patch('status/{user}', 'updateStatus')->name('status');
+    });
+});
+require __DIR__ . '/auth.php';
