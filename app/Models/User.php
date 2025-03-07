@@ -27,6 +27,8 @@ class User extends Authenticatable
         'is_active',
         'avatar',
     ];
+    
+
 
     /**
      * The attributes that should be hidden for serialization.
