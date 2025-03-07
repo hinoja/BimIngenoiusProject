@@ -107,37 +107,7 @@
         </div>
     </section>
     <section class="features-home">
-        <div class="parallax parallax-hourse">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-sm-4">
-                        <div class="features">
-                            <div class="top-img"><img src="{{ asset('assets/front/images/features1.png') }}" alt=""></div>
-                            <h4>@lang('Contemporary Design')</h4>
-                            <p>Quisque pulvinar libero dolor, quis bibendum eros euismod sit amet. Proin dapibus id diam at</p>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="features">
-                            <div class="top-img"><img src="{{ asset('assets/front/images/features2.png') }}" alt=""></div>
-                            <h4>@lang('Project Management')</h4>
-                            <p>Pellentesque non diam euismod metus vehicula varius. Donec et velit placerat arcu lobortis.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="features">
-                            <div class="top-img"><img src="{{ asset('assets/front/images/features3.png') }}" alt=""></div>
-                            <h4>@lang('Comprehensive Contracting')</h4>
-                            <p>Gravida at convallis a, tempor sed magna. Pellentesque non diam euismod metus vehicula</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        @include('includes.front.parallax-section')
     </section>
 
     <section class="shadow-section">

@@ -24,13 +24,13 @@
             <ul class="main-menu">
                 <li><a href="{{ route('front.home') }}" class="{{ $currentRouteName === 'front.home' ? 'active' : '' }}">@lang('Home')</a></li>
                 <li><a href="{{ route('front.about') }}" class="{{ $currentRouteName === 'front.about' ? 'active' : '' }}">@lang('About')</a></li>
-                <li><a href="{{ route('front.projects') }}" class="{{ $currentRouteName === 'front.projects' ? 'active' : '' }}">@lang('Projects')</a></li>
-                <li><a href="{{ route('front.plans') }}" class="{{ $currentRouteName === 'front.plans' ? 'active' : '' }}">@lang('Plans')</a></li>
+                <li><a href="{{ route('front.projects.index') }}" class="{{ $currentRouteName === 'front.projects.index' ? 'active' : '' }}">@lang('Projects')</a></li>
+                <li><a href="{{ route('front.plans.index') }}" class="{{ $currentRouteName === 'front.plans.index' ? 'active' : '' }}">@lang('Plans')</a></li>
                 <li class="menu-item-has-children">
                     <div class="arrow-parent"><i class="fa fa-angle-down"></i></div>
                     <a href="#">@lang('Infos')</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('front.news') }}" class="{{ $currentRouteName === 'front.news' ? 'active' : '' }}">@lang('News')</a></li>
+                        <li><a href="{{ route('front.news.index') }}" class="{{ $currentRouteName === 'front.news.index' ? 'active' : '' }}">@lang('News')</a></li>
                         <li><a href="{{ route('front.contact') }}" class="{{ $currentRouteName === 'front.contact' ? 'active' : '' }}">@lang('Contact')</a></li>
                     </ul>
                 </li>			

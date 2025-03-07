@@ -1,6 +1,6 @@
 @extends('layouts.front')
 
-@section('subtitle', __('About'))
+@section('subtitle', __('News'))
 
 @section('content')
 

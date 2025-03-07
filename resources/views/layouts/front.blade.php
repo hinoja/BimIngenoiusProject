@@ -61,7 +61,6 @@
       @if (!$isHome)
         <div class="page-title">
           <div class="container">
-            <img src="{{ asset('assets/front/images/home-slider1/slide2.jpg') }}" alt="">
             <h1>@yield('subtitle')</h1>
           </div>
         </div>

@@ -5,36 +5,28 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="widget">
                         <h4><a href="{{ route('front.home') }}"><img src="{{ asset('assets/front/images/logos/main-logo.png')}}" alt="{{ config('app.name') }}"></a></h4>
-                        <p>Continal is a clean PSD theme suitable for corporate, construction. You can customize it very easy to fit your needs, semper suscipit metus accumsan at. Vestibulum et lacus urna. </p>
+                        <p class="text-justify">@lang('We specialize in delivering top-notch construction services, ensuring quality and efficiency in every project. Our team is dedicated to meeting your needs and exceeding your expectations.')</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="widget">
-                        <h4>Company</h4>
+                        <h4>@lang('Quick links')</h4>
                         <div class="row">
                             <div class="col-xs-6 col-lg-5">
                                 <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Projects</a></li>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-6 col-lg-7">
-                                <ul>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">404 Page</a></li>
-                                    <li><a href="#">Shop</a></li>
-                                    <li><a href="#">Elements</a></li>
-                                    <li><a href="#">Typography</a></li>
+                                    <li><a href="{{ route('front.home') }}">@lang('Home')</a></li>
+                                    <li><a href="{{ route('front.about') }}">@lang('About')</a></li>
+                                    <li><a href="{{ route('front.projects.index') }}">@lang('Projects')</a></li>
+                                    <li><a href="{{ route('front.plans.index') }}">@lang('Plans')</a></li>
+                                    <li><a href="{{ route('front.news.index') }}">@lang('News')</a></li>
+                                    <li><a href="{{ route('front.contact') }}">@lang('Contact')</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
-                    <h4>Contact Us</h4>
+                    <h4>@lang('Contact Us')</h4>
                     <div class="textwidget">
                         <p><i class="fa fa-home"></i> 379 5th Ave  New York, NYC 10018</p>
                         <p><i class="fa fa-phone"></i> (+1) 96 716 6879</p>
@@ -44,14 +36,14 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
-                    <h4>Gallery</h4>
+                    <h4>@lang('Gallery')</h4>
                     <div class="gallery-image">
-                        <a href="#"><img src="images/gallery1.jpg" alt=""></a>
-                        <a href="#"><img src="images/gallery2.jpg" alt=""></a>
-                        <a href="#"><img src="images/gallery3.jpg" alt=""></a>
-                        <a href="#"><img src="images/gallery4.jpg" alt=""></a>
-                        <a href="#"><img src="images/gallery5.jpg" alt=""></a>
-                        <a href="#"><img src="images/gallery6.jpg" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/front/images/gallery1.jpg') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/front/images/gallery2.jpg') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/front/images/gallery3.jpg') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/front/images/gallery4.jpg') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/front/images/gallery5.jpg') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/front/images/gallery6.jpg') }}" alt=""></a>
                     </div>
                 </div>
             </div>
