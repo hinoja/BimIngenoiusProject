@@ -10,6 +10,7 @@ Route::controller(PagesController::class)->name('front.')->group(function(){
     Route::get('/about', 'about')->name('about');
     Route::get('/projects', 'projects')->name('projects');
     Route::get('/plans', 'plans')->name('plans');
+    Route::get('/quote', 'quote')->name('quote');
     Route::get('/news', 'news')->name('news');
     Route::get('/contact', 'contact')->name('contact');
 });

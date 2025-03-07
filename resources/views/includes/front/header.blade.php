@@ -56,6 +56,9 @@
                 <li>
                     <a href="{{ route('lang.switch', $langIsFr ? 'en' : 'fr') }}"><i class="fa fa-globe"></i>{{ $langIsFr ? 'EN' : 'FR' }}</a>
                 </li>
+                <li>
+                    <a href="{{ route('front.quote') }}" class="ot-btn btn-color left" style="border-radius: 10px; padding: 15px 20px;">@lang('Quote')</a>
+                </li>
             </ul>
         </nav>
     </div>

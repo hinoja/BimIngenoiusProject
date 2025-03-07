@@ -15,7 +15,24 @@ class PagesController extends Controller
         return view('front.about');
     }
 
+    public function projects() {
+        return view('front.projects');
+    }
+    
+    public function plans() {
+        return view('front.plans');
+    }
+
     public function contact() {
         return view('front.contact');
     }
+
+    public function news() {
+        return view('front.news');
+    }
+
+    public function quote() {
+        return view('front.quote');
+    }
+    
 }
