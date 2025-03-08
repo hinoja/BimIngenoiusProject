@@ -16,21 +16,21 @@ Route::name('front.')->group(function(){
     });
         
     // Projects routes 
-    Route::prefix('projects')->controller(ProjectsController::class)->group(function(){
-        Route::get('/', 'index')->name('projects.index');
-        Route::get('/{project}', 'show')->name('projects.show');
+    Route::controller(ProjectsController::class)->prefix('projects')->name('projects.')->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('/{project}', 'show')->name('show');
     });
 
     // News routes
-    Route::prefix('news')->controller(NewsController::class)->group(function(){
-        Route::get('/', 'index')->name('news.index');
-        Route::get('/{news}', 'show')->name('news.show');
+    Route::controller(NewsController::class)->prefix('news')->name('news.')->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('/{news}', 'show')->name('show');
     });
 
     // Plans routes
-    Route::prefix('plans')->controller(PlansController::class)->group(function(){
-        Route::get('/', 'index')->name('plans.index');
-        Route::get('/{plan}', 'show')->name('plans.show');
+    Route::controller(PlansController::class)->prefix('plans')->name('plans.')->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('/{plan}', 'show')->name('show');
     });
 });
 

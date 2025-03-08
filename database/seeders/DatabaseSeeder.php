@@ -33,7 +33,12 @@ class DatabaseSeeder extends Seeder
 
                 $project->tags()->attach($tags->random(rand(1, 5))->pluck('id')->toArray());
 
-                $project->images()->saveMany(Image::factory()->count(fake()->numberBetween(1, 10))->make());
+                $project->images()->saveMany(
+                    Image::factory()
+                        ->count(fake()->numberBetween(1, 10))
+                        ->withProjectTitle($project->title)
+                        ->make()
+                );
             });
     }
 }

@@ -14,10 +14,19 @@ class ImageFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'name' => fake()->imageUrl(),
+            'name' => 'https://placehold.co/600x400?text=Placeholder',
         ];
+    }
+
+    public function withProjectTitle($title)
+    {
+        return $this->state(function (array $attributes) use ($title) {
+            return [
+                'name' => 'https://placehold.co/600x400?text=' . urlencode($title),
+            ];
+        });
     }
 }
