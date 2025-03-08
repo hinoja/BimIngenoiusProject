@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\News;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\User;
+use App\Models\{Category, Tag, Image, Project, News, User};
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,8 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RoleSeeder::class);
-        User::factory(50)->create();
+        $this->call([
+            RoleSeeder::class,
+            CategorySeeder::class,
+        ]);
+
+        User::factory(20)->create();
         News::factory(50)->create();
+
+        $tags = Tag::factory(50)->create();
+        $categories = Category::query()->get()->take(15);
+
+        Project::factory()
+            ->count(25)
+            ->create()
+            ->each(function ($project) use ($categories, $tags) {
+                $project->category()->associate($categories->random())->save();
+
+                $project->tags()->attach($tags->random(rand(1, 5))->pluck('id')->toArray());
+
+                $project->images()->saveMany(Image::factory()->count(fake()->numberBetween(1, 10))->make());
+            });
     }
 }
