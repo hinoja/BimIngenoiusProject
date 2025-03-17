@@ -50,6 +50,7 @@
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
             @include('includes.back.navbar')
+            @include('includes.back.sidebar')
 
             <!-- Sidebar Section -->
             <div class="main-sidebar sidebar-style-2">
