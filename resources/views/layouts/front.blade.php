@@ -72,6 +72,7 @@
               <li class="active"> @yield('subtitle')</li>
 					</ul>
 				</div>
+        <hr style="margin: 0;">
       @endif
       <div class="page-content">
 

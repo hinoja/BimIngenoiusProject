@@ -1,48 +1,48 @@
-@extends('layouts.front')
+@extends('layouts.auth')
 
 @section('subtitle', __('Login'))
 
 @section('content')
+    <div class="card-header text-center"><h3>@lang('Login')</h3></div>
+    <div class="card-body">
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div class="form-group {{ $errors->has('email') ? 'has-error': '' }}" >
+                <label for="email" class="control-label">@lang('Email')</label>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" tabindex="1" required autofocus>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-    <div class="page-content">
-        <section class="form-info">
-            <div class="container">
-                <div class="row">
-                    <div class="">
-                        <div class="contact-form">
-                            <h4>@lang('Please enter your login details')</h4>
-                            <form action="{{ route('login') }}" method="POST">
-                                @csrf
-                                @method('POST')
-                                <div class="form-group {{ $errors->has('email') ? 'has-error': '' }}">
-                                    <label for="email">@lang('Email')</label>
-                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="@lang('Email')" required>
-                                    @error('email')
-                                        <div class="invalid-feedback text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group {{ $errors->has('password') ? 'has-error': '' }}">
-                                    <label for="password">@lang('Password')</label>
-                                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="@lang('Password')" required>
-                                    @error('password')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="checkbox">
-                                  <label>
-                                    <input type="checkbox" name="remember"> @lang('Remember Me')
-                                  </label>
-                                </div>
-                                <div class="text-right">
-                                    <button type="submit" class="ot-btn btn-color btn-sradius">@lang('Login')</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+            <div class="form-group {{ $errors->has('email') ? 'has-error': '' }}">
+                <label for="password" class="control-label">@lang('Password')</label>
+                <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
+                    <label class="custom-control-label" for="remember-me">@lang('Remember Me')</label>
                 </div>
             </div>
-        </section>        
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">@lang('Log in')</button>
+            </div>
+        </form>
+
+        <div class="float-right">
+            @if (Route::has('password.request'))
+                <a href="{{ route('password.request') }}" class="text-small">@lang('Forgot your password?')</a>
+            @endif
+        </div>
+        <div class="float-left">
+            <a href="{{ route('front.home') }}" class="text-small">@lang('Back to home')</a>
+        </div>
     </div>
 
 @endsection
