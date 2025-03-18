@@ -35,7 +35,7 @@
                 <button wire:click.prevent="store" wire:loading.remove class="ot-btn btn-color" type="submit">@lang('Send Message')</button>
                 <button wire:loading class="ot-btn btn-color" type="button" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    @lang('Loading')...
+                    @lang('In progress')...
                 </button>
             </div>                        			
         </form>

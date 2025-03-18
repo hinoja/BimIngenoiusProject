@@ -36,16 +36,11 @@
                 </div>
             </div>
         </section>
-
-        <section>
-            <div id="google_map"></div>
-        </section>
         
     </div>
 
 @endsection
 @push('js')
     @livewireScripts
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="{{ asset('assets/front/js/contact.js')}}"></script>
 @endpush
