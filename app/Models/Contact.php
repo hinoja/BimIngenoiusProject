@@ -5,11 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Contact extends Model
 {
     /** @use HasFactory<\Database\Factories\ContactFactory> */
-    use HasFactory;
+    use HasFactory,Notifiable;
 
     //Mass ASSIGNMENT
     protected $fillable = [

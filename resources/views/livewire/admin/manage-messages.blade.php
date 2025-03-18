@@ -50,26 +50,26 @@
                             <div class="form-group">
                                 <label style="font-weight:bold;float:left;"
                                     class="control-label">@lang('Name')</label>
-                                <div style="float:right;">{{ $displayContact->name }}</div>
+                                <div style="float:right;">{{ $displayContact->name }}</div> <br><br>
                                 <div class="row"></div>
                                 <hr>
                                 <div><label for="control-label" style="font-weight:bold;float:left;">Email</label>
                                     <div style="float:right;" href="">{{ $displayContact->email }}</div>
                                 </div>
                             </div>
-                            <div class="row"></div>
+                            <div class="row"></div><br><br>
                             <hr>
                             <div class="form-group">
                                 <label style="font-weight:bold;float:left;"
                                     class="control-label">@lang('Subject')</label>
                                 <div style="float:right;">{{ $displayContact->subject }}</div>
                             </div>
-                            <div class="row"></div>
+                            <div class="row"></div><br>
                             <hr>
                             <div class="form-group">
                                 <label style="font-weight:bold;float:left;"
                                     class="control-label mr-2">@lang('Message')</label>
-                                <div class="row"></div>
+                                <div class="row"></div> <br>
                                 <div style="text-align:justify;"> {{ $displayContact->message }}</div>
                             </div>
                             @if (!$displayContact->response)
@@ -85,7 +85,7 @@
                                         <div class="row"></div>
                                         <div class="mt-2">
                                             <button wire:loading.remove type="submit" style="float: right;"
-                                                class="btn btn-primary">
+                                                class="btn btn-outline-primary">
                                                 <i class="fa fa-paper-plane"></i>
                                                 @lang('Send')
                                             </button>
@@ -101,7 +101,7 @@
                             @else
                                 <div class="form-group">
                                     <label class="control-label">@lang('Response')</label>
-                                    <div class="row"></div>
+                                    <div class="row"></div> <br>
                                     <strong>{{ $displayContact->response }}</strong>
                                     <div class="d-flex justify-content-end">
                                         <small>{{ $displayContact->updated_at }}</small>

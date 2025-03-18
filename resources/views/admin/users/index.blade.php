@@ -83,59 +83,59 @@
 
 @endsection
 
+
+
 @push('css')
+    <link rel="stylesheet" href="{{ asset('assets/back/modules/datatables/datatables.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap5.min.css') }}">
+    <style>
+        /* Custom Styles */
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
 
-    @push('css')
-        <link rel="stylesheet" href="{{ asset('assets/back/modules/datatables/datatables.min.css') }}">
-        <link rel="stylesheet"
-            href="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap5.min.css') }}">
-        <style>
-            /* Custom Styles */
-            .table th,
-            .table td {
-                vertical-align: middle;
-            }
+        .badge {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
 
-            .badge {
-                font-size: 14px;
-                padding: 8px 12px;
-                border-radius: 20px;
-            }
+        .badge-admin {
+            background-color: #4CAF50;
+            /* Vert */
+            color: white;
+        }
 
-            .badge-admin {
-                background-color: #4CAF50;
-                /* Vert */
-                color: white;
-            }
+        .badge-author {
+            background-color: #007bff;
+            /* Bleu */
+            color: white;
+        }
 
-            .badge-author {
-                background-color: #007bff;
-                /* Bleu */
-                color: white;
-            }
+        .badge-editor {
+            background-color: #FFC107;
+            /* Jaune */
+            color: black;
+        }
 
-            .badge-editor {
-                background-color: #FFC107;
-                /* Jaune */
-                color: black;
-            }
+        .btn-action {
+            min-width: 100px;
+        }
 
-            .btn-action {
-                min-width: 100px;
-            }
+        .btn-block {
+            background-color: #dc3545;
+            color: white;
+        }
 
-            .btn-block {
-                background-color: #dc3545;
-                color: white;
-            }
-
-            .btn-unblock {
-                background-color: #6610f2;
-                color: white;
-            }
-        </style>
-    @endpush
+        .btn-unblock {
+            background-color: #6610f2;
+            color: white;
+        }
+    </style>
 @endpush
+
 @push('js')
     <script src="{{ asset('assets/back/modules/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}">

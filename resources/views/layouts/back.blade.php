@@ -25,8 +25,9 @@
 
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
-    @notifyCss
+    <!-- Custom CSS -->
     @stack('css')
 
 </head>
@@ -50,34 +51,10 @@
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
             @include('includes.back.navbar')
-            @include('includes.back.sidebar')
 
             <!-- Sidebar Section -->
-            <div class="main-sidebar sidebar-style-2">
-                <aside id="sidebar-wrapper">
-                    <div class="sidebar-brand">
-                        <a href="#">
-                            <div class="logo-container">
+            @include('includes.back.sidebar')
 
-                                <span class="sidebar-brand-name">{{ config('app.name', 'BIM INGENIOUS BTP') }}</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="#">BI BTP</a>
-                    </div>
-                    <ul class="sidebar-menu">
-                        <li class="@if (Str::contains(Route::current()->uri, 'dashboard')) active @endif">
-                            <a class="nav-link" href="#"><i class="fas fa-home"></i>
-                                <span>@lang('Dashboard')</span></a>
-                        </li>
-                        <li class="@if (Str::contains(Route::current()->uri, 'users')) active @endif">
-                            <a class="nav-link" href="#"><i class="fas fa-users"></i>
-                                <span>@lang('Users')</span></a>
-                        </li>
-                    </ul>
-                </aside>
-            </div>
 
             <!-- Main Content -->
             <div class="main-content">
@@ -93,7 +70,8 @@
                         Copyright © {{ date('Y') }} <span class="bullet"></span> BIM INGENIOUS BTP
                     </div>
                     <div class="footer-right">
-                        @lang('Made By') <a class="ml-1" href="https://bvision-lte.com" target="_blank">Better Vision</a>
+                        @lang('Made By') <a class="ml-1" href="https://bvision-lte.com" target="_blank">Better
+                            Vision</a>
                         <div class="social-links">
                             <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
                             <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
@@ -105,6 +83,10 @@
         </div>
     </div>
 
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    {!! Toastr::message() !!}
+    <!-- Page Specific JS File -->
     <!-- General JS Scripts -->
     <script src="{{ asset('assets/back/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/back/modules/popper.js') }}"></script>
@@ -118,9 +100,6 @@
     <script src="{{ asset('assets/back/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/back/js/custom.js') }}"></script>
 
-
-    @notifyJs
-    <x-notify::notify />
     @stack('js')
 
 </body>

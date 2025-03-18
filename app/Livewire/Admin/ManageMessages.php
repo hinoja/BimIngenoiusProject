@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Contact;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Brian2694\Toastr\Facades\Toastr;
 use App\Notifications\ResponseNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -51,8 +52,7 @@ class ManageMessages extends Component
         Notification::send($contact, new ResponseNotification($data));
 
         $this->closeModal();
-
-        // toast(trans('The response was successfully sent to ').$contact->name, 'success');
+        Toastr::success(trans('The response was successfully sent to ').$contact->name, 'Success');
 
         return redirect()->route('admin.contacts.index');
     }
