@@ -20,14 +20,21 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
+        $frTitle = fake('fr_FR')->unique()->jobTitle();
+        $enTitle = fake()->unique()->jobTitle();
+
         $startDate = fake()->dateTimeBetween('-1 year', 'now');
         $endDate = fake()->dateTimeBetween($startDate, '+1 year');
 
         return [
             'category_id' => fake()->randomElement(Category::pluck('id')->toArray()),
             'company' => fake()->company,
-            'title' => fake()->unique()->jobTitle(),
-            'description' => fake()->paragraph,
+            'fr_title' => $frTitle,
+            'en_title' => $enTitle,
+            'fr_slug' => Str::slug($frTitle),
+            'en_slug' => Str::slug($enTitle),
+            'fr_description' => fake('fr_FR')->paragraph,
+            'en_description' => fake()->paragraph,
             'country' => fake()->country,
             'city' => fake()->city,
             'address' => fake()->address,

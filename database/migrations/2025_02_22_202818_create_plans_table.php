@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
-            $table->text('description');
-            $table->text('context');
+            $table->string('fr_title')->unique();
+            $table->string('en_title')->unique();
             $table->string('slug');
-            $table->string('image')->nullable();
+            $table->text('fr_description');
+            $table->text('en_description');
+            // $table->text('context');
             $table->date('published_at')->nullable();
             $table->softDeletes();
             $table->foreignId('user_id')->constrained();

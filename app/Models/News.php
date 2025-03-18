@@ -12,7 +12,7 @@ class News extends Model
     /** @use HasFactory<\Database\Factories\NewsFactory> */
     use HasFactory, SoftDeletes;
     // MASS ASSIGNMENT
-    public $fillable = ['title', 'content', 'slug', 'image', 'user_id', 'published_at'];
+    public $fillable = ['fr_title', 'en_title', 'fr_content', 'en_content', 'slug', 'image', 'user_id', 'published_at'];
 
     // RELATIONSHIPS
     public function user()

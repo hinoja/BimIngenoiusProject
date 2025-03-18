@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
-            $table->text('content');
+            $table->string('fr_title')->unique();
+            $table->string('en_title')->unique();
+            $table->text('fr_content');
+            $table->text('en_content');
             $table->string('slug');
             $table->string('avatar')->nullable();
             $table->foreignId('user_id')->constrained();
