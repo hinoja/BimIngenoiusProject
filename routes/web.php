@@ -39,6 +39,7 @@ Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('la
 Route::get('admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -53,5 +54,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('', 'index')->name('index');
         Route::patch('status/{user}', 'updateStatus')->name('status');
     });
+    //CONTACTS
+    Route::view('contacts', 'admin.contacts.index')->name('contacts.index');
 });
 require __DIR__ . '/auth.php';

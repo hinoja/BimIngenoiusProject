@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Contact extends Model
 {
     /** @use HasFactory<\Database\Factories\ContactFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory,Notifiable;
 
     //Mass ASSIGNMENT
     protected $fillable = [
