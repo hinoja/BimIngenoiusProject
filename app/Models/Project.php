@@ -40,6 +40,11 @@ class Project extends Model
         return $this->{app()->getLocale() . '_title'};
     }
 
+    public function getDescriptionAttribute()
+    {
+        return $this->{app()->getLocale() . '_description'};
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

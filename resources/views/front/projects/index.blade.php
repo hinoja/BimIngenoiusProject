@@ -5,11 +5,12 @@
 @section('content')
 
     @if ($projects->isEmpty())
+        <br>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-info">
-                        @lang('No project uploaded yet.')
+                    <div class="alert alert-secondary text-center" role="alert">
+                        <b class="h5">@lang('No project uploaded yet.')</b>
                     </div>
                 </div>
             </div>
