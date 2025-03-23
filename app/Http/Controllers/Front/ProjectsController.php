@@ -19,7 +19,7 @@ class ProjectsController extends Controller
 
         return view('front.projects.index', [
             'projects' => $projects->with('images')->paginate(9),
-            'categories' => $categories->take(7),
+            'categories' => $categories->take(6),
         ]);
     }
 

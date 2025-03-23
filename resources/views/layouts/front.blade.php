@@ -2,6 +2,7 @@
 @php
     $locale = str_replace('_', '-', app()->getLocale());
     $isHome = request()->routeIs('front.home');
+    $currentRouteName = request()->route()->getName();
 @endphp
 
 <html class="no-js" lang="{{ $locale }}"><!--<![endif]-->
@@ -64,11 +65,14 @@
             <h1>@yield('subtitle')</h1>
           </div>
         </div>
-
+        
         <div class="breadcrumbs">
           <div class="container">
             <ul class="crumb">
               <li><a href="{{ route('front.home') }}"><i class="fa fa-home"></i> @lang('Home')</a></li> <span>/</span>
+              @if (Str::doesntContain($currentRouteName, 'index'))
+                <li><a href="@yield('previousUrl')">@yield('previousTitle')</a></li> <span>/</span>
+              @endif
               <li class="active"> @yield('subtitle')</li>
 					</ul>
 				</div>
