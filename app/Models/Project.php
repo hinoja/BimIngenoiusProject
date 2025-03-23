@@ -15,7 +15,7 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['fr_title', 'en_title', 'fr_slug', 'en_slug', 'fr_description', 'fr_description', 'company', 'country', 'city', 'address', 'start_date', 'end_date', 'category_id'];
+    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description', 'fr_description', 'company', 'country', 'city', 'address', 'start_date', 'end_date', 'category_id'];
 
     protected $casts = [
         'status' => StatusEnums::class,
@@ -26,24 +26,18 @@ class Project extends Model
 
     public function getRouteKeyName()
     {
-        return app()->getLocale() . '_slug';
+        return 'slug';
     }
 
-    public function setFrTitleAttribute($value)
-    {
-        $this->attributes['fr_title'] = $value;
-        $this->attributes['fr_slug'] = Str::slug($value);
-    }
-
-    public function setEnTitleAttribute($value)
+    public function setTitleAttribute($value)
     {
         $this->attributes['en_title'] = $value;
-        $this->attributes['en_slug'] = Str::slug($value);
+        $this->attributes['slug'] = Str::slug($value);
     }
 
     public function getTitleAttribute()
     {
-        return app()->getLocale() . '_title';
+        return $this->{app()->getLocale() . '_title'};
     }
 
     public function category()

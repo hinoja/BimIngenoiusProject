@@ -16,11 +16,10 @@ class ProjectsController extends Controller
                             ->with('category');
         
         $categories = $projects->get()->pluck('category')->unique();
-        // dd($projects->get(), $categories);
 
         return view('front.projects.index', [
             'projects' => $projects->with('images')->paginate(9),
-            'categories' => $categories->take(5),
+            'categories' => $categories->take(7),
         ]);
     }
 
