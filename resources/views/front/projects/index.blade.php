@@ -32,7 +32,7 @@
                         @foreach ($projects as $project)
                             <div class="col-md-4 col-sm-6 item {{ $project->category->slug }}">
                                 <div class="project-box ">
-                                    <a href="{{ route('front.projects.show', $project->slug) }}" class="image-project">
+                                    <a href="{{ route('front.projects.show', $project) }}" class="image-project">
                                         <img src="{{ $project->images->first()->name }}" alt="{{ $project->title }}">
                                         <span class="overlay"></span>
                                     </a>
