@@ -6,7 +6,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController};
 
-// Front routes 
+// Front routes
 Route::name('front.')->group(function(){
    Route::controller(PagesController::class)->group(function(){
         Route::get('/', 'home')->name('home');
@@ -14,8 +14,8 @@ Route::name('front.')->group(function(){
         Route::get('/contact', 'contact')->name('contact');
         Route::get('/quote', 'quote')->name('quote');
     });
-        
-    // Projects routes 
+
+    // Projects routes
     Route::controller(ProjectsController::class)->prefix('projects')->name('projects.')->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/{project}', 'show')->name('show');
@@ -39,7 +39,6 @@ Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('la
 Route::get('admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-// Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,11 +49,20 @@ Route::middleware('auth')->group(function () {
 
 //---------------------ADMIN ROUTES---------------------
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+   Route::view('dashboard', 'admin.dashboard' )->name('dashboard');
+
     Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
         Route::get('', 'index')->name('index');
         Route::patch('status/{user}', 'updateStatus')->name('status');
     });
-    //CONTACTS
+    //MESSAGES ROUTES
     Route::view('contacts', 'admin.contacts.index')->name('contacts.index');
+
+    //PROJECTS ROUTES
+    Route::view('projects', 'admin.projects.index')->name('projects.index');
+
+    //CATEGORIES ROUTES
+    Route::view('categories','admin.categories.index')->name('categories.index');
+
 });
 require __DIR__ . '/auth.php';

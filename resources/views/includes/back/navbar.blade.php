@@ -1,5 +1,14 @@
- 
-<nav class="navbar navbar-expand-lg main-navbar">
+<nav style="color:#FFD700" class="navbar navbar-expand-lg main-navbar" style="background: #2A2E45;">
+
+    <style>
+        .navbar .nav-link {
+            color: #F8F9FA !important;
+        }
+
+        .dropdown-menu {
+            border: 1px solid #FF6B35;
+        }
+    </style>
     <form class="form-inline mr-auto">
         <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
@@ -17,10 +26,8 @@
                 @endif
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item has-icon" href="#"> Fr</a>
-                {{-- <a class="dropdown-item has-icon" href="{{ route('lang', 'fr') }}"> Fr</a> --}}
-                {{-- <a class="dropdown-item has-icon" href="{{ route('lang', 'en') }}"> En</a> --}}
-                <a class="dropdown-item has-icon" href="#"> En</a>
+                <a class="dropdown-item has-icon" href="{{ route('lang.switch', 'fr') }}"> Fr</a>
+                <a class="dropdown-item has-icon" href="{{ route('lang.switch', 'en') }}"> En</a>
             </div>
         </div>
         <li class="dropdown">

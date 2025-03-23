@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfce1d50831f278b737941e317ada59f",
+    "content-hash": "978003c49dbb9e70e4c380f5ea4d592d",
     "packages": [
         {
             "name": "brian2694/laravel-toastr",
@@ -1115,70 +1115,6 @@
                 }
             ],
             "time": "2025-02-03T10:55:03+00:00"
-        },
-        {
-            "name": "jantinnerezo/livewire-alert",
-            "version": "v4.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jantinnerezo/livewire-alert.git",
-                "reference": "d087c277b19ecbf12a28e9eddcaa0577b7127bc7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jantinnerezo/livewire-alert/zipball/d087c277b19ecbf12a28e9eddcaa0577b7127bc7",
-                "reference": "d087c277b19ecbf12a28e9eddcaa0577b7127bc7",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^10.0|^11.0|^12.0",
-                "livewire/livewire": "^3.0",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.70",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^9.5|^10.0|^11.5.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "LivewireAlert": "Jantinnerezo\\LivewireAlert\\LivewireAlert"
-                    },
-                    "providers": [
-                        "Jantinnerezo\\LivewireAlert\\LivewireAlertServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Jantinnerezo\\LivewireAlert\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jantinn Erezo",
-                    "email": "erezojantinn@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "This package provides a simple alert utilities for your livewire components.",
-            "homepage": "https://github.com/jantinnerezo/livewire-alert",
-            "keywords": [
-                "jantinnerezo",
-                "livewire-alert"
-            ],
-            "support": {
-                "issues": "https://github.com/jantinnerezo/livewire-alert/issues",
-                "source": "https://github.com/jantinnerezo/livewire-alert/tree/v4.0.3"
-            },
-            "time": "2025-03-07T14:01:32+00:00"
         },
         {
             "name": "laravel/framework",
@@ -8398,12 +8334,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
