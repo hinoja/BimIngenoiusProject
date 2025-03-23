@@ -3,11 +3,11 @@
     $langIsFr = app()->getLocale() === 'fr';
 @endphp
 
-<header class="static">		
+<header class="static">
     <div class="container">
         <h1 class="logo">
             <a href="{{ route('front.home') }}"><img src="{{ asset('assets/front/images/logos/main-logo.png')}}" alt="{{ config('app.name') }}"></a>
-        </h1>						
+        </h1>
         <div class="top-info">
             <p><span>@lang('Free Call:')</span> (+1)-96-716-6879</p>
             <p class="e-mail"><span>@lang('Email:')</span> <a href="#">contact@site.com</a></p>
@@ -17,10 +17,10 @@
                 <a href="#"><i class="fa fa-google-plus"></i></a>
                 <a href="#"><i class="fa fa-linkedin"></i></a>
                 <a href="#"><i class="fa fa-instagram"></i></a>
-            </div>			
+            </div>
         </div>
         <button class="btn-toggle"><i class="fa fa-reorder"></i></button>
-        <nav class="nav">				
+        <nav class="nav">
             <ul class="main-menu">
                 <li><a href="{{ route('front.home') }}" class="{{ $currentRouteName === 'front.home' ? 'active' : '' }}">@lang('Home')</a></li>
                 <li><a href="{{ route('front.about') }}" class="{{ $currentRouteName === 'front.about' ? 'active' : '' }}">@lang('About')</a></li>
@@ -33,13 +33,13 @@
                         <li><a href="{{ route('front.news.index') }}" class="{{ $currentRouteName === 'front.news.index' ? 'active' : '' }}">@lang('News')</a></li>
                         <li><a href="{{ route('front.contact') }}" class="{{ $currentRouteName === 'front.contact' ? 'active' : '' }}">@lang('Contact')</a></li>
                     </ul>
-                </li>			
+                </li>
                 <li class="menu-item-has-children">
                     <div class="arrow-parent"><i class="fa fa-angle-down"></i></div>
                     <a href="#"><i class="fa fa-user"></i></a>
                     <ul class="dropdown-menu">
                         @auth
-                            <li><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
+                            <li><a href="{{ route('admin.dashboard') }}">@lang('Dashboard')</a></li>
                             <li>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf

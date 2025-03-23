@@ -27,50 +27,116 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
+    <head>
+
+    </head>
+
     <!-- Custom CSS -->
     @stack('css')
 
 </head>
 
-<body>
+<body>'
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>'
     <style>
-        .notify {
-            position: fixed;
-            bottom: 100px;
-            /* Ajustez selon la hauteur de la navbar */
-            right: 20px;
-            z-index: 9999;
-            max-width: 500px;
-            border-radius: 8px;
-            pointer-events: auto;
+        /* 3.1 Misc - Mise à jour des couleurs principales */
+        a {
+            color: #2A2E45;
+            /* Bleu Industriel */
+        }
+
+        .bg-primary {
+            background-color: #2A2E45 !important;
+        }
+
+        .text-primary {
+            color: #2A2E45 !important;
+        }
+
+        /* 3.12 Button - Boutons révisés */
+        .btn-primary {
+            background-color: #FF6B35;
+            /* Orange Mécanique */
+            border-color: #FF6B35;
+        }
+
+        .btn-danger {
+            background-color: #6C757D;
+            /* Gris Béton */
+            border-color: #6C757D;
+        }
+
+        /* 3.6 Table - En-tête de tableau */
+        .table thead th {
+            background-color: #2A2E45 !important;
+            color: #F8F9FA !important;
+            /* Blanc Chantier */
+        }
+
+        /* 3.5 Card - Cartes */
+        .card-header {
+            background-color: #F8F9FA;
+            border-bottom: 2px solid #FF6B35;
         }
     </style>
+
     @include('notify::components.notify')
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
             @include('includes.back.navbar')
-
-            <!-- Sidebar Section -->
             @include('includes.back.sidebar')
-
-
-            <!-- Main Content -->
             <div class="main-content">
                 <section class="section">
+                    <div class="notification-container fixed-bottom right-4 bottom-4 z-[1000] space-y-3">
+                        @foreach (session('notifications', []) as $notification)
+                            <div
+                                class="notification animate-slide-in-right bg-{{ $notification['type'] }} text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                                <span class="mr-3">
+                                    @if ($notification['type'] === 'success')
+                                        <i class="fas fa-check-circle"></i>
+                                    @else
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    @endif
+                                </span>
+                                {{ $notification['message'] }}
+                            </div>
+                        @endforeach
+                    </div>
 
+                    <style>
+                        .notification {
+                            min-width: 300px;
+                            border-left: 4px solid;
+                            @apply bg-industrial border-orange-mecanique;
+                        }
+
+                        .animate-slide-in-right {
+                            animation: slideInRight 0.3s ease-out;
+                        }
+
+                        @keyframes slideInRight {
+                            from {
+                                transform: translateX(100%);
+                            }
+
+                            to {
+                                transform: translateX(0);
+                            }
+                        }
+                    </style>
                     @yield('content')
                 </section>
             </div>
-
             <footer class="main-footer">
                 <div class="footer-content">
                     <div class="footer-left">
                         Copyright © {{ date('Y') }} <span class="bullet"></span> BIM INGENIOUS BTP
                     </div>
                     <div class="footer-right">
-                        @lang('Made By') <a class="ml-1" href="https://bvision-lte.com" target="_blank">Better
+                        @lang('Made By') <a style="color: white" class="ml-1" href="https://bvision-lte.com"
+                            target="_blank">Better
                             Vision</a>
                         <div class="social-links">
                             <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -81,8 +147,54 @@
                 </div>
             </footer>
         </div>
-    </div>
 
+
+
+    </div>
+    <!-- Ajouter avant la fermeture du body -->
+    <div class="notification-wrapper" x-data="notificationHandler()" x-init="init()"></div>
+
+    <script>
+        function notificationHandler() {
+            return {
+                init() {
+                    Livewire.on('notify', (data) => {
+                        this.showNotification(data);
+                    });
+                },
+
+                showNotification({
+                    type,
+                    icon,
+                    title,
+                    message
+                }) {
+                    const notification = document.createElement('div');
+                    notification.className = `notification ${type}`;
+                    notification.innerHTML = `
+                    <i class="fas fa-${icon} notification-icon"></i>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                    <button class="notification-close" @click="close">&times;</button>
+                `;
+
+                    const wrapper = document.querySelector('.notification-wrapper');
+                    wrapper.appendChild(notification);
+
+                    // Trigger animation
+                    setTimeout(() => notification.classList.add('show'), 10);
+
+                    // Auto-remove after 5 seconds
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        setTimeout(() => notification.remove(), 300);
+                    }, 5000);
+                }
+            }
+        }
+    </script>
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
     {!! Toastr::message() !!}
