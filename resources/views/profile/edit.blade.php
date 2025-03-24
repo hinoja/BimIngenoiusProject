@@ -120,6 +120,7 @@
 
         .invalid-feedback {
             font-size: 0.85rem;
+            color: #FF6B35;
         }
 
         /* Style pour les champs de mot de passe avec toggle */
@@ -127,15 +128,18 @@
             position: relative;
         }
 
-        .password-toggle {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #6C757D;
-            transition: all 0.3s ease;
-        }
+  
+
+.password-toggle {
+    position: absolute;
+    right: 12px; /* Ajusté pour être à l'intérieur du champ */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6C757D;
+    transition: all 0.3s ease;
+    z-index: 10; /* Assure que l'icône est au-dessus du champ */
+}
 
         .password-toggle:hover {
             color: #FF6B35;
@@ -196,176 +200,123 @@
 
 @section('content')
     <div class="section-body">
-        <div class="row">
-            <div class="col-12 profile-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4>@lang('Profile')</h4>
+                        <h4>@lang('Edit Profile')</h4>
                     </div>
                     <div class="card-body">
-                        <!-- Affichage des messages de statut -->
-                        @if (session('status') === 'profile-updated')
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                @lang('Profile updated successfully!')
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        @endif
-
-                        @if (session('status') === 'password-updated')
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                @lang('Password updated successfully!')
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        @endif
-
-                        @if ($errors->any())
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        @endif
-
-                        <!-- Section : Photo de profil -->
-                        <div class="text-center form-section">
+                        <!-- Section Avatar -->
+                        <div class="text-center mb-4">
                             <div class="profile-picture-wrapper">
-                                <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('assets/back/img/avatar/avatar-1.png') }}"
-                                    alt="@lang('Profile Picture')" class="profile-picture" id="profile-picture-preview">
-                                <label class="profile-picture-input">
+                                <img id="profile-picture-preview"
+                                     src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('assets/back/img/avatar/avatar-1.png') }}"
+                                     alt="Profile Picture" class="profile-picture">
+                                <label class="profile-picture-input" for="avatar">
                                     <i class="fas fa-camera"></i>
-                                    <input type="file" name="avatar" id="avatar-input" accept="image/*">
+                                    <input type="file" id="avatar" name="avatar" accept="image/*">
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Section : Informations du profil -->
-                        <div class="form-section">
-                            <h5>@lang('Profile Information')</h5>
-                            <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" id="profile-form">
-                                @csrf
-                                @method('PATCH')
+                        <!-- Formulaire de mise à jour du profil -->
+                        <form id="profile-form" method="POST" action="{{ route('profile.update') }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PATCH')
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="name">@lang('Name')</label>
-                                            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                                                value="{{ old('name', $user->name) }}" required>
-                                            @error('name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="email">@lang('Email')</label>
-                                            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
-                                                value="{{ old('email', $user->email) }}" required>
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                            <!-- Nom -->
+                            <div class="form-group">
+                                <label for="name">@lang('Name')</label>
+                                <input type="text" name="name" id="name" class="form-control"
+                                    value="{{ old('name', $user->name) }}">
+                                @error('name')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        @lang('Save Changes')
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="email">@lang('Email')</label>
+                                <input type="email" name="email" id="email" class="form-control"
+                                    value="{{ old('email', $user->email) }}">
+                                @error('email')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <!-- Section : Mise à jour du mot de passe -->
-                        <div class="form-section">
-                            <h5>@lang('Update Password')</h5>
-                            <form method="POST"  id="password-form">
-                                @csrf
-                                @method('PATCH')
+                            <!-- Avatar (hidden input pour compatibilité) -->
+                            <input type="hidden" name="avatar" id="avatar-hidden">
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="current_password">@lang('Current Password')</label>
-                                            <div class="password-wrapper">
-                                                <input type="password" name="current_password" id="current_password"
-                                                    class="form-control @error('current_password') is-invalid @enderror">
-                                                <i class="fas fa-eye password-toggle" data-target="current_password"></i>
-                                            </div>
-                                            @error('current_password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="password">@lang('New Password')</label>
-                                            <div class="password-wrapper">
-                                                <input type="password" name="password" id="password"
-                                                    class="form-control @error('password') is-invalid @enderror">
-                                                <i class="fas fa-eye password-toggle" data-target="password"></i>
-                                            </div>
-                                            @error('password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="password_confirmation">@lang('Confirm New Password')</label>
-                                            <div class="password-wrapper">
-                                                <input type="password" name="password_confirmation" id="password_confirmation"
-                                                    class="form-control">
-                                                <i class="fas fa-eye password-toggle" data-target="password_confirmation"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                @lang('Update Profile')
+                            </button>
+                        </form>
 
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        @lang('Update Password')
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                        <hr>
 
-                        <!-- Section : Suppression du compte -->
-                        <div class="form-section">
-                            <h5>@lang('Delete Account')</h5>
-                            <form method="POST" action="{{ route('profile.destroy') }}" id="delete-form">
-                                @csrf
-                                @method('DELETE')
+                        <!-- Formulaire de mise à jour du mot de passe -->
+                        <form id="password-form" method="POST" action="{{ route('profile.updatePassword') }}">
+                            @csrf
+                            @method('PATCH')
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="delete_password">@lang('Password')</label>
-                                            <div class="password-wrapper">
-                                                <input type="password" name="password" id="delete_password"
-                                                    class="form-control @error('password', 'userDeletion') is-invalid @enderror" required>
-                                                <i class="fas fa-eye password-toggle" data-target="delete_password"></i>
-                                            </div>
-                                            @error('password', 'userDeletion')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                            <!-- Mot de passe actuel -->
+                            <div class="form-group password-wrapper">
+                                <label for="current_password">@lang('Current Password')</label>
+                                <input type="password" name="current_password" id="current_password" class="form-control"
+                                    required>
+                                <i class="fas fa-eye password-toggle" data-target="current_password"></i>
+                                @error('current_password')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-danger">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        @lang('Delete Account')
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <!-- Nouveau mot de passe -->
+                            <div class="form-group password-wrapper">
+                                <label for="password">@lang('New Password')</label>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                                <i class="fas fa-eye password-toggle" data-target="password"></i>
+                                @error('password')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Confirmation du mot de passe -->
+                            <div class="form-group password-wrapper">
+                                <label for="password_confirmation">@lang('Confirm Password')</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                    class="form-control" required>
+                                <i class="fas fa-eye password-toggle" data-target="password_confirmation"></i>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                @lang('Update Password')
+                            </button>
+
+                        </form>
+                        <hr>
+                        <!-- Formulaire de suppression du compte -->
+                        <form id="delete-form" method="POST" action="{{ route('profile.destroy') }}">
+                            @csrf
+                            @method('DELETE')
+
+                            <div class="form-group password-wrapper">
+                                <label for="delete_password">@lang('Current Password')</label>
+                                <input type="password" name="password" id="delete_password" class="form-control" required>
+                                <i class="fas fa-eye password-toggle" data-target="delete_password"></i>
+                                @error('password')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <button type="submit" class="btn btn-danger">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                @lang('Delete Account')
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -376,26 +327,59 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const deleteForm = document.getElementById('delete-form');
+        if (deleteForm) {
+            deleteForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const button = form.querySelector('button[type="submit"]');
+
+                Swal.fire({
+                    title: '@lang('Are you sure?')',
+                    text: "@lang('All your data will be permanently deleted!')",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#FF6B35',
+                    cancelButtonColor: '#6C757D',
+                    confirmButtonText: '@lang('Yes, delete!')',
+                    cancelButtonText: '@lang('Cancel')'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Soumettre directement le formulaire
+                    }
+                });
+            });
+        }
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Prévisualisation de la photo de profil
-            const avatarInput = document.getElementById('avatar-input');
+            const avatarInput = document.getElementById('avatar');
             const avatarPreview = document.getElementById('profile-picture-preview');
 
             if (avatarInput) {
                 avatarInput.addEventListener('change', (e) => {
                     const file = e.target.files[0];
                     if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            avatarPreview.src = event.target.result;
-                        };
-                        reader.readAsDataURL(file);
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                avatarPreview.src = event.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid file',
+                                text: 'Please upload a valid image file.'
+                            });
+                        }
                     }
                 });
             }
 
             // Gestion des formulaires avec indicateur de chargement
-            const forms = document.querySelectorAll('#profile-form, #password-form, #delete-form');
+            const forms = document.querySelectorAll('#profile-form, #password-form');
             forms.forEach(form => {
                 form.addEventListener('submit', (e) => {
                     const button = form.querySelector('button[type="submit"]');
@@ -416,36 +400,6 @@
                     toggle.classList.toggle('fa-eye-slash', isPassword);
                 });
             });
-
-            // Confirmation avant suppression du compte
-            const deleteForm = document.getElementById('delete-form');
-            if (deleteForm) {
-                deleteForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const form = e.target;
-                    const button = form.querySelector('button[type="submit"]');
-
-                    Swal.fire({
-                        title: '@lang("Are you sure you want to delete your account?")',
-                        text: '@lang("This action cannot be undone.")',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#FF6B35',
-                        cancelButtonColor: '#6C757D',
-                        confirmButtonText: '@lang("Yes, delete it")',
-                        cancelButtonText: '@lang("Cancel")'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            button.classList.add('loading');
-                            button.disabled = true;
-                            form.submit();
-                        } else {
-                            button.classList.remove('loading');
-                            button.disabled = false;
-                        }
-                    });
-                });
-            }
         });
     </script>
 @endpush

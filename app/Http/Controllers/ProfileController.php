@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -15,7 +13,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Affiche le formulaire de profil utilisateur.
      */
     public function edit(Request $request): View
     {
@@ -25,41 +23,48 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Met à jour les informations du profil (nom, email, avatar).
      */
     public function update(Request $request): RedirectResponse
     {
+        // Validation avec champs optionnels
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
+            'name' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
         $user = $request->user();
-        $data = $request->only('name', 'email');
+        $data = [];
 
-        // Gestion de la photo de profil
+        // Mise à jour uniquement des champs remplis
+        if ($request->filled('name')) {
+            $data['name'] = $request->name;
+        }
+
+        if ($request->filled('email')) {
+            $data['email'] = $request->email;
+            $user->email_verified_at = null; // Réinitialiser la vérification si l'email change
+        }
+
+        // Gestion de l'avatar
         if ($request->hasFile('avatar')) {
-            // Supprimer l'ancienne photo si elle existe
             if ($user->avatar) {
-                Storage::disk('public/storage/users/avatars/')->delete($user->avatar);
+                Storage::disk('public')->delete($user->avatar);
             }
-            $data['avatar'] = $request->file('storage/users/avatars/')->store('avatars', 'public');
+            $data['avatar'] = $request->file('avatar')->store('users/avatars', 'public');
         }
 
-        $user->fill($data);
-
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+        // Appliquer les modifications si des données sont présentes
+        if (!empty($data)) {
+            $user->update($data);
         }
 
-        $user->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return redirect()->route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * Update the user's password.
+     * Met à jour le mot de passe.
      */
     public function updatePassword(Request $request): RedirectResponse
     {
@@ -72,11 +77,11 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return Redirect::route('profile.edit')->with('status', 'password-updated');
+        return redirect()->route('profile.edit')->with('status', 'password-updated');
     }
 
     /**
-     * Delete the user's account.
+     * Supprime le compte utilisateur.
      */
     public function destroy(Request $request): RedirectResponse
     {
@@ -86,9 +91,9 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        // Supprimer la photo de profil si elle existe
+        // Supprimer l'avatar s'il existe
         if ($user->avatar) {
-            Storage::disk('public/storage/users/avatars/')->delete($user->avatar);
+            Storage::disk('public')->delete($user->avatar);
         }
 
         Auth::logout();
@@ -97,6 +102,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return redirect()->to('/');
     }
 }
