@@ -15,7 +15,7 @@
                   <span aria-hidden="true">&times;</span>
               </button>
           </div>
-          <form wire:submit.prevent={{ $selectedCategory ? 'updateCategory' : 'addCategory' }}>
+          <form wire:submit.prevent={{ $selectedCategory ? 'updateCategory()' : 'addCategory()' }}>
               <div class="modal-body">
                   <div class="form-group">
                       <label class="control-label"> @lang('Category name') </label>

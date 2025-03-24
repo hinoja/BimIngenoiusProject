@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,10 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
     protected $fillable = [
         'name',
         'email',
@@ -27,8 +32,10 @@ class User extends Authenticatable
         'slug',
         'is_active',
         'avatar',
+        'role_id',
+        'password'
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -67,4 +74,5 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
 }

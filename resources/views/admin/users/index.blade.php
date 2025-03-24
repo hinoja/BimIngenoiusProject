@@ -4,7 +4,8 @@
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/back/modules/datatables/datatables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
     <style>
         /* Insérez ici le CSS personnalisé ci-dessus */
         .btn-rounded {
@@ -40,7 +41,7 @@
                         <h4 class="mb-0">
                             <i class="fas fa-users-cog mr-2"></i>@lang('User Management')
                         </h4>
-                        <a href="#" class="btn btn-add">
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-add">
                             <i class="fas fa-user-plus mr-2"></i>@lang('Add User')
                         </a>
                     </div>
@@ -67,7 +68,8 @@
                                                     </div>
                                                     <div>
                                                         <h6 class="mb-0">{{ $user->name }}</h6>
-                                                        <small class="text-muted">@lang('Registered') {{ $user->created_at ? $user->created_at->diffForHumans() : 'N/a' }}</small>
+                                                        <small class="text-muted">@lang('Registered')
+                                                            {{ $user->created_at?->diffForHumans() ?? __('N/a') }}</small>
                                                     </div>
                                                 </div>
                                             </td>
@@ -101,7 +103,8 @@
                                                                     class="btn btn-icon {{ $user->is_active ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                                                     data-toggle="tooltip"
                                                                     title="{{ $user->is_active ? __('Block User') : __('Unblock User') }}">
-                                                                    <i class="fas {{ $user->is_active ? 'fa-lock' : 'fa-lock-open' }}"></i>
+                                                                    <i
+                                                                        class="fas {{ $user->is_active ? 'fa-lock' : 'fa-lock-open' }}"></i>
                                                                 </button>
 
                                                             </form>
@@ -123,6 +126,7 @@
 
 @push('js')
     <script src="{{ asset('assets/back/modules/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/back/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}">
+    </script>
     <script src="{{ asset('assets/back/js/page/modules-datatables.js') }}"></script>
 @endpush

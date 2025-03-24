@@ -42,9 +42,9 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             // Supprimer l'ancienne photo si elle existe
             if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+                Storage::disk('public/storage/users/avatars/')->delete($user->avatar);
             }
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = $request->file('storage/users/avatars/')->store('avatars', 'public');
         }
 
         $user->fill($data);
@@ -88,7 +88,7 @@ class ProfileController extends Controller
 
         // Supprimer la photo de profil si elle existe
         if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+            Storage::disk('public/storage/users/avatars/')->delete($user->avatar);
         }
 
         Auth::logout();

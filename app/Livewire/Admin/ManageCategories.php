@@ -36,6 +36,7 @@ class ManageCategories extends Component
         $this->dispatch('openEditModal');
         $this->resetValidation();
         $this->selectedCategory = $category;
+        $this->selectedCategoryId = $id;
         $this->name = $this->selectedCategory->name;
     }
 
@@ -78,10 +79,13 @@ class ManageCategories extends Component
     public function updateCategory()
     {
         $this->validate([
-            'name' => ['required', 'string', 'min:2', 'unique:categories,name,'.$this->selectedCategoryId.',id'],
+            'name' => ['required', 'string', 'min:2', 'unique:categories,name,' . $this->selectedCategoryId . ',id'],
         ]);
 
-        Category::find($this->selectedCategoryId)->update([
+        // Récupérer la catégorie via l'ID
+        $category = Category::findOrFail($this->selectedCategoryId);
+
+        $category->update([
             'name' => $this->name,
             'slug' => Str::slug($this->name)
         ]);

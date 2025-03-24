@@ -51,10 +51,12 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
    Route::view('dashboard', 'admin.dashboard' )->name('dashboard');
 
-    Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
-        Route::get('', 'index')->name('index');
-        Route::patch('status/{user}', 'updateStatus')->name('status');
-    });
+   Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
+    Route::get('', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::post('', 'store')->name('store');
+    Route::patch('status/{user}', 'updateStatus')->name('status');
+});
     //MESSAGES ROUTES
     Route::view('contacts', 'admin.contacts.index')->name('contacts.index');
 

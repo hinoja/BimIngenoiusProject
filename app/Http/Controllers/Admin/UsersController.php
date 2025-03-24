@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Actions\UpdateUserStatus;
 use App\Http\Controllers\Controller;
@@ -24,6 +26,31 @@ class UsersController extends Controller
                 ->get(['id', 'name', 'email', 'role_id', 'slug', 'is_active']),
         ]);
     }
+    public function create()
+    {
+        return view('admin.users.create', [
+            'roles' => Role::all(['id', 'name'])
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'role_id' => 'required|exists:roles,id',
+            'password' => 'required|string|min:8|confirmed'
+        ]);
+
+        $validated['password'] = bcrypt($validated['password']);
+        $validated['slug'] = Str::slug($validated['name']);
+        $validated['is_active'] = true;
+
+        User::create($validated);
+
+        Toastr::success(__('User created successfully'), 'Success');
+        return redirect()->route('admin.users.index');
+    }
 
     /**
      * Enable or disable user account
@@ -44,10 +71,9 @@ class UsersController extends Controller
             0 => __('Account has been successfully blocked.'),
         };
 
-          Toastr::success($message, 'Success',  ['timeOut' => 5000]);
+        Toastr::success($message, 'Success',  ['timeOut' => 5000]);
 
-         
+
         return back();
     }
-
 }
