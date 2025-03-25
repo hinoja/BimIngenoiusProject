@@ -14,7 +14,12 @@ class Plan extends Model
     use HasFactory,SoftDeletes;
 
     // MASS ASSIGNMENT
-    public $fillable =['fr_title', 'en_title', 'slug', 'user_id', 'image', 'is_active','published_at'];
+    public $fillable =['fr_title', 'en_title', 'slug', 'fr_description', 'en_description', 'user_id', 'image', 'published_at'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     // RELATIONSHIPS
     public function user()
@@ -22,23 +27,43 @@ class Plan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
       // ACCESSORS
-      public function getCreatedAtAttribute($created_at)
-      {
-          return $this->getFormatedDateTime($created_at);
-      }
+    public function getTitleAttribute()
+    {
+        return $this->{app()->getLocale() . '_title'};
+    }
 
-      public function getUpdatedAtAttribute($updated_at)
-      {
-          return $this->getFormatedDateTime($updated_at);
-      }
+    public function getDescriptionAttribute()
+    {
+        return $this->{app()->getLocale() . '_description'};
+    }
 
-      function getFormatedDateTime($date)
-      {
-          $locale = app()->getLocale();
-          Carbon::setLocale($locale);
-          $format = $locale === 'en' ? 'F d, Y, H:i' : 'd M Y, H:i';
+    public function getImageAttribute()
+    {
+        return $this->images->first() ? $this->images->first()->path : asset('assets/defaults/plans/plan-' . rand(1, 2) . '.jpg');
+    }
 
-          return Carbon::parse($date)->translatedFormat($format);
-      }
+    public function getCreatedAtAttribute($created_at)
+    {
+        return $this->getFormatedDateTime($created_at);
+    }
+
+    public function getUpdatedAtAttribute($updated_at)
+    {
+        return $this->getFormatedDateTime($updated_at);
+    }
+
+    function getFormatedDateTime($date)
+    {
+        $locale = app()->getLocale();
+        Carbon::setLocale($locale);
+        $format = $locale === 'en' ? 'F d, Y, H:i' : 'd M Y, H:i';
+
+        return Carbon::parse($date)->translatedFormat($format);
+    }
 }

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\{Category, Tag, Image, Project, News, User};
+use App\Models\{Category, Tag, Project, News, User};
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 
@@ -19,7 +19,11 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
         ]);
 
-        User::factory(20)->create();
+        User::factory()
+            ->count(10)
+            ->hasPlans(3)
+            ->create();
+
         News::factory(50)->create();
 
         $tags = Tag::factory(50)->create();

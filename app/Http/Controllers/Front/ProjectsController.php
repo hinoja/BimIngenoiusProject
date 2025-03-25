@@ -20,7 +20,7 @@ class ProjectsController extends Controller
         $rand_view = fake()->randomElement(['', '-2']);
         
         return view('front.projects.index'. $rand_view , [
-            'projects' => $projects->with('images')->paginate(9),
+            'projects' => $projects->with('images:id,name', 'category:id,slug,name', 'tags:name')->paginate(9),
             'categories' => $categories->take(6),
         ]);
     }
