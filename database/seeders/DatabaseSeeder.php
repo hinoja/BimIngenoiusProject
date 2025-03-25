@@ -22,11 +22,18 @@ class DatabaseSeeder extends Seeder
         User::factory()
             ->count(10)
             ->hasPlans(3)
+            ->hasNews(3)
             ->create();
 
-        News::factory(50)->create();
-
         $tags = Tag::factory(50)->create();
+
+        $news = News::query()
+                    ->get()
+                    ->each(function($item) use ($tags) {
+                        $item->tags()->attach($tags->random(rand(2, 3)));
+                    }
+                );
+
         $categories = Category::query()->get()->take(15);
 
         Project::factory()

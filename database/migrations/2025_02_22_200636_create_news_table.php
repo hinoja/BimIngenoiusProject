@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('fr_title')->unique();
             $table->string('en_title')->unique();
+            $table->string('slug');
             $table->text('fr_content');
             $table->text('en_content');
-            $table->string('slug');
-            $table->string('avatar')->nullable();
+            $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->date('published_at')->nullable();
             $table->softDeletes();

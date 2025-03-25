@@ -22,16 +22,16 @@
         <button class="btn-toggle"><i class="fa fa-reorder"></i></button>
         <nav class="nav">
             <ul class="main-menu">
-                <li><a href="{{ route('front.home') }}" class="{{ $currentRouteName === 'front.home' ? 'active' : '' }}">@lang('Home')</a></li>
-                <li><a href="{{ route('front.about') }}" class="{{ $currentRouteName === 'front.about' ? 'active' : '' }}">@lang('About')</a></li>
-                <li><a href="{{ route('front.projects.index') }}" class="{{ $currentRouteName === 'front.projects.index' ? 'active' : '' }}">@lang('Projects')</a></li>
-                <li><a href="{{ route('front.plans.index') }}" class="{{ $currentRouteName === 'front.plans.index' ? 'active' : '' }}">@lang('Plans')</a></li>
+                <li><a href="{{ route('front.home') }}" class="{{ Str::contains($currentRouteName, 'home') ? 'active' : '' }}">@lang('Home')</a></li>
+                <li><a href="{{ route('front.about') }}" class="{{ Str::contains($currentRouteName, 'about') ? 'active' : '' }}">@lang('About')</a></li>
+                <li><a href="{{ route('front.projects.index') }}" class="{{ Str::contains($currentRouteName, 'projects') ? 'active' : '' }}">@lang('Projects')</a></li>
+                <li><a href="{{ route('front.plans.index') }}" class="{{ Str::contains($currentRouteName, 'plans') ? 'active' : '' }}">@lang('Plans')</a></li>
                 <li class="menu-item-has-children">
                     <div class="arrow-parent"><i class="fa fa-angle-down"></i></div>
-                    <a href="#">@lang('Infos')</a>
+                    <a href="#" class="{{ (Str::contains($currentRouteName, 'news') || Str::contains($currentRouteName, 'contact')) ? 'active' : '' }}">@lang('Infos')</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('front.news.index') }}" class="{{ $currentRouteName === 'front.news.index' ? 'active' : '' }}">@lang('News')</a></li>
-                        <li><a href="{{ route('front.contact') }}" class="{{ $currentRouteName === 'front.contact' ? 'active' : '' }}">@lang('Contact')</a></li>
+                        <li><a href="{{ route('front.news.index') }}" class="{{ Str::contains($currentRouteName, 'news') ? 'active' : '' }}">@lang('News')</a></li>
+                        <li><a href="{{ route('front.contact') }}" class="{{ Str::contains($currentRouteName, 'contact') ? 'active' : '' }}">@lang('Contact')</a></li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children">

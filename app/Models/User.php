@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Plan::class);
     }
+
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
 }

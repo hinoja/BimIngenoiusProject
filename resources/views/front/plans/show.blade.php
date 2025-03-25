@@ -2,29 +2,6 @@
 
 @section('subtitle', $plan->title)
 
-{{-- @push('css')
-    <style>
-        .project-slider {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .project-slider img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            max-height: 500px;
-        }
-
-        .project-slider .owl-carousel {
-            height: 500px;
-            overflow: hidden;
-        }
-    </style>
-@endpush --}}
-
 @section('content')
 
     @section('previousUrl', route('front.projects.index'))

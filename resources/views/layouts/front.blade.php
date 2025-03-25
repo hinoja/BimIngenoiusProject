@@ -78,7 +78,7 @@
 				</div>
         <hr style="margin: 0;">
       @endif
-      <div class="page-content">
+      <div class="page-content {{ Str::contains($currentRouteName, 'news') ? 'page-blog' : '' }}">
 
         @yield('content')
 

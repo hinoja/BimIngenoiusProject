@@ -1,4 +1,4 @@
-<div class="col-md-8">
+<div class="col-md-7">
     <div class="contact-form">
         <h4>@lang('Leave us a message')</h4>
         @if (session()->has('success'))

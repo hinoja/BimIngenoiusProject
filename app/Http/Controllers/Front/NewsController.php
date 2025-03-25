@@ -10,8 +10,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::latest()->paginate(10);
-
+        $news = News::latest()->paginate(5);
         return view('front.news.index', [
             'news' => $news,
         ]);
