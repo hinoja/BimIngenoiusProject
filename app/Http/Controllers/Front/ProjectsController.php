@@ -16,8 +16,10 @@ class ProjectsController extends Controller
                             ->with('category');
         
         $categories = $projects->get()->pluck('category')->unique();
-
-        return view('front.projects.index', [
+        
+        $rand_view = fake()->randomElement(['', '-2']);
+        
+        return view('front.projects.index'. $rand_view , [
             'projects' => $projects->with('images')->paginate(9),
             'categories' => $categories->take(6),
         ]);
@@ -25,7 +27,9 @@ class ProjectsController extends Controller
 
     public function show(Project $project)
     {
-        return view('front.projects.show', [
+        $rand_view = fake()->randomElement(['', '-2']);
+
+        return view('front.projects.show' . $rand_view, [
             'project' => $project,
         ]);
     }

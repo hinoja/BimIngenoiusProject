@@ -96,11 +96,6 @@
   <script type="text/javascript" src="{{ asset('assets/front/js/classie.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/custom-index.js') }}"></script>
 
-  <!-- SLIDER REVOLUTION SCRIPTS  -->
-  <script type="text/javascript" src="{{ asset('assets/front/rs-plugin/js/jquery.themepunch.plugins.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('assets/front/rs-plugin/js/jquery.themepunch.revolution.min.js') }}"></script>
-  <script src="{{ asset('assets/front/js/revslider-custom.js') }}"></script>
-
   @stack('js')
 
 </body>

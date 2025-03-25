@@ -45,6 +45,11 @@ class Project extends Model
         return $this->{app()->getLocale() . '_description'};
     }
 
+    public function getImageAttribute()
+    {
+        return $this->images->first() ? $this->images->first()->path : asset('assets/defaults/projects/project-' . rand(1, 1) . '.jpg');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
