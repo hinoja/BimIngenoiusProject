@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController};
+use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController, QuoteController};
 
 // Front routes
 Route::name('front.')->group(function(){
@@ -32,6 +32,9 @@ Route::name('front.')->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/{plan}', 'show')->name('show');
     });
+
+    // Quote
+    Route::get('/request-quote', QuoteController::class)->name('quote.form');
 });
 
 Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');

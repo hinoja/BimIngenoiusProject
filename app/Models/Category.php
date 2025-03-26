@@ -34,4 +34,9 @@ class Category extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
 }

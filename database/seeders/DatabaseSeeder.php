@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\{Category, Tag, Project, News, User};
+use App\Models\Quote;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
+use App\Models\{Category, Tag, Project, News, User};
 
 class DatabaseSeeder extends Seeder
 {
@@ -43,13 +44,8 @@ class DatabaseSeeder extends Seeder
                 $project->category()->associate($categories->random())->save();
 
                 $project->tags()->attach($tags->random(rand(1, 5))->pluck('id')->toArray());
-
-                // $project->images()->saveMany(
-                //     Image::factory()
-                //         ->count(fake()->numberBetween(1, 5))
-                //         ->withProjectTitle($project->title)
-                //         ->make()
-                // );
             });
+
+        Quote::factory(50)->create();
     }
 }
