@@ -81,7 +81,6 @@
                                 <h4>@lang('Submit Your Project for a Quote')</h4>
                                 <p class="text-center h5" style="line-height: 25px;">
                                     @lang('We are excited to help you bring your project to life! Please fill out the form below with as much detail as possible about your project.')
-                                    <br>
                                     @lang('Our team will review your submission and get back to you with a personalized quote tailored to your needs.')
                                 </p>
                             </div>

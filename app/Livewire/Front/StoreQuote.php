@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Front;
 
+use App\Models\User;
 use App\Models\Quote;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Customer;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\Front\StoreQuoteRequest;
+use App\Notifications\Front\NewQuoteNotification;
 
 class StoreQuote extends Component
 {
@@ -76,6 +79,8 @@ class StoreQuote extends Component
             $filename = Str::slug($quote->title) . '.' . $this->file->getClientOriginalExtension();
             $validatedData['file'] = $this->file->storeAs('quotes/', $filename, 'public');
         }
+
+        Notification::send([$customer, User::query()->firstWhere('role_id', 1)], new NewQuoteNotification($quote));
         
         session()->flash('success', __('Your quote has been submitted successfully! You will receive an email as soon as possible.'));
 
