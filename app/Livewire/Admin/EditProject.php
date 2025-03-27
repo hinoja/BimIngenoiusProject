@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Livewire\Admin;
 
 use App\Models\Project;
@@ -8,25 +9,44 @@ use App\Enums\SizeEnums;
 use App\Models\Category;
 use App\Enums\StatusEnums;
 use Illuminate\Support\Str;
-use Livewire\WithPagination;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
-class AddProject extends Component
+class EditProject extends Component
 {
-
     use WithFileUploads;
 
-
+    public $project;
     public $fr_title, $en_title, $fr_description, $en_description, $company, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id;
     public $images = [];
+    public $existingImages = [];
     public $step = 1;
     public $totalSteps = 4;
+
+    public function mount(Project $project)
+    {
+        $this->project = $project;
+        $this->fr_title = $project->fr_title;
+        $this->en_title = $project->en_title;
+        $this->fr_description = $project->fr_description;
+        $this->en_description = $project->en_description;
+        $this->company = $project->company;
+        $this->country = $project->country;
+        $this->city = $project->city;
+        $this->address = $project->address;
+        $this->status = $project->status;
+        $this->size = $project->size;
+        $this->start_date = $project->start_date->format('Y-m-d');
+        $this->end_date = $project->end_date->format('Y-m-d');
+        $this->category_id = $project->category_id;
+        $this->existingImages = $project->images->toArray();
+    }
 
     protected function rules()
     {
         return [
-            'fr_title' => ['required', 'string', 'min:2', 'unique:projects,fr_title'],
-            'en_title' => ['required', 'string', 'min:2', 'unique:projects,en_title'],
+            'fr_title' => ['required', 'string', 'min:2', 'unique:projects,fr_title,' . $this->project->id],
+            'en_title' => ['required', 'string', 'min:2', 'unique:projects,en_title,' . $this->project->id],
             'fr_description' => ['required', 'string', 'min:10'],
             'en_description' => ['required', 'string', 'min:10'],
             'company' => ['required', 'string', 'min:2'],
@@ -64,10 +84,10 @@ class AddProject extends Component
         }
     }
 
-    public function addProject()
+    public function updateProject()
     {
         $data = $this->validate();
-        $project = Project::create([
+        $this->project->update([
             'fr_title' => $this->fr_title,
             'en_title' => $this->en_title,
             'slug' => Str::slug($this->en_title),
@@ -86,17 +106,16 @@ class AddProject extends Component
 
         if ($this->images) {
             foreach ($this->images as $image) {
-                $filename = 'project_' . Str::slug($project->fr_title) . '_' . time() . '_' . $image->getClientOriginalName();
+                $filename = 'project_' . Str::slug($this->project->fr_title) . '_' . time() . '_' . $image->getClientOriginalName();
                 $path = $image->storeAs('projects/images', $filename, 'public');
-                $project->images()->create([
+                $this->project->images()->create([
                     'name' => $path,
                     'original_name' => $image->getClientOriginalName(),
                 ]);
             }
         }
 
-        // $this->dispatchBrowserEvent('project-created', ['message' => __('Project created successfully!')]);
-        session()->flash('success', __('Projet créé avec succès !'));
+        session()->flash('success', __('Project updated successfully!'));
         return redirect()->route('admin.projects.index');
     }
 
@@ -104,6 +123,16 @@ class AddProject extends Component
     {
         unset($this->images[$index]);
         $this->images = array_values($this->images);
+    }
+
+    public function deleteExistingImage($imageId)
+    {
+        $image = $this->project->images()->find($imageId);
+        if ($image) {
+            Storage::disk('public')->delete($image->name);
+            $image->delete();
+            $this->existingImages = array_filter($this->existingImages, fn($img) => $img['id'] !== $imageId);
+        }
     }
 
     private function validateOnlyFields(array $fields)
@@ -114,7 +143,7 @@ class AddProject extends Component
 
     public function render()
     {
-        return view('livewire.admin.add-project', [
+        return view('livewire.admin.edit-project', [
             'categories' => Category::query()->orderBy('name')->get(),
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),

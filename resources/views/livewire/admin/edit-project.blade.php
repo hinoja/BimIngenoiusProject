@@ -1,7 +1,6 @@
 <div>
     <!-- CSS pour les améliorations de design -->
     <style>
-        /* Style pour l'indicateur d'étape */
         .step-indicator {
             background-color: #f1f1f1;
             padding: 10px;
@@ -13,7 +12,6 @@
             margin-bottom: 20px;
         }
 
-        /* Style pour les zones de texte (textarea) */
         .modern-textarea {
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -21,7 +19,6 @@
             padding: 10px;
         }
 
-        /* Style pour le bouton "Annuler" */
         .btn-cancel {
             background-color: #d3d3d3;
             color: #333;
@@ -32,7 +29,6 @@
             background-color: #c0c0c0;
         }
 
-        /* Style pour le bouton "Précédent" */
         .btn-back {
             background-color: #add8e6;
             color: #333;
@@ -43,19 +39,18 @@
             background-color: #87ceeb;
         }
 
-        /* Style pour les images prévisualisées */
         .img-fluid {
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
     </style>
 
-    <h2 class="mb-4">@lang('Add New Project')</h2>
+    <h2 class="mb-4">@lang('Edit Project')</h2>
     <div class="step-indicator mb-3">
         <span class="step-number">Étape {{ $step }} de {{ $totalSteps }}</span>
     </div>
 
-    <form wire:submit.prevent="{{ $step == $totalSteps ? 'addProject' : 'nextStep' }}">
+    <form wire:submit.prevent="{{ $step == $totalSteps ? 'updateProject' : 'nextStep' }}">
         <!-- Step 1: Basic Information -->
         @if ($step == 1)
             <div class="row">
@@ -231,7 +226,24 @@
         <!-- Step 4: Images -->
         @if ($step == 4)
             <div class="form-group mb-3">
-                <label class="font-weight-bold text-dark">@lang('Images')</label>
+                <label class="font-weight-bold text-dark">@lang('Existing Images')</label>
+                @if (!empty($existingImages))
+                    <div class="row">
+                        @foreach ($existingImages as $image)
+                            <div class="col-md-3 mb-3 position-relative">
+                                <img src="{{ asset('storage/' . $image['name']) }}"
+                                    class="img-fluid rounded shadow-sm" style="max-height: 100px; object-fit: cover;">
+                                <button type="button" wire:click="deleteExistingImage({{ $image['id'] }})"
+                                    class="btn btn-danger btn-sm mt-2">@lang('Remove')</button>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p>@lang('No existing images')</p>
+                @endif
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold text-dark">@lang('Add New Images')</label>
                 <input type="file" wire:model="images"
                     class="form-control @error('images.*') is-invalid @enderror" multiple>
                 @error('images.*')
@@ -245,9 +257,7 @@
                             <img src="{{ $image->temporaryUrl() }}" class="img-fluid rounded shadow-sm"
                                 style="max-height: 100px; object-fit: cover;">
                             <button type="button" wire:click="removeImage({{ $index }})"
-                                class="btn btn-danger btn-sm position-absolute" style="top: 5px; right: 5px;">
-                                <i class="fas fa-times"></i>
-                            </button>
+                                class="btn btn-danger btn-sm mt-2">@lang('Remove')</button>
                         </div>
                     @endforeach
                 </div>
@@ -263,24 +273,10 @@
             @if ($step < $totalSteps)
                 <button type="submit" class="btn btn-primary">@lang('Next')</button>
             @else
-                <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle mr-1"></i>
-                    @lang('Create')</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>
+                    @lang('Update')</button>
             @endif
             <a href="{{ route('admin.projects.index') }}" class="btn btn-cancel ml-2">@lang('Cancel')</a>
         </div>
     </form>
-
-    <!-- SweetAlert2 Integration -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        window.addEventListener('project-created', event => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Succès',
-                text: event.detail.message,
-                timer: 3000,
-                showConfirmButton: false
-            });
-        });
-    </script>
 </div>

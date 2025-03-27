@@ -15,7 +15,7 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description', 'fr_description', 'company', 'country', 'city', 'address', 'start_date', 'end_date', 'category_id'];
+    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description', 'en_description', 'company', 'status','country', 'city', 'address', 'start_date', 'end_date','size', 'category_id'];
 
     protected $casts = [
         'status' => StatusEnums::class,

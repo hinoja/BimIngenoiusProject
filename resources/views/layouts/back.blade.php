@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('subtitle') | {{ 'Admin' . ' ' . config('app.name', 'BIM INGENIOUS BTP') }}</title>
 
     <!-- Favicon -->
@@ -23,63 +21,42 @@
     <link rel="stylesheet" href="{{ asset('assets/back/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/back/css/components.css') }}">
 
-    <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
-
-    <head>
-
-    </head>
-
     <!-- Custom CSS -->
     @stack('css')
-
-</head>
-
-<body>'
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>'
     <style>
-        /* 3.1 Misc - Mise à jour des couleurs principales */
-        a {
-            color: #2A2E45;
-            /* Bleu Industriel */
-        }
+        /* Couleurs principales */
+        a { color: #2A2E45; } /* Bleu Industriel */
+        .bg-primary { background-color: #2A2E45 !important; }
+        .text-primary { color: #2A2E45 !important; }
+        .btn-primary { background-color: #FF6B35; border-color: #FF6B35; } /* Orange Mécanique */
+        .btn-danger { background-color: #6C757D; border-color: #6C757D; } /* Gris Béton */
+        .table thead th { background-color: #2A2E45 !important; color: #F8F9FA !important; } /* Blanc Chantier */
+        .card-header { background-color: #F8F9FA; border-bottom: 2px solid #FF6B35; }
 
-        .bg-primary {
-            background-color: #2A2E45 !important;
+        /* Personnalisation des alertes Bootstrap */
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-        .text-primary {
-            color: #2A2E45 !important;
+        .alert-success {
+            background-color: #2A2E45; /* Bleu Industriel */
+            color: #F8F9FA; /* Blanc Chantier */
+            border-color: #2A2E45;
         }
-
-        /* 3.12 Button - Boutons révisés */
-        .btn-primary {
-            background-color: #FF6B35;
-            /* Orange Mécanique */
+        .alert-danger {
+            background-color: #FF6B35; /* Orange Mécanique */
+            color: #F8F9FA; /* Blanc Chantier */
             border-color: #FF6B35;
         }
-
-        .btn-danger {
-            background-color: #6C757D;
-            /* Gris Béton */
+        .alert-info {
+            background-color: #6C757D; /* Gris Béton */
+            color: #F8F9FA; /* Blanc Chantier */
             border-color: #6C757D;
         }
-
-        /* 3.6 Table - En-tête de tableau */
-        .table thead th {
-            background-color: #2A2E45 !important;
-            color: #F8F9FA !important;
-            /* Blanc Chantier */
-        }
-
-        /* 3.5 Card - Cartes */
-        .card-header {
-            background-color: #F8F9FA;
-            border-bottom: 2px solid #FF6B35;
-        }
     </style>
-
+</head>
+<body>
     @include('notify::components.notify')
 
     <div id="app">
@@ -89,43 +66,27 @@
             @include('includes.back.sidebar')
             <div class="main-content">
                 <section class="section">
-                    <div class="notification-container fixed-bottom right-4 bottom-4 z-[1000] space-y-3">
-                        @foreach (session('notifications', []) as $notification)
-                            <div
-                                class="notification animate-slide-in-right bg-{{ $notification['type'] }} text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
-                                <span class="mr-3">
-                                    @if ($notification['type'] === 'success')
-                                        <i class="fas fa-check-circle"></i>
-                                    @else
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    @endif
-                                </span>
-                                {{ $notification['message'] }}
-                            </div>
-                        @endforeach
-                    </div>
+                    <!-- Alertes Bootstrap pour les messages flash -->
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i> {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('message'))
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> {{ session('message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
 
-                    <style>
-                        .notification {
-                            min-width: 300px;
-                            border-left: 4px solid;
-                            @apply bg-industrial border-orange-mecanique;
-                        }
-
-                        .animate-slide-in-right {
-                            animation: slideInRight 0.3s ease-out;
-                        }
-
-                        @keyframes slideInRight {
-                            from {
-                                transform: translateX(100%);
-                            }
-
-                            to {
-                                transform: translateX(0);
-                            }
-                        }
-                    </style>
+                    <!-- Contenu principal -->
                     @yield('content')
                 </section>
             </div>
@@ -135,9 +96,7 @@
                         Copyright © {{ date('Y') }} <span class="bullet"></span> BIM INGENIOUS BTP
                     </div>
                     <div class="footer-right">
-                        @lang('Made By') <a style="color: white" class="ml-1" href="https://bvision-lte.com"
-                            target="_blank">Better
-                            Vision</a>
+                        @lang('Made By') <a style="color: white" class="ml-1" href="https://bvision-lte.com" target="_blank">Better Vision</a>
                         <div class="social-links">
                             <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
                             <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
@@ -147,58 +106,8 @@
                 </div>
             </footer>
         </div>
-
-
-
     </div>
-    <!-- Ajouter avant la fermeture du body -->
-    <div class="notification-wrapper" x-data="notificationHandler()" x-init="init()"></div>
 
-    <script>
-        function notificationHandler() {
-            return {
-                init() {
-                    Livewire.on('notify', (data) => {
-                        this.showNotification(data);
-                    });
-                },
-
-                showNotification({
-                    type,
-                    icon,
-                    title,
-                    message
-                }) {
-                    const notification = document.createElement('div');
-                    notification.className = `notification ${type}`;
-                    notification.innerHTML = `
-                    <i class="fas fa-${icon} notification-icon"></i>
-                    <div class="notification-content">
-                        <div class="notification-title">${title}</div>
-                        <div class="notification-message">${message}</div>
-                    </div>
-                    <button class="notification-close" @click="close">&times;</button>
-                `;
-
-                    const wrapper = document.querySelector('.notification-wrapper');
-                    wrapper.appendChild(notification);
-
-                    // Trigger animation
-                    setTimeout(() => notification.classList.add('show'), 10);
-
-                    // Auto-remove after 5 seconds
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                        setTimeout(() => notification.remove(), 300);
-                    }, 5000);
-                }
-            }
-        }
-    </script>
-    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    {!! Toastr::message() !!}
-    <!-- Page Specific JS File -->
     <!-- General JS Scripts -->
     <script src="{{ asset('assets/back/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/back/modules/popper.js') }}"></script>
@@ -213,7 +122,5 @@
     <script src="{{ asset('assets/back/js/custom.js') }}"></script>
 
     @stack('js')
-
 </body>
-
 </html>

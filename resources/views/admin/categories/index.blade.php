@@ -47,7 +47,7 @@
             $('#deleteCategory').modal('show');
 
         });
-    </script> ;
+    </script> 
 @endpush
 @push('css')
     @livewireStyles()

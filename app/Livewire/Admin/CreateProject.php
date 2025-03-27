@@ -8,19 +8,14 @@ use App\Enums\SizeEnums;
 use App\Models\Category;
 use App\Enums\StatusEnums;
 use Illuminate\Support\Str;
-use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
-class AddProject extends Component
+class CreateProject extends Component
 {
-
     use WithFileUploads;
-
 
     public $fr_title, $en_title, $fr_description, $en_description, $company, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id;
     public $images = [];
-    public $step = 1;
-    public $totalSteps = 4;
 
     protected function rules()
     {
@@ -43,34 +38,13 @@ class AddProject extends Component
         ];
     }
 
-    public function nextStep()
-    {
-        if ($this->step == 1) {
-            $this->validateOnlyFields(['fr_title', 'en_title', 'fr_description', 'en_description']);
-        } elseif ($this->step == 2) {
-            $this->validateOnlyFields(['company', 'country', 'city', 'address']);
-        } elseif ($this->step == 3) {
-            $this->validateOnlyFields(['status', 'size', 'start_date', 'end_date', 'category_id']);
-        }
-        if ($this->step < $this->totalSteps) {
-            $this->step++;
-        }
-    }
-
-    public function previousStep()
-    {
-        if ($this->step > 1) {
-            $this->step--;
-        }
-    }
-
     public function addProject()
     {
-        $data = $this->validate();
+        $this->validate();
+
         $project = Project::create([
             'fr_title' => $this->fr_title,
             'en_title' => $this->en_title,
-            'slug' => Str::slug($this->en_title),
             'fr_description' => $this->fr_description,
             'en_description' => $this->en_description,
             'company' => $this->company,
@@ -95,27 +69,14 @@ class AddProject extends Component
             }
         }
 
-        // $this->dispatchBrowserEvent('project-created', ['message' => __('Project created successfully!')]);
-        session()->flash('success', __('Projet créé avec succès !'));
+        session()->flash('success', __('Project created successfully!'));
         return redirect()->route('admin.projects.index');
-    }
-
-    public function removeImage($index)
-    {
-        unset($this->images[$index]);
-        $this->images = array_values($this->images);
-    }
-
-    private function validateOnlyFields(array $fields)
-    {
-        $rules = array_intersect_key($this->rules(), array_flip($fields));
-        $this->validate($rules);
     }
 
     public function render()
     {
-        return view('livewire.admin.add-project', [
-            'categories' => Category::query()->orderBy('name')->get(),
+        return view('livewire.admin.create-project', [
+            'categories' => Category::orderBy('name')->get(),
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),
         ]);

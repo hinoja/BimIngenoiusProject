@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ProjectController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
@@ -62,7 +64,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::view('contacts', 'admin.contacts.index')->name('contacts.index');
 
     //PROJECTS ROUTES
-    Route::view('projects', 'admin.projects.index')->name('projects.index');
+    Route::prefix('projects')->name('projects.')->group(function () {
+        Route::view('/', 'admin.projects.index')->name('index');
+        Route::view('/create', 'admin.projects.create')->name('create');
+        Route::controller(ProjectController::class)->group(function () {
+            Route::get('/{project:slug}', 'show')->name('show');
+            Route::get('/{project:slug}/edit', 'edit')->name('edit');
+        });
+    });
 
     //CATEGORIES ROUTES
     Route::view('categories', 'admin.categories.index')->name('categories.index');

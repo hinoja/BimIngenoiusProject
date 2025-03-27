@@ -10,6 +10,7 @@
 
     <div class="section-body">
         <div class="row">
+         
             @livewire('admin.manage-projets')
         </div>
     </div>
@@ -18,7 +19,6 @@
 @push('js')
     @livewireScripts()
     <script>
-
         Livewire.on('closeModal', () => {
             $('#projectModal').modal('hide');
             $('#deleteProjectModal').modal('hide');
