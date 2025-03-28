@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\ProjectController;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController};
 
 // Front routes
@@ -71,6 +72,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::get('/{project:slug}', 'show')->name('show');
             Route::get('/{project:slug}/edit', 'edit')->name('edit');
         });
+    });
+    //PLANS ROUTES
+    Route::prefix('plans')->name('plans.')->group(function () {
+        Route::view('/', 'admin.plans.index')->name('index');
+        Route::get('/plans/create', [PlanController::class, 'create'])->name('create');
+        Route::get('/plans/{plan}', [PlanController::class, 'show'])->name('show');
+        Route::get('/plans/{plan}/edit', [PlanController::class, 'edit'])->name('edit');
     });
 
     //CATEGORIES ROUTES

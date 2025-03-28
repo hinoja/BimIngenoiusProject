@@ -14,7 +14,7 @@ class Plan extends Model
     use HasFactory,SoftDeletes;
 
     // MASS ASSIGNMENT
-    public $fillable =['fr_title', 'en_title', 'slug', 'user_id', 'image', 'is_active','published_at'];
+    public $fillable =['fr_title', 'en_title', 'slug', 'user_id','fr_description', 'en_description', 'image' ,'published_at'];
 
     // RELATIONSHIPS
     public function user()
