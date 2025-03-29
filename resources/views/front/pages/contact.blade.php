@@ -16,7 +16,7 @@
                     <div class="col-md-4">
                         <div class="contact-info">
                             <h4>@lang('Contact Information')</h4>
-                            <p>@lang('Welcome to our Contact Information page! If you have any inquiries or need assistance, feel free to reach out to us. We are here to help you. Below, you’ll find all the details you need to connect with us.')</p>
+                            <p class="text-justify">@lang('Welcome to our Contact Information page! If you have any inquiries or need assistance, feel free to reach out to us. We are here to help you. Below, you’ll find all the details you need to connect with us.')</p>
                             <ul class="none-style">
                                 <li><i class="fa fa-home"></i> 379 5th Ave  New York, NYC 10018</li>
                                 <br>
@@ -31,6 +31,8 @@
                         </div>
                     </div>
 
+                    <div class="col-md-1"></div>
+                    
                     @livewire('front.store-contact')
 
                 </div>

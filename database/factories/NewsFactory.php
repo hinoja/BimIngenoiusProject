@@ -19,8 +19,8 @@ class NewsFactory extends Factory
         return [
             'fr_title' => fake('fr_FR')->sentence(5),
             'en_title' => $this->faker->sentence(5),
-            'fr_content' => fake('fr_FR')->paragraph(4),
-            'en_content' => $this->faker->paragraph(4),
+            'fr_content' => fake('fr_FR')->paragraph(20),
+            'en_content' => $this->faker->paragraph(20),
             'slug' => $this->faker->slug(),
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'user_id' => random_int(1, 10),

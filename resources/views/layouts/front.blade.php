@@ -70,7 +70,7 @@
           <div class="container">
             <ul class="crumb">
               <li><a href="{{ route('front.home') }}"><i class="fa fa-home"></i> @lang('Home')</a></li> <span>/</span>
-              @if (Str::doesntContain($currentRouteName, 'index'))
+              @if (Str::doesntContain($currentRouteName, 'index') && Str::doesntContain($currentRouteName, 'quote'))
                 <li><a href="@yield('previousUrl')">@yield('previousTitle')</a></li> <span>/</span>
               @endif
               <li class="active"> @yield('subtitle')</li>
@@ -78,7 +78,7 @@
 				</div>
         <hr style="margin: 0;">
       @endif
-      <div class="page-content">
+      <div class="page-content {{ Str::contains($currentRouteName, 'news') ? 'page-blog' : '' }}">
 
         @yield('content')
 
@@ -95,11 +95,6 @@
   <script type="text/javascript" src="{{ asset('assets/front/js/owl.carousel.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/classie.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/custom-index.js') }}"></script>
-
-  <!-- SLIDER REVOLUTION SCRIPTS  -->
-  <script type="text/javascript" src="{{ asset('assets/front/rs-plugin/js/jquery.themepunch.plugins.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('assets/front/rs-plugin/js/jquery.themepunch.revolution.min.js') }}"></script>
-  <script src="{{ asset('assets/front/js/revslider-custom.js') }}"></script>
 
   @stack('js')
 

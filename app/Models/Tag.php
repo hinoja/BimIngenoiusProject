@@ -27,6 +27,11 @@ class Tag extends Model
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->morphedByMany(Project::class, 'taggable');
+    }
+
+    public function news()
+    {
+        return $this->morphedByMany(News::class, 'taggable');
     }
 }

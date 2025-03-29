@@ -17,4 +17,9 @@ class Image extends Model
     {
         return $this->morphTo();
     }
+
+    public function getPathAttribute()
+    {
+        return $this->name ? asset('storage/projects/' . $this->name) : asset('assets/defaults/projects/project-' . rand(1, 1) . '.jpg');
+    }
 }
