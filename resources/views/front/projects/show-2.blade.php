@@ -34,11 +34,11 @@
 
                 <div class="col-md-6">
                     <div class="images-right">
-                        <img src="{{ $project->images->first()->path ?? $project->image }}" alt="{{ $project->title }}">
+                        <img src="{{ $project->image }}" alt="{{ $project->title }}">
                         <div class="s-images">
                             @foreach ($project->images as $image)
-                                <a class="item-image" href="{{ $image->path ?? $project->image }}">
-                                    <img src="{{ $image->path ?? $project->image }}" alt="{{ $project->title }}">
+                                <a class="item-image" href="{{ $image->path }}">
+                                    <img src="{{ $image->path }}" alt="{{ $project->title . ' ' . $loop->iteration }}">
                                 </a>
                             @endforeach
                         </div>

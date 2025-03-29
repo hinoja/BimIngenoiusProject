@@ -29,7 +29,7 @@ class ProjectsController extends Controller
     {
         $rand_view = fake()->randomElement(['', '-2']);
 
-        return view('front.projects.show' . $rand_view, [
+        return view('front.projects.show', [
             'project' => $project,
         ]);
     }
