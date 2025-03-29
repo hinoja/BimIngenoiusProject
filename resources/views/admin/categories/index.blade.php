@@ -3,19 +3,17 @@
 @section('subtitle', __('Categories list'))
 
 @section('content')
+    <x-admin.section-header :title="__('Categories list')" :previousTitle="__('Dashboard')" :previousRouteName="route('admin.users.index')" />
 
-
-<x-admin.section-header :title="__('Categories list')" :previousTitle="__('Dashboard')" :previousRouteName="route('admin.users.index')" />
-
-<div class="section-body">
-    <div class="row">
-        @livewire('admin.manage-categories')
+    <div class="section-body">
+        <div class="row">
+            @livewire('admin.manage-categories')
+        </div>
     </div>
-</div>
 @endsection
 
 @push('js')
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @livewireScripts()
     {{-- <livewire:toaster /> --}}
     <script type="text/javascript">
@@ -29,11 +27,6 @@
         });
 
         document.addEventListener('livewire:initialized', () => {
-            Livewire.on('openModal', () => {
-                // code
-                $('#AddCategory').modal('show');
-            });
-
 
             //Edit Category Modal
             Livewire.on('openEditModal', () => {
@@ -47,7 +40,7 @@
             $('#deleteCategory').modal('show');
 
         });
-    </script> 
+    </script>
 @endpush
 @push('css')
     @livewireStyles()

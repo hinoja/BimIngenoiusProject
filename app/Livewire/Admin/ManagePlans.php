@@ -84,11 +84,14 @@ class ManagePlans extends Component
 
         if ($this->filterTitle) {
             $query->where('fr_title', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%');
+                ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%');
         }
 
         if ($this->filterStatus !== '') {
-            $query->where('is_active', $this->filterStatus);
+            if ($this->filterStatus == 1)
+                $query->whereNotNull('published_at');
+            elseif($this->filterStatus == 2)
+                $query->where('published_at',null);
         }
 
         return view('livewire.admin.manage-plans', [

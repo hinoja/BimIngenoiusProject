@@ -52,8 +52,8 @@ class ManageMessages extends Component
         Notification::send($contact, new ResponseNotification($data));
 
         $this->closeModal();
-        Toastr::success(trans('The response was successfully sent to ').$contact->name, 'Success');
-
+        session()->flash('success', trans('The response was successfully sent to ').$contact->name);
+ 
         return redirect()->route('admin.contacts.index');
     }
 

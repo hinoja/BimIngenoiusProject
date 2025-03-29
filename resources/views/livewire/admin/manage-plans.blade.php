@@ -29,7 +29,7 @@
                                 <select wire:model.live="filterStatus" class="form-control">
                                     <option value="">@lang('All Statuses')</option>
                                     <option value="1">@lang('Active')</option>
-                                    <option value="0">@lang('Inactive')</option>
+                                    <option value="2">@lang('Inactive')</option>
                                 </select>
                             </div>
                         </div>

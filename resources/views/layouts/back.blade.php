@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
@@ -25,13 +26,41 @@
     @stack('css')
     <style>
         /* Couleurs principales */
-        a { color: #2A2E45; } /* Bleu Industriel */
-        .bg-primary { background-color: #2A2E45 !important; }
-        .text-primary { color: #2A2E45 !important; }
-        .btn-primary { background-color: #FF6B35; border-color: #FF6B35; } /* Orange Mécanique */
-        .btn-danger { background-color: #6C757D; border-color: #6C757D; } /* Gris Béton */
-        .table thead th { background-color: #2A2E45 !important; color: #F8F9FA !important; } /* Blanc Chantier */
-        .card-header { background-color: #F8F9FA; border-bottom: 2px solid #FF6B35; }
+        a {
+            color: #2A2E45;
+        }
+
+        /* Bleu Industriel */
+        .bg-primary {
+            background-color: #2A2E45 !important;
+        }
+
+        .text-primary {
+            color: #2A2E45 !important;
+        }
+
+        .btn-primary {
+            background-color: #FF6B35;
+            border-color: #FF6B35;
+        }
+
+        /* Orange Mécanique */
+        .btn-danger {
+            background-color: #6C757D;
+            border-color: #6C757D;
+        }
+
+        /* Gris Béton */
+        .table thead th {
+            background-color: #2A2E45 !important;
+            color: #F8F9FA !important;
+        }
+
+        /* Blanc Chantier */
+        .card-header {
+            background-color: #F8F9FA;
+            border-bottom: 2px solid #FF6B35;
+        }
 
         /* Personnalisation des alertes Bootstrap */
         .alert {
@@ -39,23 +68,33 @@
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .alert-success {
-            background-color: #2A2E45; /* Bleu Industriel */
-            color: #F8F9FA; /* Blanc Chantier */
+            background-color: #2A2E45;
+            /* Bleu Industriel */
+            color: #F8F9FA;
+            /* Blanc Chantier */
             border-color: #2A2E45;
         }
+
         .alert-danger {
-            background-color: #FF6B35; /* Orange Mécanique */
-            color: #F8F9FA; /* Blanc Chantier */
+            background-color: #FF6B35;
+            /* Orange Mécanique */
+            color: #F8F9FA;
+            /* Blanc Chantier */
             border-color: #FF6B35;
         }
+
         .alert-info {
-            background-color: #6C757D; /* Gris Béton */
-            color: #F8F9FA; /* Blanc Chantier */
+            background-color: #6C757D;
+            /* Gris Béton */
+            color: #F8F9FA;
+            /* Blanc Chantier */
             border-color: #6C757D;
         }
     </style>
 </head>
+
 <body>
     @include('notify::components.notify')
 
@@ -70,19 +109,20 @@
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
                     @if (session('error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <i class="fas fa-exclamation-triangle me-2"></i> {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     @endif
                     @if (session('message'))
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <i class="fas fa-info-circle me-2"></i> {{ session('message') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     @endif
 
@@ -96,7 +136,8 @@
                         Copyright © {{ date('Y') }} <span class="bullet"></span> BIM INGENIOUS BTP
                     </div>
                     <div class="footer-right">
-                        @lang('Made By') <a style="color: white" class="ml-1" href="https://bvision-lte.com" target="_blank">Better Vision</a>
+                        @lang('Made By') <a style="color: white" class="ml-1" href="https://bvision-lte.com"
+                            target="_blank">Better Vision</a>
                         <div class="social-links">
                             <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
                             <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
@@ -123,4 +164,5 @@
 
     @stack('js')
 </body>
+
 </html>

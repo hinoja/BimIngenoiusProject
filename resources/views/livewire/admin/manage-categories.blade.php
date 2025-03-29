@@ -14,7 +14,7 @@
                             <label for="name" class="font-weight-bold text-dark">
                                 <i class="fas fa-tag mr-1 text-muted"></i> @lang('Name')
                             </label>
-                            <input type="text" placeholder="Ex: Architecture,Building Materials..." wire:model="name"
+                            <input type="text" wire:model="name"
                                 class="form-control @error('name') is-invalid @enderror" id="name"
                                 placeholder="@lang('Enter the name of the category')">
                             <small class="form-text text-muted mt-2">
@@ -70,7 +70,6 @@
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                 </button>
-                                                <!-- Dans les boutons d'action -->
                                                 <button wire:click="showDeleteForm({{ $category->id }})" type="button"
                                                     class="btn btn-sm btn-danger" wire:loading.attr="disabled">
                                                     <i class="fas fa-trash"></i>

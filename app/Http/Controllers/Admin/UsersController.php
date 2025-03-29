@@ -47,8 +47,8 @@ class UsersController extends Controller
         $validated['is_active'] = true;
 
         User::create($validated);
+        session()->flash('success', __('User created successfully'));
 
-        Toastr::success(__('User created successfully'), 'Success');
         return redirect()->route('admin.users.index');
     }
 
@@ -59,7 +59,7 @@ class UsersController extends Controller
     {
 
         if (! $user->is_active && ($user->disabled_by !== Auth::id()) && $user->disabled_at) {
-            Toastr::success(__('You cannot enable this account because it was disabled by its owner.'), 'Success');
+            session()->flash('error', __('You cannot enable this account because it was disabled by its owner.'));
 
             return back();
         }
@@ -71,7 +71,8 @@ class UsersController extends Controller
             0 => __('Account has been successfully blocked.'),
         };
 
-        Toastr::success($message, 'Success',  ['timeOut' => 5000]);
+        session()->flash('success', $message);
+
 
 
         return back();

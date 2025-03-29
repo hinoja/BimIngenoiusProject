@@ -6,15 +6,14 @@ use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
-use Brian2694\Toastr\Facades\Toastr;
-
 
 class ManageCategories extends Component
 {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $name;
+    public $name; // Pour le formulaire d'ajout principal
+    public $editName; // Pour le formulaire modal (ajout et édition)
     public $deleteId;
     public $selectedCategoryId;
     public $deleteCategory;
@@ -22,7 +21,7 @@ class ManageCategories extends Component
 
     public function closeModal()
     {
-        $this->reset(['name', 'selectedCategory', 'deleteId', 'deleteCategory']);
+        $this->reset(['editName', 'selectedCategory', 'deleteId', 'deleteCategory']);
         $this->resetErrorBag();
         $this->resetValidation();
         $this->dispatch('closeModal');
@@ -31,26 +30,22 @@ class ManageCategories extends Component
     public function showEditForm($id)
     {
         $category = Category::find($id);
-        $this->reset(['name', 'selectedCategory']);
+        $this->reset(['editName', 'selectedCategory']);
         $this->resetErrorBag();
         $this->dispatch('openEditModal');
         $this->resetValidation();
         $this->selectedCategory = $category;
         $this->selectedCategoryId = $id;
-        $this->name = $this->selectedCategory->name;
+        $this->editName = $category->name;
     }
 
     public function showCreateForm()
     {
-        $this->reset(['name', 'selectedCategory']);
+        $this->reset(['editName', 'selectedCategory']);
         $this->resetErrorBag();
         $this->dispatch('openModal');
         $this->resetValidation();
     }
-
-
-
-
 
     public function addCategory()
     {
@@ -63,9 +58,25 @@ class ManageCategories extends Component
             'slug' => Str::slug($this->name)
         ]);
 
-        $this->dispatch('showToast', 'success', __('Category created successfully!'));
+        $this->reset(['name']);
+        session()->flash('success', __('Category created successfully!'));
+        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
+    }
+
+    public function addCategoryModal()
+    {
+        $this->validate([
+            'editName' => ['required', 'string', 'min:2', 'unique:categories,name'],
+        ]);
+
+        Category::create([
+            'name' => $this->editName,
+            'slug' => Str::slug($this->editName)
+        ]);
+
+        session()->flash('success', __('Category created successfully!'));
         $this->closeModal();
-        $this->resetPage();
+        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
     }
 
     public function showDeleteForm($id)
@@ -73,25 +84,24 @@ class ManageCategories extends Component
         $category = Category::find($id);
         $this->dispatch('openDeleteModal');
         $this->deleteId = $category->id;
-        $this->name = $category->name;
+        $this->deleteCategory = $category->name;
     }
 
     public function updateCategory()
     {
         $this->validate([
-            'name' => ['required', 'string', 'min:2', 'unique:categories,name,' . $this->selectedCategoryId . ',id'],
+            'editName' => ['required', 'string', 'min:2', 'unique:categories,name,' . $this->selectedCategoryId . ',id'],
         ]);
 
-        // Récupérer la catégorie via l'ID
         $category = Category::findOrFail($this->selectedCategoryId);
-
         $category->update([
-            'name' => $this->name,
-            'slug' => Str::slug($this->name)
+            'name' => $this->editName,
+            'slug' => Str::slug($this->editName)
         ]);
 
-        $this->dispatch('showToast', 'success', __('Category updated successfully!'));
+        session()->flash('success', __('Category updated successfully!'));
         $this->closeModal();
+        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
     }
 
     public function destroyCategory()
@@ -101,16 +111,16 @@ class ManageCategories extends Component
         if ($category) {
             $category->projects()->delete();
             $category->delete();
-            $this->dispatch('showToast', 'success', __('Category deleted successfully!'));
-            $this->resetPage();
+            session()->flash('success', __('Category deleted successfully!'));
         }
 
         $this->closeModal();
+        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
     }
 
     public function resetAttributes()
     {
-        $this->reset(['name', 'deleteId', 'selectedCategory', 'deleteCategory']);
+        $this->reset(['name', 'editName', 'deleteId', 'selectedCategory', 'deleteCategory']);
     }
 
     public function render()

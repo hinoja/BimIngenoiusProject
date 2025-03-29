@@ -46,7 +46,7 @@
             </li>
             <li class="@if (Str::contains($currentUri, 'profile')) active @endif">
                 <a class="nav-link" href="{{ route('profile.edit') }}"><i class="fas fa-user"></i>
-                    <span>@lang('profile')</span></a>
+                    <span>@lang('Profile')</span></a>
             </li>
              <li class="@if (Str::contains($currentUri, 'plan')) active @endif">
                 <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>

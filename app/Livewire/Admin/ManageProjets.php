@@ -69,9 +69,9 @@ class ManageProjets extends Component
 
         if ($this->filterTitle) {
             $query->where('fr_title', 'like', '%' . $this->filterTitle . '%')
-            ->where('en_title', 'like', '%' . $this->filterTitle . '%')
-            ->where('fr_description', 'like', '%' . $this->filterTitle . '%')
-            ->where('en_description', 'like', '%' . $this->filterTitle . '%');
+                ->where('en_title', 'like', '%' . $this->filterTitle . '%')
+                ->where('fr_description', 'like', '%' . $this->filterTitle . '%')
+                ->where('en_description', 'like', '%' . $this->filterTitle . '%');
         }
 
         if ($this->filterCategory) {

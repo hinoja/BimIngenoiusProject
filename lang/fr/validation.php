@@ -29,6 +29,13 @@ return [
         'numeric' => 'La valeur de :attribute doit être comprise entre :min et :max.',
         'string' => 'Le texte :attribute doit contenir entre :min et :max caractères.',
     ],
+    'password' => [
+        'letters' => 'L\'attribut :doit contenir au moins une lettre.',
+        'mixed' => 'L\'attribut :doit contenir au moins une lettre majuscule et une lettre minuscule',
+        'numbers' => 'L\' :attribut doit contenir au moins un chiffre.',
+        'symbols' => 'L\' :attribut doit contenir au moins un symbole.',
+        'uncompromised' => 'L\'attribut :attribute donné est apparu dans une fuite de données. Veuillez choisir un autre :attribut.',
+    ],
     'boolean' => 'Le champ :attribute doit être vrai ou faux.',
     'confirmed' => 'Le champ de confirmation :attribute ne correspond pas.',
     'current_password' => 'Le mot de passe actuel est incorrect.',
@@ -116,6 +123,7 @@ return [
         'numeric' => 'La valeur de :attribute doit être :size.',
         'string' => 'Le texte de :attribute doit contenir :size caractères.',
     ],
+
     'starts_with' => 'Le champ :attribute doit commencer avec une des valeurs suivantes : :values',
     'string' => 'Le champ :attribute doit être une chaîne de caractères.',
     'timezone' => 'Le champ :attribute doit être un fuseau horaire valide.',

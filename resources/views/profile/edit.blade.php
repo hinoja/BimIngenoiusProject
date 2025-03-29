@@ -128,18 +128,16 @@
             position: relative;
         }
 
-  
-
-.password-toggle {
-    position: absolute;
-    right: 12px; /* Ajusté pour être à l'intérieur du champ */
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #6C757D;
-    transition: all 0.3s ease;
-    z-index: 10; /* Assure que l'icône est au-dessus du champ */
-}
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6C757D;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
 
         .password-toggle:hover {
             color: #FF6B35;
@@ -222,7 +220,7 @@
 
                         <!-- Formulaire de mise à jour du profil -->
                         <form id="profile-form" method="POST" action="{{ route('profile.update') }}"
-                            enctype="multipart/form-data">
+                              enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
 
@@ -230,7 +228,7 @@
                             <div class="form-group">
                                 <label for="name">@lang('Name')</label>
                                 <input type="text" name="name" id="name" class="form-control"
-                                    value="{{ old('name', $user->name) }}">
+                                       value="{{ old('name', $user->name) }}">
                                 @error('name')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -240,7 +238,7 @@
                             <div class="form-group">
                                 <label for="email">@lang('Email')</label>
                                 <input type="email" name="email" id="email" class="form-control"
-                                    value="{{ old('email', $user->email) }}">
+                                       value="{{ old('email', $user->email) }}">
                                 @error('email')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -266,7 +264,7 @@
                             <div class="form-group password-wrapper">
                                 <label for="current_password">@lang('Current Password')</label>
                                 <input type="password" name="current_password" id="current_password" class="form-control"
-                                    required>
+                                       required>
                                 <i class="fas fa-eye password-toggle" data-target="current_password"></i>
                                 @error('current_password')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -275,39 +273,40 @@
 
                             <!-- Nouveau mot de passe -->
                             <div class="form-group password-wrapper">
-                                <label for="password">@lang('New Password')</label>
-                                <input type="password" name="password" id="password" class="form-control" required>
-                                <i class="fas fa-eye password-toggle" data-target="password"></i>
-                                @error('password')
+                                <label for="new_password">@lang('New Password')</label>
+                                <input type="password" name="new_password" id="new_password" class="form-control" required>
+                                <i class="fas fa-eye password-toggle" data-target="new_password"></i>
+                                @error('new_password')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <!-- Confirmation du mot de passe -->
                             <div class="form-group password-wrapper">
-                                <label for="password_confirmation">@lang('Confirm Password')</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="form-control" required>
-                                <i class="fas fa-eye password-toggle" data-target="password_confirmation"></i>
+                                <label for="new_password_confirmation">@lang('Confirm New Password')</label>
+                                <input type="password" name="new_password_confirmation" id="new_password_confirmation"
+                                       class="form-control" required>
+                                <i class="fas fa-eye password-toggle" data-target="new_password_confirmation"></i>
                             </div>
 
                             <button type="submit" class="btn btn-primary">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 @lang('Update Password')
                             </button>
-
                         </form>
+
                         <hr>
+
                         <!-- Formulaire de suppression du compte -->
                         <form id="delete-form" method="POST" action="{{ route('profile.destroy') }}">
                             @csrf
                             @method('DELETE')
 
                             <div class="form-group password-wrapper">
-                                <label for="delete_password">@lang('Current Password')</label>
-                                <input type="password" name="password" id="delete_password" class="form-control" required>
+                                <label for="delete_password">@lang('Confirm Password to Delete')</label>
+                                <input type="password" name="delete_password" id="delete_password" class="form-control" required>
                                 <i class="fas fa-eye password-toggle" data-target="delete_password"></i>
-                                @error('password')
+                                @error('delete_password')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -345,7 +344,7 @@
                     cancelButtonText: '@lang('Cancel')'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit(); // Soumettre directement le formulaire
+                        form.submit();
                     }
                 });
             });
@@ -379,7 +378,7 @@
             }
 
             // Gestion des formulaires avec indicateur de chargement
-            const forms = document.querySelectorAll('#profile-form, #password-form');
+            const forms = document.querySelectorAll('#profile-form, #password-form, #delete-form');
             forms.forEach(form => {
                 form.addEventListener('submit', (e) => {
                     const button = form.querySelector('button[type="submit"]');
