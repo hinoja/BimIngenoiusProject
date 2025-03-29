@@ -1,9 +1,8 @@
-@extends('layouts.back')
+@extends('layouts.front')
 
-@section('subtitle', __('Plans list'))
+@section('subtitle', __('Plans'))
 
 @section('content')
-    <x-admin.section-header :title="__('Plans list')" :previousTitle="__('Dashboard')" :previousRouteName="route('admin.dashboard')" />
 
     @if ($plans->isEmpty())
         <br>

@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <div class="project-slider owl-carousel">
                         @forelse ($project->images as $image)
-                            <div><img src="{{ $image->path }}" alt="{{ $project->title . ' ' . $loop->iteration }}"></div>
+                            <div><img  src="{{ asset('storage/' . $image->name) }}" alt="{{ $project->title . ' ' . $loop->iteration }}"></div>
                         @empty
                             <div><img src="{{ $project->image }}" alt="{{ $project->title }}"></div>
                         @endforelse
@@ -55,7 +55,7 @@
                         <p><strong>@lang('Duration:')</strong> {{ $project->duration }}</p>
                         <p><strong>@lang('Status:')</strong> {{ $project->status->label() }}</p>
                         <p>
-                            <strong>@lang('Tags:')</strong> 
+                            <strong>@lang('Tags:')</strong>
                             {{ $project->tags->pluck('name')->implode(', ') }}
                         </p>
                     </div>
@@ -77,5 +77,5 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript" src="{{ asset('assets/front/js/custom-projects.js') }}"></script>  
+    <script type="text/javascript" src="{{ asset('assets/front/js/custom-projects.js') }}"></script>
 @endpush

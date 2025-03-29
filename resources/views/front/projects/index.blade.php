@@ -26,7 +26,7 @@
                                 <li><a href="#" data-filter=".{{ $category->slug }}" title="">{{ $category->name }}</a></li>
                             @endforeach
                         </ul>
-                    </div>							
+                    </div>
                 </div>
                 <div class="row">
                     <div id="gallery" class="all-project">
@@ -38,7 +38,9 @@
                                         <span class="overlay"></span>
                                     </a>
                                     <h4><a href="{{ route('front.projects.show', $project->slug) }}">{{ $project->title }}</a></h4>
-                                    <div class="cat-name">{{ $project->category->name }}, <i>{{ $project->tags->first()->name }}</i></div>
+                                    <div class="cat-name">{{ $project->category->name }},
+                                         {{-- <i>{{ $project->tags->first()->name ?? 'No tag' }}</i> --}}
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -47,9 +49,9 @@
             </div>
 
             <div class="text-center">
-                <ul class="pagination">				                        
+                <ul class="pagination">
                     {{ $projects->links('pagination::bootstrap-4') }}
-                </ul>				                    
+                </ul>
             </div>
         </section>
     @endif
@@ -62,5 +64,5 @@
     <script type="text/javascript" src="{{ asset('assets/front/js/jquery.isotope.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/front/js/custom-projectlist.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('assets/front/js/custom-blog.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('assets/front/js/custom-blog.js') }}"></script>
 @endpush
