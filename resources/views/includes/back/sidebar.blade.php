@@ -36,6 +36,10 @@
                 <a class="nav-link" href="{{ route('admin.projects.index') }}"><i class="fas fa-project-diagram"></i>
                     <span>@lang('Projects')</span></a>
             </li>
+            <li class="@if (Str::contains($currentUri, 'plan')) active @endif">
+                <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>
+                    <span>@lang('Plans')</span></a>
+            </li>
             <li class="@if (Str::contains($currentUri, 'catego')) active @endif">
                 <a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-tags"></i>
                     <span>@lang('Categories')</span></a>
@@ -44,18 +48,15 @@
                 <a class="nav-link" href="{{ route('admin.contacts.index') }}"><i class="fas fa-envelope"></i>
                     <span>@lang('Messages')</span></a>
             </li>
+
             <li class="@if (Str::contains($currentUri, 'profile')) active @endif">
                 <a class="nav-link" href="{{ route('profile.edit') }}"><i class="fas fa-user"></i>
                     <span>@lang('Profile')</span></a>
             </li>
-             <li class="@if (Str::contains($currentUri, 'plan')) active @endif">
-                <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>
-                    <span>@lang('Plans')</span></a>
-            </li>
-          {{--  <li class="@if (Str::contains($currentUri, 'news')) active @endif">
+            {{--  <li class="@if (Str::contains($currentUri, 'news')) active @endif">
                 <a class="nav-link" href="#"><i class="fas fa-newspaper"></i>
                     <span>@lang('News')</span></a>
-            </li>--}}
+            </li> --}}
 
         </ul>
     </aside>

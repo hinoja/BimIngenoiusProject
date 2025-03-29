@@ -17,7 +17,7 @@ class ManageProjets extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $deleteId, $selectedProject;
-    public $fr_title; // Pour la confirmation de suppression
+    public $fr_title;
     public $filterTitle = '';
     public $filterCategory = '';
     public $filterStatus = '';
@@ -31,7 +31,7 @@ class ManageProjets extends Component
 
     public function showDetails($id)
     {
-        $this->selectedProject = Project::with(['category', 'images'])->findOrFail($id);
+        $this->selectedProject = Project::with(['category', 'images', 'tags'])->findOrFail($id);
         $this->dispatch('openDetailsModal');
     }
 
@@ -51,10 +51,6 @@ class ManageProjets extends Component
                 Storage::disk('public')->delete($image->name);
                 $image->delete();
             }
-            foreach ($project->images as $image) {
-                Storage::disk('public')->delete($image->name);
-                $image->delete();
-            }
             $project->delete();
             session()->flash('success', __('Project deleted successfully!'));
             return redirect()->route('admin.projects.index');
@@ -65,13 +61,15 @@ class ManageProjets extends Component
 
     public function render()
     {
-        $query = Project::with(['images', 'category'])->orderBy('created_at', 'desc');
+        $query = Project::with(['images', 'category', 'tags'])->orderBy('created_at', 'desc');
 
         if ($this->filterTitle) {
-            $query->where('fr_title', 'like', '%' . $this->filterTitle . '%')
-                ->where('en_title', 'like', '%' . $this->filterTitle . '%')
-                ->where('fr_description', 'like', '%' . $this->filterTitle . '%')
-                ->where('en_description', 'like', '%' . $this->filterTitle . '%');
+            $query->where(function ($q) {
+                $q->where('fr_title', 'like', '%' . $this->filterTitle . '%')
+                  ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%')
+                  ->orWhere('fr_description', 'like', '%' . $this->filterTitle . '%')
+                  ->orWhere('en_description', 'like', '%' . $this->filterTitle . '%');
+            });
         }
 
         if ($this->filterCategory) {

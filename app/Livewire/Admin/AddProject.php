@@ -1,8 +1,10 @@
 <?php
 
+
 namespace App\Livewire\Admin;
 
 use App\Models\Project;
+use App\Models\Tag;
 use Livewire\Component;
 use App\Enums\SizeEnums;
 use App\Models\Category;
@@ -13,14 +15,13 @@ use Livewire\WithFileUploads;
 
 class AddProject extends Component
 {
-
     use WithFileUploads;
-
 
     public $fr_title, $en_title, $fr_description, $en_description, $company, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id;
     public $images = [];
+    public $selectedTags = [];
     public $step = 1;
-    public $totalSteps = 4;
+    public $totalSteps = 5;
 
     protected function rules()
     {
@@ -95,7 +96,10 @@ class AddProject extends Component
             }
         }
 
-        // $this->dispatchBrowserEvent('project-created', ['message' => __('Project created successfully!')]);
+        if ($this->selectedTags) {
+            $project->tags()->attach($this->selectedTags);
+        }
+
         session()->flash('success', __('Projet créé avec succès !'));
         return redirect()->route('admin.projects.index');
     }
@@ -118,6 +122,8 @@ class AddProject extends Component
             'categories' => Category::query()->orderBy('name')->get(),
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),
+            'tags' => Tag::all(),
         ]);
     }
 }
+?>
