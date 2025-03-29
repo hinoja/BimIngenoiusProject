@@ -15,7 +15,7 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description', 'en_description', 'company', 'status','country', 'city', 'address', 'start_date', 'end_date','size', 'category_id'];
+    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description','status', 'en_description', 'company','size', 'country', 'city', 'address', 'start_date', 'end_date', 'category_id'];
 
     protected $casts = [
         'status' => StatusEnums::class,
@@ -45,6 +45,11 @@ class Project extends Model
         return $this->{app()->getLocale() . '_description'};
     }
 
+    public function getImageAttribute()
+    {
+        return $this->images->first() ? $this->images->first()->path : asset('assets/defaults/projects/project-' . rand(1, 1) . '.jpg');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -52,7 +57,7 @@ class Project extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function images()

@@ -1,6 +1,6 @@
 @extends('layouts.back')
 
-@section('subtitle', __('Project Details'))
+@section('subtitle', __('Plan Details'))
 
 @section('content')
     <div class="section-body py-5">
@@ -10,23 +10,22 @@
                     <div class="card shadow-lg modern-card">
                         <!-- En-tête -->
                         <div class="card-header elegant-header">
-                            <h3 class="mb-0">{{ $project->title ?? __('No Title') }}</h3>
+                            <h3 class="mb-0">{{ $plan->title ?? __('No Title') }}</h3>
                         </div>
 
                         <div class="card-body px-4 py-5">
                             <!-- Section 1 : Carrousel amélioré -->
                             <section class="mb-5">
-                                <h4 class="section-title">@lang('Project Gallery')</h4>
-                                @if ($project->images && $project->images->isNotEmpty())
+                                <h4 class="section-title">@lang('Plan Gallery')</h4>
+                                @if ($plan->images && $plan->images->isNotEmpty())
                                     <div class="modern-carousel-container">
-                                        <div id="projectCarousel" class="carousel slide modern-carousel"
-                                            data-ride="carousel" data-interval="5000">
+                                        <div id="planCarousel" class="carousel slide modern-carousel" data-ride="carousel"
+                                            data-interval="5000">
                                             <!-- Indicateurs modernes -->
                                             <div class="carousel-indicators-container">
                                                 <ol class="carousel-indicators">
-                                                    @foreach ($project->images as $index => $image)
-                                                        <li data-target="#projectCarousel"
-                                                            data-slide-to="{{ $index }}"
+                                                    @foreach ($plan->images as $index => $image)
+                                                        <li data-target="#planCarousel" data-slide-to="{{ $index }}"
                                                             class="{{ $index === 0 ? 'active' : '' }}">
                                                             <span class="indicator-progress"></span>
                                                         </li>
@@ -36,17 +35,17 @@
 
                                             <!-- Contenu du carrousel -->
                                             <div class="carousel-inner">
-                                                @foreach ($project->images as $index => $image)
+                                                @foreach ($plan->images as $index => $image)
                                                     <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                                         <div class="image-container">
                                                             <img class="d-block gallery-image"
                                                                 src="{{ asset('storage/' . $image->name) }}"
-                                                                alt="{{ $image->name ?? 'Project Image ' . ($index + 1) }}">
+                                                                alt="{{ $image->original_name ?? 'Plan Image ' . ($index + 1) }}">
                                                             <div class="image-overlay">
                                                                 <div class="overlay-content">
-                                                                    <h5>{{ $project->title ?? __('Project Image') }}</h5>
+                                                                    <h5>{{ $plan->title ?? __('Plan Image') }}</h5>
                                                                     <p>Image {{ $index + 1 }} of
-                                                                        {{ count($project->images) }}</p>
+                                                                        {{ count($plan->images) }}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -55,7 +54,7 @@
                                             </div>
 
                                             <!-- Contrôles améliorés -->
-                                            <a class="carousel-control-prev" href="#projectCarousel" role="button"
+                                            <a class="carousel-control-prev" href="#planCarousel" role="button"
                                                 data-slide="prev">
                                                 <div class="control-inner">
                                                     <span class="carousel-control-icon" aria-hidden="true">
@@ -69,7 +68,7 @@
                                                     <span class="sr-only">Previous</span>
                                                 </div>
                                             </a>
-                                            <a class="carousel-control-next" href="#projectCarousel" role="button"
+                                            <a class="carousel-control-next" href="#planCarousel" role="button"
                                                 data-slide="next">
                                                 <div class="control-inner">
                                                     <span class="carousel-control-icon" aria-hidden="true">
@@ -96,7 +95,7 @@
                                         </div>
                                     </div>
                                 @else
-                                    <p class="text-muted">@lang('No images associated with this project')</p>
+                                    <p class="text-muted">@lang('No images associated with this plan')</p>
                                 @endif
                             </section>
 
@@ -105,22 +104,22 @@
                                 <h4 class="section-title">@lang('Key Information')</h4>
                                 <div class="row">
                                     <div class="col-md-6 detail-group">
-                                        <span class="header-subtitle"><strong>@lang('Company'):</strong>
-                                            {{ $project->company ?? 'N/A' }}</span>
-                                        <div class="detail-item"><strong>@lang('Status'):</strong>
-                                            {{ $project->status ? __($project->status->value) : 'N/A' }}</div>
-                                        <div class="detail-item"><strong>@lang('Start Date'):</strong>
-                                            {{ $project->formatted_start_date ?? 'N/A' }}</div>
-                                        <div class="detail-item"><strong>@lang('End Date'):</strong>
-                                            {{ $project->formatted_end_date ?? 'N/A' }}</div>
+
+                                        <div class="detail-item"><strong>@lang('Title'):</strong>
+                                            {{ $plan->title ?? 'N/A' }}</div>
+                                        <div class="detail-item"><strong>@lang('Slug'):</strong>
+                                            {{ $plan->slug ?? 'N/A' }}</div>
                                     </div>
                                     <div class="col-md-6 detail-group">
-                                        <div class="detail-item"><strong>@lang('Duration'):</strong>
-                                            {{ $project->duration ?? 'N/A' }}</div>
-                                        <div class="detail-item"><strong>@lang('Size'):</strong>
-                                            {{ $project->size ? __($project->size->value) : 'N/A' }}</div>
-                                        <div class="detail-item"><strong>@lang('Category'):</strong>
-                                            {{ $project->category?->name ?? 'N/A' }}</div>
+                                        <div class="detail-item"><strong>@lang('Author'):</strong>
+                                            {{ $plan->user?->name ?? 'N/A' }}</div>
+                                        <div class="detail-item"><strong>@lang('Status'):</strong>
+                                            <span class="badge {{ $plan->published_at ? 'bg-success' : 'bg-secondary' }}">
+                                                {{ $plan->published_at ? __('Published') : __('Unpublished') }}
+                                            </span>
+                                        </div>
+                                        <div class="detail-item"><strong>@lang('Published At'):</strong>
+                                            {{ $plan->published_at ?? 'N/A' }}</div>
                                     </div>
                                 </div>
                             </section>
@@ -128,43 +127,33 @@
                             <!-- Section 3 : Description -->
                             <section class="mb-5">
                                 <h4 class="section-title">@lang('Description')</h4>
-                                <p class="description-text">{{ $project->description ?? 'N/A' }}</p>
-                            </section>
-
-                            <!-- Section 4 : Localisation -->
-                            <section class="mb-5">
-                                <h4 class="section-title">@lang('Location')</h4>
                                 <div class="row">
+
                                     <div class="col-md-6 detail-group">
-                                        <div class="detail-item"><strong>@lang('Country'):</strong>
-                                            {{ $project->country ?? 'N/A' }}</div>
-                                        <div class="detail-item"><strong>@lang('City'):</strong>
-                                            {{ $project->city ?? 'N/A' }}</div>
-                                    </div>
-                                    <div class="col-md-6 detail-group">
-                                        <div class="detail-item"><strong>@lang('Address'):</strong>
-                                            {{ $project->address ?? 'N/A' }}</div>
+                                        <div class="detail-item"><strong>@lang('Description'):</strong>
+                                            {{ $plan->description ?? 'N/A' }}</div>
                                     </div>
                                 </div>
                             </section>
 
-                            <!-- Section 5 : Tags -->
-                            <section>
-                                <h4 class="section-title">@lang('Tags')</h4>
-                                @if ($project->tags->isNotEmpty())
-                                    <div class="tags-list">
-                                        @foreach ($project->tags as $tag)
-                                            <span class="tag-badge">{{ $tag->name }}</span>
-                                        @endforeach
+                            <!-- Section 4 : Dates -->
+                            <section class="mb-5">
+                                <h4 class="section-title">@lang('Dates')</h4>
+                                <div class="row">
+                                    <div class="col-md-6 detail-group">
+                                        <div class="detail-item"><strong>@lang('Created At'):</strong>
+                                            {{ $plan->created_at ?? 'N/A' }}</div>
                                     </div>
-                                @else
-                                    <p>N/A</p>
-                                @endif
+                                    <div class="col-md-6 detail-group">
+                                        <div class="detail-item"><strong>@lang('Updated At'):</strong>
+                                            {{ $plan->updated_at ?? 'N/A' }}</div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
 
                         <div class="card-footer text-right elegant-footer">
-                            <a href="{{ route('admin.projects.index') }}" class="btn btn-cancel">@lang('Back')</a>
+                            <a href="{{ route('admin.plans.index') }}" class="btn btn-cancel">@lang('Back')</a>
                         </div>
                     </div>
                 </div>
@@ -172,6 +161,7 @@
         </div>
     </div>
 @endsection
+
 @push('js')
     <script>
         // Activer le mode plein écran
@@ -195,7 +185,7 @@
         });
 
         // Réinitialiser l'animation de la barre de progression lors du changement de slide
-        $('#projectCarousel').on('slide.bs.carousel', function() {
+        $('#planCarousel').on('slide.bs.carousel', function() {
             const activeIndicator = this.querySelector('.carousel-indicators .active');
             if (activeIndicator) {
                 const progressBar = activeIndicator.querySelector('.indicator-progress');
@@ -208,7 +198,7 @@
         });
 
         // Pause l'animation au survol
-        $('#projectCarousel').hover(
+        $('#planCarousel').hover(
             function() {
                 const activeIndicator = this.querySelector('.carousel-indicators .active .indicator-progress');
                 if (activeIndicator) {
@@ -224,6 +214,7 @@
         );
     </script>
 @endpush
+
 @push('css')
     <style>
         /* Styles pour le carrousel moderne */
@@ -489,6 +480,69 @@
             object-fit: contain;
         }
 
+        /* Styles supplémentaires pour la carte */
+        .modern-card {
+            border: none;
+            border-radius: 15px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .elegant-header {
+            background: linear-gradient(135deg, #2A2E45 0%, #3A3F5A 100%);
+            color: #F8F9FA;
+            border-bottom: 2px solid #FF6B35;
+            padding: 1.5rem 2rem;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2A2E45;
+            border-bottom: 2px solid #FF6B35;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-group {
+            padding: 0 1rem;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #2A2E45;
+        }
+
+        .detail-item strong {
+            color: #FF6B35;
+            margin-right: 0.5rem;
+        }
+
+        .elegant-footer {
+            background: #f8f9fa;
+            border-top: 2px solid #FF6B35;
+            padding: 1rem 2rem;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .btn-cancel {
+            background-color: #d3d3d3;
+            color: #2A2E45;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c0c0c0;
+            color: #2A2E45;
+            text-decoration: none;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .modern-carousel-container {
@@ -519,6 +573,14 @@
                 opacity: 1;
                 width: 36px;
                 height: 36px;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .detail-item {
+                font-size: 0.9rem;
             }
         }
     </style>

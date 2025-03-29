@@ -15,7 +15,7 @@ class PlanController extends Controller
 
     public function show(Plan $plan)
     {
-        return view('admin.projects.show', [
+        return view('admin.plans.show', [
             'plan' => $plan,
         ]);
     }
