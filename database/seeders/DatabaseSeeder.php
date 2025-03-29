@@ -26,6 +26,13 @@ class DatabaseSeeder extends Seeder
             ->hasNews(3)
             ->create();
 
+            \App\Models\User::factory()->create([
+                'role_id' => 1,
+                'name' => 'Admin BIM ingenious BTP',
+                'email' => 'admin@bim.com',
+                'is_active' => true,
+            ]);
+
         $tags = Tag::factory(50)->create();
 
         $news = News::query()
