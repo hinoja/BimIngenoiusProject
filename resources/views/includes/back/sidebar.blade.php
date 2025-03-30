@@ -28,10 +28,17 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i>
                     <span>@lang('Dashboard')</span></a>
             </li>
-            <li class="@if (Str::contains($currentUri, 'users')) active @endif">
-                <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fas fa-users"></i>
-                    <span>@lang('Users')</span></a>
-            </li>
+            @auth
+                @if (Auth::user()->role_id < 2)
+                    <li class="@if (Str::contains($currentUri, 'users')) active @endif">
+                        <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fas fa-users"></i>
+                            <span>@lang('Users')</span></a>
+                    </li>
+                @endif
+            @endauth
+
+
+
             <li class="@if (Str::contains($currentUri, 'project')) active @endif">
                 <a class="nav-link" href="{{ route('admin.projects.index') }}"><i class="fas fa-project-diagram"></i>
                     <span>@lang('Projects')</span></a>

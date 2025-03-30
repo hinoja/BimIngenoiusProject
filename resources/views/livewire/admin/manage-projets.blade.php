@@ -72,7 +72,6 @@
                                 <tr>
                                     <th scope="col" class="text-center" style="width: 50px;">#</th>
                                     <th scope="col" style="min-width: 180px;">@lang('Title')</th>
-                                    <th scope="col" style="min-width: 120px;">@lang('Company')</th>
                                     <th scope="col" style="min-width: 120px;">@lang('Category')</th>
                                     <th scope="col" style="min-width: 100px;">@lang('Status')</th>
                                     <th scope="col" class="text-center" style="width: 100px;">@lang('Media')</th>
@@ -91,8 +90,7 @@
                                                 <span class="fw-bold">{{ $project->title }}</span>
                                                 <small class="text-muted">{{ Str::limit($project->description, 50) }}</small>
                                             </div>
-                                        </td>
-                                        <td>{{ $project->company ?? 'N/A' }}</td>
+                                        </td> 
                                         <td>{{ $project->category?->name ?? 'N/A' }}</td>
                                         <td>
                                             <span class="badge {{ $project->status->value === 'completed' ? 'bg-success' : ($project->status->value === 'in_progress' ? 'bg-warning' : 'bg-secondary') }}">

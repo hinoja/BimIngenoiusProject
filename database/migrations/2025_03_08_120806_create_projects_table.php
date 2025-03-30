@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('en_title')->unique();
             $table->string('slug');
             $table->text('fr_description');
-            $table->text('en_description');
-            $table->string('company');
+            $table->text('en_description'); 
             $table->string('country');
             $table->string('city');
             $table->string('address');

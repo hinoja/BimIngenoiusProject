@@ -7,6 +7,7 @@ use App\Models\Quote;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use App\Models\{Category, Tag, Project, News, User};
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,21 +27,23 @@ class DatabaseSeeder extends Seeder
             ->hasNews(3)
             ->create();
 
-            \App\Models\User::factory()->create([
-                'role_id' => 1,
-                'name' => 'Admin BIM ingenious BTP',
-                'email' => 'admin@bim.com',
-                'is_active' => true,
-            ]);
+        \App\Models\User::factory()->create([
+            'role_id' => 1,
+            'name' => 'Admin BIM ingenious BTP',
+            'email' => 'admin@bim.com',
+            'is_active' => true,
+            'password' => Hash::make('password')
+        ]);
 
         $tags = Tag::factory(50)->create();
 
         $news = News::query()
-                    ->get()
-                    ->each(function($item) use ($tags) {
-                        $item->tags()->attach($tags->random(rand(2, 3)));
-                    }
-                );
+            ->get()
+            ->each(
+                function ($item) use ($tags) {
+                    $item->tags()->attach($tags->random(rand(2, 3)));
+                }
+            );
 
         $categories = Category::query()->get()->take(15);
 

@@ -17,7 +17,7 @@ class AddProject extends Component
 {
     use WithFileUploads;
 
-    public $fr_title, $en_title, $fr_description, $en_description, $company, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id;
+    public $fr_title, $en_title, $fr_description, $en_description, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id;
     public $images = [];
     public $selectedTags = [];
     public $step = 1;
@@ -30,7 +30,6 @@ class AddProject extends Component
             'en_title' => ['required', 'string', 'min:2', 'unique:projects,en_title'],
             'fr_description' => ['required', 'string', 'min:10'],
             'en_description' => ['required', 'string', 'min:10'],
-            'company' => ['required', 'string', 'min:2'],
             'country' => ['required', 'string', 'min:2'],
             'city' => ['required', 'string', 'min:2'],
             'address' => ['required', 'string', 'min:5'],
@@ -49,7 +48,7 @@ class AddProject extends Component
         if ($this->step == 1) {
             $this->validateOnlyFields(['fr_title', 'en_title', 'fr_description', 'en_description']);
         } elseif ($this->step == 2) {
-            $this->validateOnlyFields(['company', 'country', 'city', 'address']);
+            $this->validateOnlyFields([ 'country', 'city', 'address']);
         } elseif ($this->step == 3) {
             $this->validateOnlyFields(['status', 'size', 'start_date', 'end_date', 'category_id']);
         }
@@ -73,8 +72,7 @@ class AddProject extends Component
             'en_title' => $this->en_title,
             'slug' => Str::slug($this->en_title),
             'fr_description' => $this->fr_description,
-            'en_description' => $this->en_description,
-            'company' => $this->company,
+            'en_description' => $this->en_description, 
             'country' => $this->country,
             'city' => $this->city,
             'address' => $this->address,

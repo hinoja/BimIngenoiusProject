@@ -27,8 +27,7 @@ class ProjectFactory extends Factory
         $endDate = fake()->dateTimeBetween($startDate, '+1 year');
 
         return [
-            'category_id' => fake()->randomElement(Category::pluck('id')->toArray()),
-            'company' => fake()->company,
+            'category_id' => fake()->randomElement(Category::pluck('id')->toArray()), 
             'fr_title' => $frTitle,
             'en_title' => $enTitle,
             'slug' => Str::slug($enTitle),

@@ -93,15 +93,7 @@
         <!-- Step 2: Project Details -->
         @if ($step == 2)
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="company" class="font-weight-bold text-dark">@lang('Company')</label>
-                        <input type="text" wire:model="company" class="form-control @error('company') is-invalid @enderror" id="company" placeholder="@lang('Enter the company name')">
-                        @error('company')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
+                 
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="country" class="font-weight-bold text-dark">@lang('Country')</label>

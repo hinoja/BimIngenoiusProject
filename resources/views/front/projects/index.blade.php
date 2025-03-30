@@ -39,7 +39,7 @@
                                     </a>
                                     <h4><a href="{{ route('front.projects.show', $project->slug) }}">{{ $project->title }}</a></h4>
                                     <div class="cat-name">{{ $project->category->name }},
-                                         {{-- <i>{{ $project->tags->first()->name ?? 'No tag' }}</i> --}}
+                                         <i>{{ $project->tags->first()->name ?? 'No tag' }}</i>
                                     </div>
                                 </div>
                             </div>
