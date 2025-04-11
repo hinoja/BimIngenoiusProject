@@ -12,36 +12,22 @@
     </div>
 @endsection
 
-@push('js')
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @livewireScripts()
-    {{-- <livewire:toaster /> --}}
-    <script type="text/javascript">
-        // close message  modal
-        document.addEventListener('livewire:initialized', () => {
-            Livewire.on('closeModal', () => {
-                // code
-                $('#AddCategory').modal('hide');
-                $('#deleteCategory').modal('hide');
-            });
-        });
-
-        document.addEventListener('livewire:initialized', () => {
-
-            //Edit Category Modal
-            Livewire.on('openEditModal', () => {
-                $('#AddCategory').modal('show');
-            });
-        });
-
-        // Delete category modal
-        Livewire.on('openDeleteModal', () => {
-            // code
-            $('#deleteCategory').modal('show');
-
-        });
-    </script>
-@endpush
 @push('css')
     @livewireStyles()
+    <style>
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+@endpush
+
+@push('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    @livewireScripts()
+
+   
 @endpush

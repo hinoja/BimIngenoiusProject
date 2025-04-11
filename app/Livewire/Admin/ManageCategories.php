@@ -6,22 +6,23 @@ use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class ManageCategories extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     protected $paginationTheme = 'bootstrap';
-    public $name; // Pour le formulaire d'ajout principal
-    public $editName; // Pour le formulaire modal (ajout et édition)
-    public $deleteId;
-    public $selectedCategoryId;
-    public $deleteCategory;
+    public $fr_name, $en_name, $description, $image;
+    public $editFrName, $editEnName, $editDescription, $editImage;
+    public $selectedCategoryId, $deleteId;
     public $selectedCategory;
+    public $currentPage = 1;
 
     public function closeModal()
     {
-        $this->reset(['editName', 'selectedCategory', 'deleteId', 'deleteCategory']);
+        $this->reset(['fr_name', 'en_name', 'editFrName', 'editEnName', 'editDescription', 'editImage', 'selectedCategory', 'deleteId']);
         $this->resetErrorBag();
         $this->resetValidation();
         $this->dispatch('closeModal');
@@ -30,18 +31,24 @@ class ManageCategories extends Component
     public function showEditForm($id)
     {
         $category = Category::find($id);
-        $this->reset(['editName', 'selectedCategory']);
+        if (!$category) {
+            session()->flash('error', __('Category not found!'));
+            return;
+        }
+        $this->reset(['editFrName', 'editEnName', 'editDescription', 'editImage', 'selectedCategory']);
         $this->resetErrorBag();
         $this->dispatch('openEditModal');
         $this->resetValidation();
         $this->selectedCategory = $category;
         $this->selectedCategoryId = $id;
-        $this->editName = $category->name;
+        $this->editFrName = $category->fr_name;
+        $this->editEnName = $category->en_name;
+        $this->editDescription = $category->description;
     }
 
     public function showCreateForm()
     {
-        $this->reset(['editName', 'selectedCategory']);
+        $this->reset(['fr_name', 'en_name', 'description', 'image']);
         $this->resetErrorBag();
         $this->dispatch('openModal');
         $this->resetValidation();
@@ -50,58 +57,76 @@ class ManageCategories extends Component
     public function addCategory()
     {
         $this->validate([
-            'name' => ['required', 'string', 'min:2', 'unique:categories,name'],
+            'fr_name' => ['required', 'string', 'min:2', 'unique:categories,fr_name'],
+            'en_name' => ['required', 'string', 'min:2', 'unique:categories,en_name'],
+            'description' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        Category::create([
-            'name' => $this->name,
-            'slug' => Str::slug($this->name)
-        ]);
+        try {
+            $imagePath = $this->image ? $this->image->store('categories', 'public') : null;
 
-        $this->reset(['name']);
-        session()->flash('success', __('Category created successfully!'));
-        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
-    }
+            Category::create([
+                'fr_name' => $this->fr_name,
+                'en_name' => $this->en_name,
+                'slug' => Str::slug($this->en_name),
+                'description' => strip_tags($this->description, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>'),
+                'image' => $imagePath,
+            ]);
 
-    public function addCategoryModal()
-    {
-        $this->validate([
-            'editName' => ['required', 'string', 'min:2', 'unique:categories,name'],
-        ]);
+            $this->reset(['fr_name', 'en_name', 'description', 'image']);
+            session()->flash('success', __('Category created successfully!'));
+            $this->resetPage();
+        } catch (\Exception $e) {
+            session()->flash('error', __('An error occurred while creating the category: ') . $e->getMessage());
+        }
 
-        Category::create([
-            'name' => $this->editName,
-            'slug' => Str::slug($this->editName)
-        ]);
-
-        session()->flash('success', __('Category created successfully!'));
-        $this->closeModal();
-        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
-    }
-
-    public function showDeleteForm($id)
-    {
-        $category = Category::find($id);
-        $this->dispatch('openDeleteModal');
-        $this->deleteId = $category->id;
-        $this->deleteCategory = $category->name;
+        return $this->redirect(route('admin.categories.index'), navigate: true);
     }
 
     public function updateCategory()
     {
         $this->validate([
-            'editName' => ['required', 'string', 'min:2', 'unique:categories,name,' . $this->selectedCategoryId . ',id'],
+            'editFrName' => 'required|string|min:2|unique:categories,fr_name,' . $this->selectedCategoryId,
+            'editEnName' => 'required|string|min:2|unique:categories,en_name,' . $this->selectedCategoryId,
+            'editDescription' => 'nullable|string',
+            'editImage' => 'nullable|image|max:2048',
         ]);
 
-        $category = Category::findOrFail($this->selectedCategoryId);
-        $category->update([
-            'name' => $this->editName,
-            'slug' => Str::slug($this->editName)
-        ]);
+        try {
+            $category = Category::findOrFail($this->selectedCategoryId);
 
-        session()->flash('success', __('Category updated successfully!'));
-        $this->closeModal();
-        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
+            if ($this->editImage) {
+                if ($category->image) {
+                    Storage::disk('public')->delete($category->image);
+                }
+                $imagePath = $this->editImage->store('categories', 'public');
+                $category->image = $imagePath;
+            }
+
+            $cleanDescription = strip_tags($this->editDescription, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>');
+
+            $category->update([
+                'fr_name' => $this->editFrName,
+                'en_name' => $this->editEnName,
+                'slug' => Str::slug($this->editEnName),
+                'description' => $cleanDescription,
+            ]);
+
+            session()->flash('success', __('Category updated successfully!'));
+            $this->closeModal();
+        } catch (\Exception $e) {
+            session()->flash('error', __('An error occurred while updating the category: ') . $e->getMessage());
+        }
+
+        return $this->redirect(route('admin.categories.index'), navigate: true);
+    }
+
+    public function showDeleteForm($id)
+    {
+        $category = Category::findOrFail($id);
+        $this->deleteId = $category->id;
+        $this->dispatch('openDeleteModal');
     }
 
     public function destroyCategory()
@@ -109,24 +134,27 @@ class ManageCategories extends Component
         $category = Category::find($this->deleteId);
 
         if ($category) {
-            $category->projects()->delete();
-            $category->delete();
-            session()->flash('success', __('Category deleted successfully!'));
+            try {
+                if ($category->image) {
+                    Storage::disk('public')->delete($category->image);
+                }
+                $category->delete();
+                session()->flash('success', __('Category deleted successfully!'));
+                $this->resetPage();
+            } catch (\Exception $e) {
+                session()->flash('error', __('An error occurred while deleting the category: ') . $e->getMessage());
+            }
+        } else {
+            session()->flash('error', __('Category not found!'));
         }
 
         $this->closeModal();
-        return $this->redirect(route('admin.categories.index'), navigate: true); // Redirection pour afficher le flash
-    }
-
-    public function resetAttributes()
-    {
-        $this->reset(['name', 'editName', 'deleteId', 'selectedCategory', 'deleteCategory']);
     }
 
     public function render()
     {
         return view('livewire.admin.manage-categories', [
-            'categories' => Category::query()->orderBy('name')->paginate(7),
+            'categories' => Category::orderBy('fr_name')->paginate(10, ['*'], 'page', $this->currentPage),
         ]);
     }
 }

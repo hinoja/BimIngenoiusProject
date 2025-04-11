@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Admin\{NewsAdminController, UsersController, ProjectController, PlanController};
 use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController, QuoteController};
-use App\Http\Controllers\Admin\{UsersController, ProjectController, PlanController};
 
 // Front routes
 Route::name('front.')->group(function () {
@@ -77,9 +77,25 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     //PLANS ROUTES
     Route::prefix('plans')->name('plans.')->group(function () {
         Route::view('/', 'admin.plans.index')->name('index');
-        Route::get('/plans/create', [PlanController::class, 'create'])->name('create');
-        Route::get('/plans/{plan}', [PlanController::class, 'show'])->name('show');
-        Route::get('/plans/{plan}/edit', [PlanController::class, 'edit'])->name('edit');
+        Route::controller(PlanController::class)->group(function () {
+            Route::get('/create', 'create')->name('create');
+            Route::get('/{plan:slug}', 'show')->name('show');
+            Route::get('/{plan:slug}/edit', 'edit')->name('edit');
+        });
+    });
+    //     Route::get('/plans/create', [PlanController::class, 'create'])->name('create');
+    //     Route::get('/plans/{plan}', [PlanController::class, 'show'])->name('show');
+    //     Route::get('/plans/{plan}/edit', [PlanController::class, 'edit'])->name('edit');
+    // });
+
+    //NEWS ROUTES
+    Route::prefix('news')->name('news.')->group(function () {
+        Route::view('/', 'admin.news.index')->name('index');
+        Route::controller(NewsAdminController::class)->group(function () {
+            Route::get('/create', 'create')->name('create');
+            Route::get('/{news}', 'show')->name('show');
+            Route::get('/{news}/edit', 'edit')->name('edit');
+        });
     });
 
     //CATEGORIES ROUTES

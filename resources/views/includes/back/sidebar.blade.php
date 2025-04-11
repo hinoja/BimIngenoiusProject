@@ -56,15 +56,15 @@
                     <span>@lang('Messages')</span></a>
             </li>
 
+            <li class="@if (Str::contains($currentUri, 'news')) active @endif">
+                <a class="nav-link" href="{{ route('admin.news.index') }}"><i class="fas fa-newspaper"></i>
+                    <span>@lang('News')</span></a>
+            </li>
+
             <li class="@if (Str::contains($currentUri, 'profile')) active @endif">
                 <a class="nav-link" href="{{ route('profile.edit') }}"><i class="fas fa-user"></i>
                     <span>@lang('Profile')</span></a>
             </li>
-            {{--  <li class="@if (Str::contains($currentUri, 'news')) active @endif">
-                <a class="nav-link" href="#"><i class="fas fa-newspaper"></i>
-                    <span>@lang('News')</span></a>
-            </li> --}}
-
         </ul>
     </aside>
 </div>

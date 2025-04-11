@@ -12,8 +12,17 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name'];
-
+    protected $fillable = ['fr_name','en_name',"slug", 'description', 'image'];
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
+    protected $attributes = [
+        'image' => null,
+    ];
+    public function getTitleAttribute()
+    {
+        return $this->{app()->getLocale() . '_name'};
+    }
     public function getRouteKeyName()
     {
         return 'slug';
@@ -27,7 +36,7 @@ class Category extends Model
 
     public function projects()
     {
-        return $this->hasMany(Project::class);    
+        return $this->hasMany(Project::class);
     }
 
     public function images()

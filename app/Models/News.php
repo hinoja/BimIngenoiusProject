@@ -19,7 +19,7 @@ class News extends Model
     {
         return 'slug';
     }
-
+ 
     // RELATIONSHIPS
     public function user()
     {
