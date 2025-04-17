@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <h4 class="mb-4" style="margin-top: 25px;">@lang('Personal Information')</h4>
             <hr style="margin-top: -10px;">
-            
+
             <div class="form-group">
                 <label class="labelled" for="civility">@lang('Civility') *</label>
                 <select id="civility" wire:model.defer="civility" class="form-control @error('civility') is-invalid @enderror">
@@ -123,7 +123,7 @@
                     @enderror
                 </div>
             </div>
-    
+
             <div class="form-group">
                 <label class="labelled" for="details">@lang('Project Details') *</label>
                 <textarea id="details" wire:model.defer="details" class="form-control" placeholder="@lang('Enter the project details')"></textarea>

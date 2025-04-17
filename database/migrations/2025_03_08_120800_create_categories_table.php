@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('fr_name')->unique(); // French name
             $table->string('en_name')->unique(); // English name
             $table->string('slug');
-            $table->string('description')->nullable();
+            $table->string('fr_description')->nullable();
+            $table->string('en_description')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();

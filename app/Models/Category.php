@@ -12,20 +12,29 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['fr_name','en_name',"slug", 'description', 'image'];
+    protected $fillable = ['fr_name', 'en_name', "slug", 'fr_description','en_description', 'image'];
     protected $casts = [
         'deleted_at' => 'datetime',
     ];
     protected $attributes = [
         'image' => null,
     ];
-    public function getTitleAttribute()
+    // ACCESSORS
+    public function getNameAttribute()
     {
         return $this->{app()->getLocale() . '_name'};
+    }
+    public function getDescriptionAttribute()
+    {
+        return $this->{app()->getLocale() . '_description'};
     }
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+    public function getImageAttribute($image)
+    {
+        return $image ? asset('storage/' . $image) : asset('assets/defaults/categories/client' . rand(1, 8) . '.png');
     }
 
     public function setNameAttribute($value)
@@ -39,10 +48,10 @@ class Category extends Model
         return $this->hasMany(Project::class);
     }
 
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'imageable');
-    }
+    // public function images()
+    // {
+    //     return $this->morphMany(Image::class, 'imageable');
+    // }
 
     public function quotes()
     {

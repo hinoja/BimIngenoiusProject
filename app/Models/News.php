@@ -19,7 +19,7 @@ class News extends Model
     {
         return 'slug';
     }
- 
+
     // RELATIONSHIPS
     public function user()
     {
@@ -49,7 +49,7 @@ class News extends Model
 
     public function getImageAttribute($image)
     {
-        return $image ? asset('storage/news/' . $image) : asset('assets/defaults/news/news-' . rand(1, 6) . '.jpg');
+        return $image ? asset('storage/' . $image) : asset('assets/defaults/news/news-' . rand(1, 6) . '.jpg');
     }
 
     public function getCreatedAtAttribute($created_at)
@@ -62,16 +62,15 @@ class News extends Model
         return $this->getFormatedDateTime($updated_at);
     }
 
-    public function getPublishedAtAttribute($published_at)
-    {
-        return $this->getFormatedDateTime($published_at);
-    }
-
+    // public function getPublishedAtAttribute($published_at)
+    // {
+    //     return $this->getFormatedDateTime($published_at);
+    // }
     function getFormatedDateTime($date)
     {
         $locale = app()->getLocale();
         Carbon::setLocale($locale);
-        $format = $locale === 'en' ? 'F d, Y' : 'd M Y';
+        $format = $locale === 'en' ? 'F d, Y ' : 'd M Y ';
 
         return Carbon::parse($date)->translatedFormat($format);
     }

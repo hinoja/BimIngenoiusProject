@@ -41,7 +41,7 @@ class StoreQuote extends Component
     {
         $this->civilities = Quote::CIVILITY;
         $this->currencies = config('currencies');
-        $this->categories = Category::query()->get(['id', 'name']);
+        $this->categories = Category::query()->get(['id', 'fr_name', 'en_name']);
     }
 
     public function rules()
@@ -52,7 +52,7 @@ class StoreQuote extends Component
     public function store()
     {
         $validatedData = $this->validate();
-        
+
         $customer = Customer::query()->firstOrCreate(
             ['email' => $validatedData['email']],
             [
@@ -74,14 +74,14 @@ class StoreQuote extends Component
             'category_id' => $validatedData['category'],
             'file' => $validatedData['file'] ?? null,
         ]);
-        
+
         if ($this->file) {
             $filename = Str::slug($quote->title) . '.' . $this->file->getClientOriginalExtension();
             $validatedData['file'] = $this->file->storeAs('quotes/', $filename, 'public');
         }
 
         Notification::send([$customer, User::query()->firstWhere('role_id', 1)], new NewQuoteNotification($quote));
-        
+
         session()->flash('success', __('Your quote has been submitted successfully! You will receive an email as soon as possible.'));
 
         $this->redirectRoute('front.quote.form');

@@ -22,5 +22,8 @@ class PagesController extends Controller
     public function quote() {
         return view('front.pages.quote');
     }
-    
+    public function takekey() {
+        return view('front.pages.takekey');
+    }
+
 }

@@ -10,21 +10,49 @@
                     <div class="card shadow-lg modern-card">
                         <!-- En-tête -->
                         <div class="card-header elegant-header">
-                            <h3 class="mb-0">{{ $plan->title ?? __('No Title') }}</h3>
+                            <h3 class="mb-0">{{ $plan->fr_title ?? ($plan->title ?? __('No Title')) }}</h3>
                         </div>
 
                         <div class="card-body px-4 py-5">
-                            <!-- Section 1 : Carrousel amélioré -->
+                            <!-- Section 1 : Image 2D -->
                             <section class="mb-5">
-                                <h4 class="section-title">@lang('Plan Gallery')</h4>
-                                @if ($plan->images && $plan->images->isNotEmpty())
+                                <h4 class="section-title">@lang('2D Plan Image')</h4>
+                                @if ($plan->image2D)
+                                    <div class="image-wrapper ">
+                                        <img  class="d-block gallery-image" src="{{ asset('storage/' . $plan->image2D) }}"
+                                            alt="{{ $plan->title ?? 'News Image' }}">
+                                        <div class="image-overlay">
+                                            <div class="overlay-content">
+                                                <h5>{{ $plan->title ?? __('News Image') }}</h5>
+                                                <p>@lang('Featured Image')</p>
+                                            </div>
+                                        </div>
+                                        <!-- Fullscreen Toggle -->
+                                        <button class="fullscreen-toggle" aria-label="Toggle fullscreen">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path
+                                                    d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                @else
+                                    <p class="text-muted">@lang('No 2D image available')</p>
+                                @endif
+                            </section>
+
+                            <!-- Section 2 : Carrousel des images 3D -->
+                            <section class="mb-5">
+                                <h4 class="section-title">@lang('3D Plan Gallery')</h4>
+                                @if ($plan->images && !empty(json_decode($plan->images)))
                                     <div class="modern-carousel-container">
                                         <div id="planCarousel" class="carousel slide modern-carousel" data-ride="carousel"
                                             data-interval="5000">
                                             <!-- Indicateurs modernes -->
                                             <div class="carousel-indicators-container">
                                                 <ol class="carousel-indicators">
-                                                    @foreach ($plan->images as $index => $image)
+                                                    @foreach (json_decode($plan->images) as $index => $image)
                                                         <li data-target="#planCarousel" data-slide-to="{{ $index }}"
                                                             class="{{ $index === 0 ? 'active' : '' }}">
                                                             <span class="indicator-progress"></span>
@@ -35,17 +63,19 @@
 
                                             <!-- Contenu du carrousel -->
                                             <div class="carousel-inner">
-                                                @foreach ($plan->images as $index => $image)
+                                                @foreach (json_decode($plan->images) as $index => $image)
                                                     <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                                         <div class="image-container">
                                                             <img class="d-block gallery-image"
                                                                 src="{{ asset('storage/' . $image->name) }}"
-                                                                alt="{{ $image->original_name ?? 'Plan Image ' . ($index + 1) }}">
+                                                                alt="{{ $plan->title . '3D' . $loop->iteration }}">
+
                                                             <div class="image-overlay">
                                                                 <div class="overlay-content">
-                                                                    <h5>{{ $plan->title ?? __('Plan Image') }}</h5>
+                                                                    <h5>{{ $plan->fr_title ?? ($plan->title ?? __('Plan Image')) }}
+                                                                    </h5>
                                                                     <p>Image {{ $index + 1 }} of
-                                                                        {{ count($plan->images) }}</p>
+                                                                        {{ count(json_decode($plan->images)) }}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -82,29 +112,18 @@
                                                     <span class="sr-only">Next</span>
                                                 </div>
                                             </a>
-
-                                            <!-- Bouton plein écran -->
-                                            <button class="fullscreen-toggle" aria-label="Toggle fullscreen">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
-                                                </svg>
-                                            </button>
                                         </div>
                                     </div>
                                 @else
-                                    <p class="text-muted">@lang('No images associated with this plan')</p>
+                                    <p class="text-muted">@lang('No 3D images available')</p>
                                 @endif
                             </section>
 
-                            <!-- Section 2 : Informations principales -->
+                            <!-- Section 3 : Informations principales -->
                             <section class="mb-5">
                                 <h4 class="section-title">@lang('Key Information')</h4>
                                 <div class="row">
                                     <div class="col-md-6 detail-group">
-
                                         <div class="detail-item"><strong>@lang('Title'):</strong>
                                             {{ $plan->title ?? 'N/A' }}</div>
                                         <div class="detail-item"><strong>@lang('Slug'):</strong>
@@ -124,19 +143,19 @@
                                 </div>
                             </section>
 
-                            <!-- Section 3 : Description -->
+                            <!-- Section 4 : Descriptions -->
                             <section class="mb-5">
-                                <h4 class="section-title">@lang('Description')</h4>
+                                <h4 class="section-title">@lang('Descriptions')</h4>
                                 <div class="row">
-
-                                    <div class="col-md-6 detail-group">
+                                    <div class="col-md-12 detail-group">
                                         <div class="detail-item"><strong>@lang('Description'):</strong>
-                                            {{ $plan->description ?? 'N/A' }}</div>
+                                            {!! $plan->description ?? 'N/A' !!}</div>
                                     </div>
+
                                 </div>
                             </section>
 
-                            <!-- Section 4 : Dates -->
+                            <!-- Section 5 : Dates -->
                             <section class="mb-5">
                                 <h4 class="section-title">@lang('Dates')</h4>
                                 <div class="row">
@@ -165,14 +184,14 @@
 @push('js')
     <script>
         // Activer le mode plein écran
+        // Toggle fullscreen mode for the image
         document.querySelectorAll('.fullscreen-toggle').forEach(button => {
             button.addEventListener('click', function() {
-                const carousel = this.closest('.modern-carousel');
-                carousel.classList.toggle('fullscreen');
+                const imageWrapper = this.closest('.image-wrapper');
+                imageWrapper.classList.toggle('fullscreen');
 
-                // Changer l'icône
                 const icon = this.querySelector('svg');
-                if (carousel.classList.contains('fullscreen')) {
+                if (imageWrapper.classList.contains('fullscreen')) {
                     icon.innerHTML =
                         '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>';
                     document.body.style.overflow = 'hidden';
@@ -201,15 +220,11 @@
         $('#planCarousel').hover(
             function() {
                 const activeIndicator = this.querySelector('.carousel-indicators .active .indicator-progress');
-                if (activeIndicator) {
-                    activeIndicator.style.animationPlayState = 'paused';
-                }
+                if (activeIndicator) activeIndicator.style.animationPlayState = 'paused';
             },
             function() {
                 const activeIndicator = this.querySelector('.carousel-indicators .active .indicator-progress');
-                if (activeIndicator) {
-                    activeIndicator.style.animationPlayState = 'running';
-                }
+                if (activeIndicator) activeIndicator.style.animationPlayState = 'running';
             }
         );
     </script>
@@ -238,7 +253,6 @@
             overflow: hidden;
         }
 
-        /* Conteneur d'image avec ratio 16:9 */
         .image-container {
             position: relative;
             width: 100%;
@@ -251,8 +265,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 50%;
+            height: 50%;
             object-fit: cover;
             object-position: center;
             transition: transform 0.5s ease;
@@ -266,7 +280,6 @@
             transform: scale(1.05);
         }
 
-        /* Overlay d'image */
         .image-overlay {
             position: absolute;
             top: 0;
@@ -307,7 +320,6 @@
             margin-bottom: 0;
         }
 
-        /* Indicateurs modernes */
         .carousel-indicators-container {
             position: absolute;
             bottom: 0;
@@ -362,7 +374,6 @@
             }
         }
 
-        /* Contrôles améliorés */
         .carousel-control-prev,
         .carousel-control-next {
             width: 60px;
@@ -411,7 +422,6 @@
             height: 24px;
         }
 
-        /* Bouton plein écran */
         .fullscreen-toggle {
             position: absolute;
             bottom: 20px;
@@ -440,7 +450,6 @@
             transform: scale(1.1);
         }
 
-        /* Animation entre les slides */
         .carousel-item {
             transition: transform 0.6s ease-in-out;
         }
@@ -460,7 +469,6 @@
             transform: translateX(-100%);
         }
 
-        /* Mode plein écran */
         .modern-carousel.fullscreen {
             position: fixed;
             top: 0;
@@ -480,7 +488,6 @@
             object-fit: contain;
         }
 
-        /* Styles supplémentaires pour la carte */
         .modern-card {
             border: none;
             border-radius: 15px;
@@ -543,7 +550,9 @@
             text-decoration: none;
         }
 
-        /* Responsive */
+        /* Responsive adjustments */
+
+
         @media (max-width: 768px) {
             .modern-carousel-container {
                 max-width: 100%;
@@ -582,6 +591,111 @@
             .detail-item {
                 font-size: 0.9rem;
             }
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .gallery-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        .image-wrapper:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        /* Image overlay */
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-wrapper:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .overlay-content {
+            color: white;
+            transform: translateY(20px);
+            transition: transform 0.3s ease 0.2s;
+        }
+
+        .image-wrapper:hover .overlay-content {
+            transform: translateY(0);
+        }
+
+        .overlay-content h5 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .overlay-content p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0;
+        }
+
+        /* Fullscreen button */
+        .fullscreen-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .image-wrapper:hover .fullscreen-toggle {
+            opacity: 1;
+        }
+
+        .fullscreen-toggle:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        /* Fullscreen mode */
+        .image-wrapper.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            border-radius: 0;
+            padding-top: 0;
         }
     </style>
 @endpush

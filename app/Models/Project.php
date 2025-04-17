@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Plan;
 use App\Enums\SizeEnums;
 use App\Enums\StatusEnums;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description','status', 'en_description','company','size', 'country', 'city', 'address', 'start_date', 'end_date', 'category_id'];
+    protected $fillable = ['fr_title', 'en_title', 'slug', 'fr_description','status', 'en_description','company','size', 'country', 'city', 'address', 'start_date', 'end_date', 'category_id','plan_id'];
 
     protected $casts = [
         'status' => StatusEnums::class,
@@ -73,6 +74,10 @@ class Project extends Model
     public function getFormattedEndDateAttribute()
     {
         return Carbon::parse($this->end_date)->locale(app()->getLocale())->isoFormat('LL');
+    }
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
     }
 
     public function getDurationAttribute()

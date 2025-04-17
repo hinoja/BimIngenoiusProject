@@ -76,15 +76,21 @@
                                                 </span>
                                             </div>
                                         </td>
-                                        <td>{{ $plan->published_at ?? 'N/A' }}</td>
+                                        <td> @if (!$plan->published_at)
+                                            <span class="badge bg-secondary">@lang('pending')</span>
+                                        @else
+                                            <span class="badge bg-success">
+                                                {{ $plan->published_at }}
+                                            </span>
+                                        @endif</td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
                                                 <a href="{{ route('admin.plans.show', $plan) }}" class="btn btn-sm btn-info" title="@lang('View Details')">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('admin.plans.edit', $plan) }}" class="btn btn-sm btn-primary" title="@lang('Edit')">
+                                                {{-- <a href="{{ route('admin.plans.edit', $plan) }}" class="btn btn-sm btn-primary" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
-                                                </a>
+                                                </a> --}}
                                                 <button wire:click="showPublishForm({{ $plan->id }})"
                                                     class="btn btn-sm {{ $plan->published_at ? 'btn-warning' : 'btn-success' }}"
                                                     title="{{ $plan->published_at ? __('Unpublish') : __('Publish') }}">
@@ -152,12 +158,16 @@
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="publishPlanModalLabel">
-                            {{ $plan->published_at ? __('Unpublish Plan') : __('Publish Plan') }}
+                            @if($plan->find($publishId)?->published_at)
+                                @lang('Unpublish Plan')
+                            @else
+                                @lang('Publish Plan')
+                            @endif
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @if ($plan && $plan->published_at)
+                        @if($plan->find($publishId)?->published_at)
                             @lang('Are you sure you want to unpublish the plan') <strong>{{ $fr_title }}</strong>?
                         @else
                             @lang('Are you sure you want to publish the plan') <strong>{{ $fr_title }}</strong>?
@@ -165,14 +175,19 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
-                        <button type="button" class="btn {{ $plan && $plan->published_at ? 'btn-warning' : 'btn-success' }}"
-                            wire:click="togglePublish" wire:loading.attr="disabled">
+                        <button type="button"
+                                class="btn {{ $plan->find($publishId)?->published_at ? 'btn-warning' : 'btn-success' }}"
+                                wire:click="togglePublish"
+                                wire:loading.attr="disabled">
                             <span wire:loading wire:target="togglePublish">
                                 <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Processing...')
                             </span>
                             <span wire:loading.remove wire:target="togglePublish">
-                                <i class="fas {{ $plan && $plan->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }} mr-1"></i>
-                                {{ $plan && $plan->published_at ? __('Unpublish') : __('Publish') }}
+                                @if($plan->find($publishId)?->published_at)
+                                    <i class="fas fa-ban mr-1"></i> @lang('Unpublish')
+                                @else
+                                    <i class="fas fa-check-circle mr-1"></i> @lang('Publish')
+                                @endif
                             </span>
                         </button>
                     </div>

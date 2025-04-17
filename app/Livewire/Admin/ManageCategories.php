@@ -19,6 +19,16 @@ class ManageCategories extends Component
     public $selectedCategoryId, $deleteId;
     public $selectedCategory;
     public $currentPage = 1;
+    public $searchTerm = ''; // Ajout de la variable de recherche
+
+    protected $queryString = [
+        'searchTerm' => ['except' => '']
+    ];
+
+    public function updatingSearchTerm()
+    {
+        $this->resetPage();
+    }
 
     public function closeModal()
     {
@@ -26,6 +36,10 @@ class ManageCategories extends Component
         $this->resetErrorBag();
         $this->resetValidation();
         $this->dispatch('closeModal');
+    }
+    public function updatingCurrentPage()
+    {
+        $this->resetPage();
     }
 
     public function showEditForm($id)
@@ -126,6 +140,7 @@ class ManageCategories extends Component
     {
         $category = Category::findOrFail($id);
         $this->deleteId = $category->id;
+        $this->fr_name = $category->fr_title;
         $this->dispatch('openDeleteModal');
     }
 
@@ -140,21 +155,37 @@ class ManageCategories extends Component
                 }
                 $category->delete();
                 session()->flash('success', __('Category deleted successfully!'));
-                $this->resetPage();
             } catch (\Exception $e) {
                 session()->flash('error', __('An error occurred while deleting the category: ') . $e->getMessage());
             }
+            return redirect()->route('admin.categories.index');
         } else {
             session()->flash('error', __('Category not found!'));
         }
 
         $this->closeModal();
     }
-
+    public function showDetails($id)
+    {
+        $this->selectedCategory = Category::findOrFail($id); 
+        $this->dispatch('openDetailsModal');
+    }
     public function render()
     {
+        $query = Category::query()->orderBy('created_at', 'desc');
+
+        if ($this->searchTerm) {
+            $query->where(function ($q) {
+                $q->where('fr_name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('en_name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('fr_description', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('en_description', 'like', '%' . $this->searchTerm . '%');
+            });
+        }
+
         return view('livewire.admin.manage-categories', [
-            'categories' => Category::orderBy('fr_name')->paginate(10, ['*'], 'page', $this->currentPage),
+            'categories' => $query->paginate(10)
         ]);
     }
 }
+

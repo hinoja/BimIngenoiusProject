@@ -86,7 +86,7 @@ class ManageProjets extends Component
 
         return view('livewire.admin.manage-projets', [
             'projects' => $query->paginate(7),
-            'categories' => Category::orderBy('name')->get(),
+            'categories' => Category::orderBy('created_at')->get(),
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),
         ]);

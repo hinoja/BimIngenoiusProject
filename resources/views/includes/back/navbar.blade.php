@@ -32,7 +32,7 @@
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 @if (auth()->user()->avatar)
-                    <img alt="image" src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                    <img alt="image" src="{{ auth()->user()->avatar }}"
                         class="rounded-circle mr-1" width="30" height="30">
                 @else
                     <img alt="image" src="{{ asset('assets/back/img/avatar/avatar-1.png') }}"

@@ -82,4 +82,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class);
     }
+
+
+    public function getAvatarAttribute($avatar)
+    {
+        return $avatar ? asset('storage/' . $avatar) : asset('assets/back/img/avatar/avatar-1.png');
+    }
 }

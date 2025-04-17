@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\Admin\{NewsAdminController, UsersController, ProjectController, PlanController};
+use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController};
 use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController, QuoteController};
 
 // Front routes
@@ -13,6 +13,7 @@ Route::name('front.')->group(function () {
         Route::get('/', 'home')->name('home');
         Route::get('/about', 'about')->name('about');
         Route::get('/contact', 'contact')->name('contact');
+        Route::get('/takekey', 'takekey')->name('takekey');
         Route::get('/quote', 'quote')->name('quote');
     });
 
@@ -95,10 +96,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::get('/create', 'create')->name('create');
             Route::get('/{news}', 'show')->name('show');
             Route::get('/{news}/edit', 'edit')->name('edit');
+            Route::post('/news', 'store')->name('store');
         });
     });
 
     //CATEGORIES ROUTES
-    Route::view('categories', 'admin.categories.index')->name('categories.index');
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::controller(CategoryController::class)->group(function () {
+            Route::get('categories', 'index')->name('index');
+            Route::post('categories', 'store')->name('store');
+        });
+    });
 });
 require __DIR__ . '/auth.php';

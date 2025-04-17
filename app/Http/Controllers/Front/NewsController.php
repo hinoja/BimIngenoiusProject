@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    
     public function index()
     {
         $news = News::latest()->paginate(5);

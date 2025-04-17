@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
 use App\Enums\SizeEnums;
 use App\Models\Category;
 use App\Enums\StatusEnums;
+use App\Models\Plan;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +22,7 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
+
         $frTitle = fake('fr_FR')->unique()->jobTitle();
         $enTitle = fake()->unique()->jobTitle();
 
@@ -27,7 +30,7 @@ class ProjectFactory extends Factory
         $endDate = fake()->dateTimeBetween($startDate, '+1 year');
 
         return [
-            'category_id' => fake()->randomElement(Category::pluck('id')->toArray()), 
+            'category_id' => fake()->randomElement(Category::pluck('id')->toArray()),
             'fr_title' => $frTitle,
             'en_title' => $enTitle,
             'slug' => Str::slug($enTitle),
@@ -40,6 +43,7 @@ class ProjectFactory extends Factory
             'size' => fake()->randomElement(SizeEnums::cases())->value,
             'start_date' => $startDate,
             'end_date' => $endDate,
+            'plan_id' => fake()->randomElement(Plan::pluck('id')->toArray()),
         ];
     }
 }

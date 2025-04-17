@@ -40,7 +40,7 @@
                             </a>
                             <h4><a href="{{ route('front.projects.show', $project) }}">{{ $project->title }}</a></h4>
                             <div class="cat-name">{{ $project->category->name }},
-                                {{-- <i>{{ $project->tags->first()->name }}</i> --}}
+                                <i>{{ $project->tags->first()->name }}</i>
                             </div>
                         </div>
                     </div>

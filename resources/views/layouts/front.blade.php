@@ -33,7 +33,8 @@
 	<link rel="stylesheet" href="{{ asset('assets/front/css/rev-settings.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.min.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/front/style.css') }}"/>
-	
+    <link rel="stylesheet" href="{{ asset('assets/back/modules/fontawesome/css/all.min.css') }}">
+
 	<link rel="stylesheet" id="fullcolor-css" href="#" type="text/css" media="all">
 
   @stack('css')
@@ -65,7 +66,7 @@
             <h1>@yield('subtitle')</h1>
           </div>
         </div>
-        
+
         <div class="breadcrumbs">
           <div class="container">
             <ul class="crumb">
@@ -83,7 +84,7 @@
         @yield('content')
 
       </div>
-    </div>		
+    </div>
   </div>
 
   <!-- Footer -->
@@ -91,7 +92,7 @@
 
   <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
-  <script type="text/javascript" src="{{ asset('assets/front/js/jquery.min.js') }}"></script> 
+  <script type="text/javascript" src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/owl.carousel.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/classie.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/front/js/custom-index.js') }}"></script>

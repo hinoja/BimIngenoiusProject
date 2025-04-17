@@ -14,7 +14,7 @@ class Plan extends Model
     use HasFactory,SoftDeletes;
 
     // MASS ASSIGNMENT
-    public $fillable =['fr_title', 'en_title', 'slug', 'fr_description', 'en_description', 'user_id', 'image', 'published_at'];
+    public $fillable =['fr_title', 'en_title', 'slug', 'fr_description', 'en_description', 'user_id', 'image', 'image2D','published_at'];
 
     public function getRouteKeyName()
     {
@@ -57,12 +57,16 @@ class Plan extends Model
     {
         return $this->getFormatedDateTime($updated_at);
     }
+    public function getPublishedAtAttribute($published_at)
+    {
+        return $this->getFormatedDateTime($published_at);
+    }
 
     function getFormatedDateTime($date)
     {
         $locale = app()->getLocale();
         Carbon::setLocale($locale);
-        $format = $locale === 'en' ? 'F d, Y, H:i' : 'd M Y, H:i';
+        $format = $locale === 'en' ? 'F d, Y' : 'd M Y ';
 
         return Carbon::parse($date)->translatedFormat($format);
     }

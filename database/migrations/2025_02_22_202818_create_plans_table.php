@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('fr_title')->unique();
             $table->string('en_title')->unique();
+            $table->string('image2D');
             $table->string('slug');
             $table->text('fr_description');
             $table->text('en_description');

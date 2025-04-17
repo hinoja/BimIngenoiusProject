@@ -18,12 +18,13 @@ return new class extends Migration
             $table->string('en_title')->unique();
             $table->string('slug');
             $table->text('fr_description');
-            $table->text('en_description'); 
+            $table->text('en_description');
             $table->string('country');
             $table->string('city');
             $table->string('address');
             $table->string('status');
             $table->string('size');
+            $table->foreignId('plan_id')->nullable()->constrained();
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

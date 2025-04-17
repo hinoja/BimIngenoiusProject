@@ -10,7 +10,8 @@
         <!-- Zone de filtre -->
         <div class="col-12 mb-3">
             <div class="card shadow-sm">
-                <div class="card-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                <div class="card-header"
+                    style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                     <h5 class="mb-0"><i class="fas fa-filter mr-2"></i>@lang('Filter Projects')</h5>
                 </div>
                 <div class="card-body">
@@ -18,7 +19,8 @@
                         <div class="col-md-3 mb-2">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                <input type="text" wire:model.live="filterTitle" class="form-control" placeholder="@lang('Title')">
+                                <input type="text" wire:model.live="filterTitle" class="form-control"
+                                    placeholder="@lang('Title')">
                             </div>
                         </div>
                         <div class="col-md-3 mb-2">
@@ -88,40 +90,49 @@
                                         <td>
                                             <div class="d-flex flex-column">
                                                 <span class="fw-bold">{{ $project->title }}</span>
-                                                <small class="text-muted">{{ Str::limit($project->description, 50) }}</small>
+                                                <small
+                                                    class="text-muted">{{ Str::limit($project->description, 50) }}</small>
                                             </div>
-                                        </td> 
+                                        </td>
                                         <td>{{ $project->category?->name ?? 'N/A' }}</td>
                                         <td>
-                                            <span class="badge {{ $project->status->value === 'completed' ? 'bg-success' : ($project->status->value === 'in_progress' ? 'bg-warning' : 'bg-secondary') }}">
+                                            <span
+                                                class="badge {{ $project->status->value === 'completed' ? 'bg-success' : ($project->status->value === 'in_progress' ? 'bg-warning' : 'bg-secondary') }}">
                                                 {{ __($project->status->value) }}
                                             </span>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center gap-2">
-                                                <span class="badge bg-info" data-bs-toggle="tooltip" title="@lang('Images')">
+                                                <span class="badge bg-info" data-bs-toggle="tooltip"
+                                                    title="@lang('Images')">
                                                     <i class="fas fa-image"></i> {{ $project->images->count() }}
                                                 </span>
-                                                <span class="badge bg-primary" data-bs-toggle="tooltip" title="@lang('Tags')">
+                                                <span class="badge bg-primary" data-bs-toggle="tooltip"
+                                                    title="@lang('Tags')">
                                                     <i class="fas fa-tags"></i> {{ $project->tags->count() }}
                                                 </span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column">
-                                                <small><strong>@lang('Start'):</strong> {{ $project->formatted_start_date ?? 'N/A' }}</small>
-                                                <small><strong>@lang('End'):</strong> {{ $project->formatted_end_date ?? 'N/A' }}</small>
+                                                <small><strong>@lang('Start'):</strong>
+                                                    {{ $project->formatted_start_date ?? 'N/A' }}</small>
+                                                <small><strong>@lang('End'):</strong>
+                                                    {{ $project->formatted_end_date ?? 'N/A' }}</small>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-sm btn-info" title="@lang('View Details')">
+                                                <a href="{{ route('admin.projects.show', $project) }}"
+                                                    class="btn btn-sm btn-info" title="@lang('View Details')">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-sm btn-primary" title="@lang('Edit')">
+                                                <a href="{{ route('admin.projects.edit', $project) }}"
+                                                    class="btn btn-sm btn-primary" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button wire:click="showDeleteForm({{ $project->id }})" class="btn btn-sm btn-danger" title="@lang('Delete')">
+                                                <button wire:click="showDeleteForm({{ $category->id }})"
+                                                    class="btn btn-sm btn-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -152,19 +163,24 @@
         </div>
 
         <!-- Modal pour la suppression -->
-        <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                    <div class="modal-header"
+                        style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="deleteProjectModalLabel">@lang('Delete Project')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @lang('Are you sure you want to delete the project') <strong>{{ $fr_title }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
-                        <button type="button" class="btn btn-danger" wire:click="destroyProject" wire:loading.attr="disabled">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-danger" wire:click="destroyProject"
+                            wire:loading.attr="disabled">
                             <span wire:loading wire:target="destroyProject">
                                 <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Deleting...')
                             </span>
@@ -178,12 +194,15 @@
         </div>
 
         <!-- Modal pour les détails (inchangé, inclus pour cohérence) -->
-        <div class="modal fade" id="detailsProjectModal" tabindex="-1" aria-labelledby="detailsProjectModalLabel" aria-hidden="true">
+        <div class="modal fade" id="detailsProjectModal" tabindex="-1" aria-labelledby="detailsProjectModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                    <div class="modal-header"
+                        style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="detailsProjectModalLabel">@lang('Project Details')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @if ($selectedProject)
@@ -194,27 +213,34 @@
                                         <div class="carousel-inner">
                                             @foreach ($selectedProject->images as $index => $image)
                                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                    <img src="{{ asset('storage/' . $image->name) }}" class="d-block w-100 rounded image-lightbox"
-                                                        style="max-height: 400px; object-fit: cover;" alt="@lang('Project Image')"
+                                                    <img src="{{ asset('storage/' . $image->name) }}"
+                                                        class="d-block w-100 rounded image-lightbox"
+                                                        style="max-height: 400px; object-fit: cover;"
+                                                        alt="@lang('Project Image')"
                                                         data-fullscreen="{{ asset('storage/' . $image->name) }}">
                                                 </div>
                                             @endforeach
                                         </div>
                                         <div class="carousel-indicators">
                                             @foreach ($selectedProject->images as $index => $image)
-                                                <button type="button" data-bs-target="#projectImagesCarousel" data-bs-slide-to="{{ $index }}"
-                                                    class="{{ $index === 0 ? 'active' : '' }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                                                <button type="button" data-bs-target="#projectImagesCarousel"
+                                                    data-bs-slide-to="{{ $index }}"
+                                                    class="{{ $index === 0 ? 'active' : '' }}"
+                                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                                                     aria-label="@lang('Slide') {{ $index + 1 }}">
-                                                    <img src="{{ asset('storage/' . $image->name) }}" class="d-block w-100 rounded"
+                                                    <img src="{{ asset('storage/' . $image->name) }}"
+                                                        class="d-block w-100 rounded"
                                                         style="max-height: 50px; object-fit: cover;">
                                                 </button>
                                             @endforeach
                                         </div>
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#projectImagesCarousel" data-bs-slide="prev">
+                                        <button class="carousel-control-prev" type="button"
+                                            data-bs-target="#projectImagesCarousel" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">@lang('Previous')</span>
                                         </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#projectImagesCarousel" data-bs-slide="next">
+                                        <button class="carousel-control-next" type="button"
+                                            data-bs-target="#projectImagesCarousel" data-bs-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">@lang('Next')</span>
                                         </button>
@@ -230,7 +256,8 @@
                         @endif
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Close')</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">@lang('Close')</button>
                     </div>
                 </div>
             </div>
@@ -260,8 +287,10 @@
             text-transform: none;
             vertical-align: middle;
             border-bottom: 2px solid #FF6B35;
-            white-space: nowrap; /* Empêche le retour à la ligne */
-            padding: 12px 8px; /* Compact mais lisible */
+            white-space: nowrap;
+            /* Empêche le retour à la ligne */
+            padding: 12px 8px;
+            /* Compact mais lisible */
         }
 
         .table tbody tr {

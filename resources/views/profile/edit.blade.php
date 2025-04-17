@@ -205,30 +205,31 @@
                         <h4>@lang('Edit Profile')</h4>
                     </div>
                     <div class="card-body">
-                        <!-- Section Avatar -->
-                        <div class="text-center mb-4">
-                            <div class="profile-picture-wrapper">
-                                <img id="profile-picture-preview"
-                                     src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('assets/back/img/avatar/avatar-1.png') }}"
-                                     alt="Profile Picture" class="profile-picture">
-                                <label class="profile-picture-input" for="avatar">
-                                    <i class="fas fa-camera"></i>
-                                    <input type="file" id="avatar" name="avatar" accept="image/*">
-                                </label>
-                            </div>
-                        </div>
-
                         <!-- Formulaire de mise à jour du profil -->
                         <form id="profile-form" method="POST" action="{{ route('profile.update') }}"
-                              enctype="multipart/form-data">
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
+                            <!-- Section Avatar -->
+                            <div class="text-center mb-4">
+                                <div class="profile-picture-wrapper">
+                                    <img id="profile-picture-preview"
+                                        src="{{ $user->avatar  }}"
+                                        alt="Profile Picture" class="profile-picture">
+                                    <label class="profile-picture-input" for="avatar">
+                                        <i class="fas fa-camera"></i>
+                                        <input type="file" id="avatar" name="avatar" accept="image/*">
+                                    </label>
+                                </div>
+                            </div>
+
+
 
                             <!-- Nom -->
                             <div class="form-group">
                                 <label for="name">@lang('Name')</label>
                                 <input type="text" name="name" id="name" class="form-control"
-                                       value="{{ old('name', $user->name) }}">
+                                    value="{{ old('name', $user->name) }}">
                                 @error('name')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -238,7 +239,7 @@
                             <div class="form-group">
                                 <label for="email">@lang('Email')</label>
                                 <input type="email" name="email" id="email" class="form-control"
-                                       value="{{ old('email', $user->email) }}">
+                                    value="{{ old('email', $user->email) }}">
                                 @error('email')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -264,7 +265,7 @@
                             <div class="form-group password-wrapper">
                                 <label for="current_password">@lang('Current Password')</label>
                                 <input type="password" name="current_password" id="current_password" class="form-control"
-                                       required>
+                                    required>
                                 <i class="fas fa-eye password-toggle" data-target="current_password"></i>
                                 @error('current_password')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -285,7 +286,7 @@
                             <div class="form-group password-wrapper">
                                 <label for="new_password_confirmation">@lang('Confirm New Password')</label>
                                 <input type="password" name="new_password_confirmation" id="new_password_confirmation"
-                                       class="form-control" required>
+                                    class="form-control" required>
                                 <i class="fas fa-eye password-toggle" data-target="new_password_confirmation"></i>
                             </div>
 
@@ -304,7 +305,8 @@
 
                             <div class="form-group password-wrapper">
                                 <label for="delete_password">@lang('Confirm Password to Delete')</label>
-                                <input type="password" name="delete_password" id="delete_password" class="form-control" required>
+                                <input type="password" name="delete_password" id="delete_password" class="form-control"
+                                    required>
                                 <i class="fas fa-eye password-toggle" data-target="delete_password"></i>
                                 @error('delete_password')
                                     <span class="invalid-feedback">{{ $message }}</span>
