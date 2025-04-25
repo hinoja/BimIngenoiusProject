@@ -31,7 +31,8 @@
                         <li><a href="{{ route('front.turnkey') }}" class="{{ Str::contains($currentRouteName, 'turnkey') ? 'active' : '' }}">@lang('Turnkey offer')</a></li>
                     </ul>
                 </li>
-
+                
+                <li><a href="{{ route('front.categories.index') }}" class="{{ Str::contains($currentRouteName, 'categories') ? 'active' : '' }}">@lang('Our domains')</a></li>
 
                 <li><a href="{{ route('front.projects.index') }}" class="{{ Str::contains($currentRouteName, 'projects') ? 'active' : '' }}">@lang('Projects')</a></li>
                 <li><a href="{{ route('front.plans.index') }}" class="{{ Str::contains($currentRouteName, 'plans') ? 'active' : '' }}">@lang('Plans')</a></li>

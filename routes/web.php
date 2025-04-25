@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController};
-use App\Http\Controllers\Front\{PagesController, ProjectsController, PlansController, NewsController, QuoteController};
+use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController};
 
 // Front routes
 Route::name('front.')->group(function () {
@@ -33,6 +33,12 @@ Route::name('front.')->group(function () {
     Route::controller(PlansController::class)->prefix('plans')->name('plans.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{plan}', 'show')->name('show');
+    });
+
+    // Categories/Domains routes
+    Route::controller(CategoriesController::class)->prefix('our-domains')->name('categories.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{category}', 'show')->name('show');
     });
 
     // Quote
