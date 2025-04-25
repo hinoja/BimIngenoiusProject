@@ -71,7 +71,7 @@
           <div class="container">
             <ul class="crumb">
               <li><a href="{{ route('front.home') }}"><i class="fa fa-home"></i> @lang('Home')</a></li> <span>/</span>
-              @if (Str::doesntContain($currentRouteName, 'index') && Str::doesntContain($currentRouteName, 'quote'))
+              @if (Str::contains($currentRouteName, ['show']))
                 <li><a href="@yield('previousUrl')">@yield('previousTitle')</a></li> <span>/</span>
               @endif
               <li class="active"> @yield('subtitle')</li>

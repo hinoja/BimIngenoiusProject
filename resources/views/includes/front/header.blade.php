@@ -8,7 +8,7 @@
         <h1 class="logo">
             <a href="{{ route('front.home') }}"><img src="{{ asset('assets/front/images/logos/main-logo.png')}}" alt="{{ config('app.name') }}"></a>
         </h1>
-        <div class="top-info">
+        {{-- <div class="top-info">
             <p><span>@lang('Free Call:')</span> (+1)-96-716-6879</p>
             <p class="e-mail"><span>@lang('Email:')</span> <a href="#">contact@site.com</a></p>
             <div class="socials">
@@ -18,18 +18,17 @@
                 <a href="#"><i class="fa fa-linkedin"></i></a>
                 <a href="#"><i class="fa fa-instagram"></i></a>
             </div>
-        </div>
+        </div> --}}
         <button class="btn-toggle"><i class="fa fa-reorder"></i></button>
         <nav class="nav">
             <ul class="main-menu">
                 <li><a href="{{ route('front.home') }}" class="{{ Str::contains($currentRouteName, 'home') ? 'active' : '' }}">@lang('Home')</a></li>
-                {{-- <li><a href="{{ route('front.about') }}" class="{{ Str::contains($currentRouteName, 'about') ? 'active' : '' }}">@lang('About')</a></li> --}}
                 <li class="menu-item-has-children">
                     <div class="arrow-parent"><i class="fa fa-angle-down"></i></div>
-                    <a href="#" class="{{ (Str::contains($currentRouteName, 'about') || Str::contains($currentRouteName, 'about')) ? 'active' : '' }}">@lang('Infos')</a>
+                    <a href="#" class="{{ (Str::contains($currentRouteName, 'about') || Str::contains($currentRouteName, 'about')) ? 'active' : '' }}">@lang('Who are we?')</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{  route('front.about') }}" class="{{ Str::contains($currentRouteName, 'about') ? 'active' : '' }}">@lang('about')</a></li>
-                        <li><a href="{{ route('front.takekey') }}" class="{{ Str::contains($currentRouteName, 'key') ? 'active' : '' }}">@lang('Our turnkey offer')</a></li>
+                        <li><a href="{{  route('front.about') }}" class="{{ Str::contains($currentRouteName, 'about') ? 'active' : '' }}">@lang('About')</a></li>
+                        <li><a href="{{ route('front.turnkey') }}" class="{{ Str::contains($currentRouteName, 'turnkey') ? 'active' : '' }}">@lang('Turnkey offer')</a></li>
                     </ul>
                 </li>
 

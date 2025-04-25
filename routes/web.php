@@ -13,7 +13,7 @@ Route::name('front.')->group(function () {
         Route::get('/', 'home')->name('home');
         Route::get('/about', 'about')->name('about');
         Route::get('/contact', 'contact')->name('contact');
-        Route::get('/takekey', 'takekey')->name('takekey');
+        Route::get('/turnkey-offer', 'turnkey')->name('turnkey');
         Route::get('/quote', 'quote')->name('quote');
     });
 

@@ -31,7 +31,7 @@
                         <p><i class="fa fa-home"></i> 379 5th Ave  New York, NYC 10018</p>
                         <p><i class="fa fa-phone"></i> (+1) 96 716 6879</p>
                         <p><i class="fa fa-fax"></i> (+1) 96 716 6879</p>
-                        <p><i class="fa fa-envelope-o"></i> contact@site.com</p>
+                        <p><i class="fa fa-envelope"></i> contact@site.com</p>
                         <p><i class="fa fa-clock-o"></i> Mon-Fri 09:00 - 17:00 Mon-Fri</p>
                     </div>
                 </div>

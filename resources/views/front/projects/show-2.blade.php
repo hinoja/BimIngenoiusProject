@@ -15,7 +15,6 @@
                     <div class="project-info">
                         <h4>PROJECT DETAILS</h4>
                         <p><strong>@lang('Category:')</strong> {{ $project->category?->name }}</p>
-                        <p><strong>@lang('Company:')</strong> {{ $project->company }}</p>
                         <p><strong>@lang('Address:')</strong> {{ $project->country }}, {{ $project->city }}</p>
                         <p><strong>@lang('Size:')</strong> {{ $project->size->label() }}</p>
                         <p><strong>@lang('Duration:')</strong> {{ $project->duration }}</p>
