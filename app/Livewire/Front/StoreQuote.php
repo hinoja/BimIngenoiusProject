@@ -82,7 +82,7 @@ class StoreQuote extends Component
 
         Notification::send([$customer, User::query()->firstWhere('role_id', 1)], new NewQuoteNotification($quote));
 
-        session()->flash('success', __('Your quote has been submitted successfully! You will receive an email as soon as possible.'));
+        session()->flash('success', __('Your quote has been submitted successfully! You will receive a confirmation email shortly.'));
 
         $this->redirectRoute('front.quote.form');
     }

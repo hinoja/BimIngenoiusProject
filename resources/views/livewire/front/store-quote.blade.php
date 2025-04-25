@@ -153,6 +153,14 @@
             </div>
         </div>
 
+        @if ($errors->any())
+            <div class="col-md-12">
+                <div class="alert alert-danger text-center">
+                    <strong>@lang('There was a problem sending the form. Check the form for errors and try again.')</strong>
+                </div>
+            </div>
+        @endif
+
         <div class="col-md-12">
             <div class="text-right mt-4">
                 <button wire:click.prevent="store" wire:loading.remove class="ot-btn btn-color" type="submit">@lang('Submit Quote')</button>
