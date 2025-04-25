@@ -12,6 +12,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\Front\StoreQuoteRequest;
 use App\Notifications\Front\NewQuoteNotification;
+use Illuminate\Support\Arr;
 
 class StoreQuote extends Component
 {
@@ -53,38 +54,45 @@ class StoreQuote extends Component
     {
         $validatedData = $this->validate();
 
-        $customer = Customer::query()->firstOrCreate(
-            ['email' => $validatedData['email']],
-            [
-                'civility' => $validatedData['civility'],
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'phone' => $validatedData['phone'],
-                'zip_code' => $validatedData['zip_code'],
-                'city' => $validatedData['city'],
-            ]
-        );
-
-        $quote = $customer->quotes()->create([
-            'title' => $validatedData['title'],
-            'details' => $validatedData['details'],
-            'budget' => $validatedData['budget'],
-            'currency' => $validatedData['currency'],
-            'project_city' => $validatedData['project_city'],
-            'category_id' => $validatedData['category'],
-            'file' => $validatedData['file'] ?? null,
-        ]);
+        $customer = $this->createOrUpdateCustomer($validatedData);
+        $quote = $this->createQuote($customer, $validatedData);
 
         if ($this->file) {
-            $filename = Str::slug($quote->title) . '.' . $this->file->getClientOriginalExtension();
-            $validatedData['file'] = $this->file->storeAs('quotes/', $filename, 'public');
+            $this->handleFileUpload($quote);
         }
 
-        Notification::send([$customer, User::query()->firstWhere('role_id', 1)], new NewQuoteNotification($quote));
+        $this->sendNotifications($customer, $quote);
 
         session()->flash('success', __('Your quote has been submitted successfully! You will receive a confirmation email shortly.'));
 
         $this->redirectRoute('front.quote.form');
+    }
+
+    private function createOrUpdateCustomer(array $data): Customer
+    {
+        return Customer::query()->firstOrCreate(
+            ['email' => $data['email']],
+            array_intersect_key($data, array_flip(['civility', 'first_name', 'last_name', 'phone', 'zip_code', 'city']))
+        );
+    }
+
+    private function createQuote(Customer $customer, array $data): Quote
+    {
+        return $customer->quotes()->create(
+            Arr::add(array_intersect_key($data, array_flip(['title', 'details', 'budget', 'currency', 'project_city', 'file'])), 'category_id', $data['category'])
+        );
+    }
+
+    private function handleFileUpload(Quote $quote): void
+    {
+        $filename = Str::slug($quote->title) . '.' . $this->file->getClientOriginalExtension();
+        $quote->update(['file' => $this->file->storeAs('quotes/', $filename, 'public')]);
+    }
+
+    private function sendNotifications(Customer $customer, Quote $quote): void
+    {
+        $admin = User::query()->firstWhere('role_id', 1);
+        Notification::send([$customer, $admin], new NewQuoteNotification($quote));
     }
 
     public function render()

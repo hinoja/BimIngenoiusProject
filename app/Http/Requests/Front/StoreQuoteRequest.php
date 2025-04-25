@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Front;
 
+use Closure;
 use App\Models\Quote;
 use App\Models\Customer;
 use Illuminate\Validation\Rule;
@@ -30,12 +31,7 @@ class StoreQuoteRequest extends FormRequest
             'civility' => 'required|in:' . implode(',', array_keys(Quote::CIVILITY)),
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('customers', 'email'),
-            ],
+            'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
             'zip_code' => 'required|string|max:10',
             'city' => 'required|string|max:255',
@@ -46,7 +42,7 @@ class StoreQuoteRequest extends FormRequest
             // 'project_department' => 'required|string|max:255',
             'project_city' => 'required|string|max:255',
             'category' => 'required|exists:categories,id',
-            'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,png|max:2048',
         ];
     }
 }

@@ -146,7 +146,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label class="labelled" for="file">@lang('Upload File')</label>
-                <input id="file" wire:model.defer="file" type="file" class="form-control">
+                <input id="file" wire:model.defer="file" type="file" accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx" class="form-control">
                 @error('file')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
