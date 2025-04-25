@@ -41,7 +41,8 @@
                         </div>
                         <div class="post-content">
                             <h4>{{ $news->title }}</h4>
-                            <p class="text-justify" style="line-height: 30px;">{{ $news->content }}</p>
+                            {{-- <p class="text-justify" style="line-height: 30px;">{{ $news->content }}</p> --}}
+                            {!! $news->content !!}
                         </div>
                         <div class="post-footer">
                             <div class="tag-post">

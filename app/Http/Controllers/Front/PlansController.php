@@ -11,6 +11,7 @@ class PlansController extends Controller
     {
         $plans = Plan::query()
             ->latest()
+            ->published()
             ->with('images:id,name')
             ->paginate(9);
 

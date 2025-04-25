@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -73,5 +74,13 @@ class News extends Model
         $format = $locale === 'en' ? 'F d, Y ' : 'd M Y ';
 
         return Carbon::parse($date)->translatedFormat($format);
+    }
+
+     /**
+     * Scope a query to only include published News.
+     */
+    public function scopePublished(Builder $query): void
+    {
+        $query->whereNot('published_at', '=', null);
     }
 }
