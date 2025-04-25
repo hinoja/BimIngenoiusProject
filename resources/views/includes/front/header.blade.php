@@ -40,8 +40,6 @@
                     <a href="#" class="{{ (Str::contains($currentRouteName, 'news') || Str::contains($currentRouteName, 'contact')) ? 'active' : '' }}">@lang('Infos')</a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('front.news.index') }}" class="{{ Str::contains($currentRouteName, 'news') ? 'active' : '' }}">@lang('News')</a></li>
-                        <li><a href="{{ route('front.contact') }}" class="{{ Str::contains($currentRouteName, 'key') ? 'active' : '' }}">@lang('Our turnkey offer')</a></li>
-
                         <li><a href="{{ route('front.contact') }}" class="{{ Str::contains($currentRouteName, 'contact') ? 'active' : '' }}">@lang('Contact')</a></li>
                     </ul>
                 </li>

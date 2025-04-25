@@ -24,19 +24,22 @@ class Category extends Model
     {
         return $this->{app()->getLocale() . '_name'};
     }
+
     public function getDescriptionAttribute()
     {
         return $this->{app()->getLocale() . '_description'};
     }
+    
     public function getRouteKeyName()
     {
         return 'slug';
     }
+    
     public function getImageAttribute($image)
     {
         return $image ? asset('storage/' . $image) : asset('assets/defaults/categories/client' . rand(1, 8) . '.png');
     }
-
+    
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;

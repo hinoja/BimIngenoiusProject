@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Http\Controllers\Controller;
+use App\Models\News;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PagesController extends Controller
 {
     public function home() {
-        return view('front.pages.home');
+        return view('front.pages.home', [
+            'projects' => Project::query()->latest()->with(['category:id,en_name,fr_name'])->take(8)->get(),
+            'news' => News::query()->latest()->published()->take(5)->get(),
+        ]);
     }
 
     public function about() {

@@ -274,9 +274,7 @@
     "Enter your last name": "Entrez votre nom",
     "Phone": "Téléphone",
     "Enter your phone number": "Entrez votre numéro de téléphone",
-    "Email": "Email",
     "Enter your email": "Entrez votre email",
-    "City": "Ville",
     "Enter your city": "Entrez votre ville",
     "Zip Code": "Code postal",
     "Enter your zip code": "Entrez votre code postal",
@@ -332,6 +330,8 @@
     "Daily project management": "Gestion quotidienne du projet",
     "Insurance": "Assurance",
     "Highly effective coverage included as standard in our projects": "Couverture très efficace incluse par défaut dans nos projets",
+    "No news published yet.": "Aucune actualité publiée pour le moment.",
+    "No news project yet.": "Aucun projet publié pour le moment.",
     
     "Already registered?": "Déjà inscrit(e) ?",
     "A new verification link has been sent to the email address you provided during registration.": "Un nouveau lien de vérification a été envoyé à l'adresse email que vous avez indiquée lors de votre inscription.",
