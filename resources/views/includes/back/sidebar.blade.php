@@ -37,21 +37,24 @@
                 @endif
             @endauth
 
+            <li class="menu-header">@lang('Content Management')</li>
 
-
-            <li class="@if (Str::contains($currentUri, 'project')) active @endif">
+            <li class="@if (Str::contains($currentUri, 'projects')) active @endif">
                 <a class="nav-link" href="{{ route('admin.projects.index') }}"><i class="fas fa-project-diagram"></i>
                     <span>@lang('Projects')</span></a>
             </li>
-            <li class="@if (Str::contains($currentUri, 'plan')) active @endif">
-                <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>
-                    <span>@lang('Plans')</span></a>
-            </li>
-            <li class="@if (Str::contains($currentUri, 'catego')) active @endif">
-                <a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-tags"></i>
+
+            <li class="@if (Str::contains($currentUri, 'categories')) active @endif">
+                <a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-th-large"></i>
                     <span>@lang('Categories')</span></a>
             </li>
-            <li class="@if (Str::contains($currentUri, 'contact')) active @endif">
+
+            <li class="@if (Str::contains($currentUri, 'tags')) active @endif">
+                <a class="nav-link" href="{{ route('admin.tags.index') }}"><i class="fas fa-tags"></i>
+                    <span>@lang('Tags')</span></a>
+            </li>
+
+            <li class="@if (Str::contains($currentUri, 'contacts')) active @endif">
                 <a class="nav-link" href="{{ route('admin.contacts.index') }}"><i class="fas fa-envelope"></i>
                     <span>@lang('Messages')</span></a>
             </li>
@@ -68,3 +71,5 @@
         </ul>
     </aside>
 </div>
+
+

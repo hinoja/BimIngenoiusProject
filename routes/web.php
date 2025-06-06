@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController};
+use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController, TagController};
 use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController};
 
 // Front routes
@@ -113,5 +113,20 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::post('categories', 'store')->name('store');
         });
     });
+
+    // Routes pour les tags
+    Route::prefix('tags')->name('tags.')->controller(TagController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::delete('/{tag}', 'destroy')->name('destroy');
+    });
+
+
 });
+
+
+
 require __DIR__ . '/auth.php';
+
+
+

@@ -36,7 +36,7 @@ class CategoryController extends Controller
             'fr_description' => ['required', 'string'],
             'en_description' => ['required', 'string'],
             'image' => ['required', 'max:2048', 'mimes:png,jpg,png,jpeg'],
-        ]); 
+        ]);
         try {
             $imagePath = null;
             if ($request->hasFile('image')) {
