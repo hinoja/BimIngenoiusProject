@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController, TagController};
-use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController};
+use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController, TagController, QuoteController};
+use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController as FrontQuoteController};
 
 // Front routes
 Route::name('front.')->group(function () {
@@ -42,7 +42,8 @@ Route::name('front.')->group(function () {
     });
 
     // Quote
-    Route::get('/request-quote', QuoteController::class)->name('quote.form');
+    Route::get('/request-quote', [FrontQuoteController::class, 'showForm'])->name('quote.form');
+    Route::post('/request-quote', [FrontQuoteController::class, 'submitForm'])->name('quote.submit');
 });
 
 Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
@@ -121,12 +122,39 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::delete('/{tag}', 'destroy')->name('destroy');
     });
 
-
+    // Routes pour les devis (quotes)
+    Route::prefix('quotes')->name('quotes.')->group(function () {
+        Route::view('/', 'admin.quotes.index')->name('index');
+        Route::view('/create', 'admin.quotes.create')->name('create');
+        Route::controller(QuoteController::class)->group(function () {
+            Route::get('/{quote}', 'show')->name('show');
+            Route::get('/{quote}/edit', 'edit')->name('edit');
+            Route::get('/categories', 'categories')->name('categories');
+            Route::post('/categories', 'storeCategory')->name('categories.store');
+            Route::delete('/categories/{category}', 'destroyCategory')->name('categories.destroy');
+        });
+    });
 });
 
+// Routes pour la gestion des devis (admin)
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/quotes', function() {
+        return view('admin.quotes.index');
+    })->name('quotes.index');
 
+    Route::get('/quotes/{quote}', function(App\Models\Quote $quote) {
+        return view('admin.quotes.show', compact('quote'));
+    })->name('quotes.show');
+
+    Route::get('/quotes/{quote}/edit', function(App\Models\Quote $quote) {
+        return view('admin.quotes.edit', compact('quote'));
+    })->name('quotes.edit');
+});
 
 require __DIR__ . '/auth.php';
+
+
+
 
 
 

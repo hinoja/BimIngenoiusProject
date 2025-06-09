@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Quote extends Model
 {
     /** @use HasFactory<\Database\Factories\QuoteFactory> */
     use HasFactory;
+
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +28,7 @@ class Quote extends Model
         'file',
     ];
 
-    CONST CIVILITY = [
+    const CIVILITY = [
         'Mrs' => 'Mrs',
         'Mr' => 'Mr',
     ];
@@ -39,8 +41,23 @@ class Quote extends Model
         return $this->belongsTo(Customer::class);
     }
 
+
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getDateAttribute($date)
+    {
+        return $this->getFormatedDateTime($date);
+    }
+
+    function getFormatedDateTime($date)
+    {
+        $locale = app()->getLocale();
+        Carbon::setLocale($locale);
+        $format = $locale === 'en' ? 'F d, Y' : 'd M Y ';
+
+        return Carbon::parse($date)->translatedFormat($format);
     }
 }
