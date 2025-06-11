@@ -5,7 +5,7 @@
 @section('title', __('Manage Quotes'))
 @section('content')
 
-    <x-admin.section-header :title="__('Quotes list')" :previousTitle="__('Dashboard')" :previousRouteName="route('admin.users.index')" />
+    <x-admin.section-header :title="__('Quotation list')" :previousTitle="__('Dashboard')" :previousRouteName="route('admin.users.index')" />
 
     <div class="section-body">
         <div class="row">
@@ -16,4 +16,4 @@
     </div>
 @endsection
 
- 
+

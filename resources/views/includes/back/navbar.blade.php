@@ -15,22 +15,27 @@
     </form>
     <ul class="navbar-nav navbar-right">
         <li class="nav-item dropdown d-flex align-items-center">
-            <a class="nav-link dropdown-toggle px-2" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center;">
-            <img src="{{ asset('assets/back/img/flags/' . app()->getLocale() . '.svg') }}" alt="{{ strtoupper(app()->getLocale()) }}" width="22" height="16" class="mr-1" style="border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-            <span style="font-weight: 500;">{{ strtoupper(app()->getLocale()) }}</span>
+            <a class="nav-link dropdown-toggle px-2" href="#" id="langDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                style="display: flex; align-items: center;">
+                <img src="{{ asset('assets/back/img/flags/' . app()->getLocale() . '.svg') }}"
+                    alt="{{ strtoupper(app()->getLocale()) }}" width="22" height="16" class="mr-1"
+                    style="border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                <span style="font-weight: 500;">{{ strtoupper(app()->getLocale()) }}</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 animate__animated animate__fadeIn" aria-labelledby="langDropdown" style="min-width: 110px;">
-            <a class="dropdown-item d-flex align-items-center{{ app()->getLocale() === 'fr' ? ' active' : '' }}" href="{{ route('lang.switch', 'fr') }}">
-                <img src="{{ asset('assets/back/img/flags/fr.svg') }}" alt="FR" width="22" height="16" class="mr-2" style="border-radius: 3px;">
-                Français
-            </a>
-            <a class="dropdown-item d-flex align-items-center{{ app()->getLocale() === 'en' ? ' active' : '' }}" href="{{ route('lang.switch', 'en') }}">
-                <img src="{{ asset('assets/back/img/flags/en.svg') }}" alt="EN" width="22" height="16" class="mr-2" style="border-radius: 3px;">
-                English
-            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 animate__animated animate__fadeIn"
+                aria-labelledby="langDropdown" style="min-width: 110px;">
+                <a class="dropdown-item d-flex align-items-center{{ app()->getLocale() === 'fr' ? ' active' : '' }}"
+                    href="{{ route('lang.switch', 'fr') }}">
+                    <i class="fas fa-flag mr-1"></i> Français
+                </a>
+                <a class="dropdown-item d-flex align-items-center{{ app()->getLocale() === 'en' ? ' active' : '' }}"
+                    href="{{ route('lang.switch', 'en') }}">
+                    <i class="fas fa-flag-usa mr-1"></i> English
+                </a>
             </div>
         </li>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 @if (auth()->user()->avatar)
@@ -52,7 +57,8 @@
                 <div class="dropdown-divider"></div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="dropdown-item has-icon text-danger" style="background: none; border: none; padding: 0; width: 100%; text-align: left;">
+                    <button type="submit" class="dropdown-item has-icon text-danger"
+                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;">
                         <i class="fas fa-sign-out-alt"></i> @lang('Log Out')
                     </button>
                 </form>

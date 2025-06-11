@@ -7,6 +7,8 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Authenticatable
 {
@@ -82,10 +84,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class);
     }
-
-
-    public function getAvatarAttribute($avatar)
+/**
+     * Check if disabled account can login
+     *
+     * @return bool
+     * 
+     */
+    public function canLogin() : bool
     {
-        return $avatar ? asset('storage/' . $avatar) : asset('assets/back/img/avatar/avatar-1.png');
+        return $this->is_active || (! $this->is_active && $this->disabled_by === $this->id);
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
+            return Storage::url($this->avatar);
+        }
+            return asset('assets/front/images/avatar1.png');
+     
     }
 }
