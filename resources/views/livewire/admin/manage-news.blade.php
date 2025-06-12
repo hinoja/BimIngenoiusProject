@@ -105,7 +105,7 @@
                                                     title="{{ $news->published_at ? __('Unpublish') : __('Publish') }}">
                                                     <i
                                                         class="fas {{ $news->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }}"></i>
-                                                 
+
                                                 </button>
                                                 <button wire:click="showDeleteForm({{ $news->id }})"
                                                     class="btn btn-sm btn-danger" title="@lang('Delete')">
@@ -147,15 +147,15 @@
                     <div class="modal-header"
                         style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="deleteNewsModalLabel">@lang('Delete News')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         @lang('Are you sure you want to delete the news') <strong>{{ $fr_title ?? 'N/A' }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal" wire:click="closeModal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            wire:click="closeModal">@lang('Cancel')</button>
                         <button type="button" class="btn btn-danger" wire:click="destroyNews"
                             wire:loading.attr="disabled">
                             <span wire:loading wire:target="destroyNews">
@@ -180,8 +180,8 @@
                         <h5 class="modal-title" id="publishNewsModalLabel">
                             {{ $newsItems->find($publishId)?->published_at ? __('Unpublish News') : __('Publish News') }}
                         </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         {{ $newsItems->find($publishId)?->published_at
@@ -190,8 +190,8 @@
                         <strong>{{ $fr_title ?? 'N/A' }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal" wire:click="closeModal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            wire:click="closeModal">@lang('Cancel')</button>
                         <button type="button"
                             class="btn {{ $newsItems->find($publishId)?->published_at ? 'btn-warning' : 'btn-success' }}"
                             wire:click="togglePublish" wire:loading.attr="disabled">
@@ -199,7 +199,8 @@
                                 <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Processing...')
                             </span>
                             <span wire:loading.remove wire:target="togglePublish">
-                                <i class="fas {{ $newsItems->find($publishId)?->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }} mr-1"></i>
+                                <i
+                                    class="fas {{ $newsItems->find($publishId)?->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }} mr-1"></i>
                                 {{ $newsItems->find($publishId)?->published_at ? __('Unpublish') : __('Publish') }}
                             </span>
                         </button>

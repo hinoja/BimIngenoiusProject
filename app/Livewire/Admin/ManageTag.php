@@ -54,6 +54,8 @@ class ManageTag extends Component
     public function closeModal()
     {
         $this->resetInputs();
+        $this->reset();
+
         $this->dispatch('closeModal');
     }
 
@@ -126,7 +128,7 @@ class ManageTag extends Component
             $tag->delete();
 
             session()->flash('success', __('Tag deleted successfully!'));
-            $this->closeModal();
+            // $this->closeModal();
             return redirect()->route('admin.tags.index');
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred: ') . $e->getMessage());

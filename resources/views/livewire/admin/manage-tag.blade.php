@@ -28,7 +28,8 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white border-top py-3">
-                        <button type="submit" class="btn btn-primary btn-block" wire:loading.attr="disabled" wire:target="addTag">
+                        <button type="submit" class="btn btn-primary btn-block" wire:loading.attr="disabled"
+                            wire:target="addTag">
                             <span wire:loading.remove wire:target="addTag">@lang('Add')</span>
                             <span wire:loading wire:target="addTag">@lang('Processing...')</span>
                         </button>
@@ -56,7 +57,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th>@lang('Name')</th> 
+                                    <th>@lang('Name')</th>
                                     <th class="text-center">@lang('Actions')</th>
                                 </tr>
                             </thead>
@@ -95,7 +96,8 @@
     </div>
 
     <!-- Edit Modal -->
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog"
+        aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -108,21 +110,24 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="editFrName">@lang('French Tag Name')</label>
-                            <input type="text" wire:model="editFrName" class="form-control @error('editFrName') is-invalid @enderror" id="editFrName">
+                            <input type="text" wire:model="editFrName"
+                                class="form-control @error('editFrName') is-invalid @enderror" id="editFrName">
                             @error('editFrName')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group mt-3">
                             <label for="editEnName">@lang('English Tag Name')</label>
-                            <input type="text" wire:model="editEnName" class="form-control @error('editEnName') is-invalid @enderror" id="editEnName">
+                            <input type="text" wire:model="editEnName"
+                                class="form-control @error('editEnName') is-invalid @enderror" id="editEnName">
                             @error('editEnName')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            wire:click="closeModal">@lang('Cancel')</button>
                         <button type="submit" class="btn btn-primary">
                             <span wire:loading.remove wire:target="updateTag">@lang('Update')</span>
                             <span wire:loading wire:target="updateTag">@lang('Processing...')</span>
@@ -134,7 +139,9 @@
     </div>
 
     <!-- Delete Modal -->
-    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true"
+        wire:ignore.self>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,11 +153,24 @@
                 <div class="modal-body">
                     <p>@lang('Are you sure you want to delete this tag? This action cannot be undone.')</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="closeModal">@lang('Cancel')</button>
+                {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        wire:click="closeModal()">@lang('Cancel')</button>
                     <button type="button" class="btn btn-danger" wire:click="deleteTag">
                         <span wire:loading.remove wire:target="deleteTag">@lang('Delete')</span>
                         <span wire:loading wire:target="deleteTag">@lang('Processing...')</span>
+                    </button>
+                </div> --}}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        wire:click="closeModal">@lang('Cancel')</button>
+                    <button type="button" class="btn btn-danger" wire:click="deleteTag"    wire:loading.attr="disabled">
+                        <span wire:loading wire:target="deleteTag">
+                            <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Deleting...')
+                        </span>
+                        <span wire:loading.remove wire:target="deleteTag">
+                            <i class="fas fa-trash mr-1"></i> @lang('Delete')
+                        </span>
                     </button>
                 </div>
             </div>
@@ -159,25 +179,25 @@
 </div>
 
 @push('js')
-<script>
-    document.addEventListener('livewire:init', () => {
-        Livewire.on('openEditModal', () => {
-            new bootstrap.Modal(document.getElementById('editModal')).show();
-        });
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('openEditModal', () => {
+                $('#editModal').modal('show');
+            });
 
-        Livewire.on('openDeleteModal', () => {
-            new bootstrap.Modal(document.getElementById('deleteModal')).show();
-        });
+            Livewire.on('openDeleteModal', () => {
+                $('#deleteModal').modal('show');
 
-        Livewire.on('closeModal', () => {
-            ['editModal', 'deleteModal'].forEach(modalId => {
-                const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
-                if (modal) modal.hide();
+            });
+
+            Livewire.on('closeModal', () => {
+                ['editModal', 'deleteModal'].forEach(modalId => {
+
+                    $('#editModal').modal('hide');
+                    $('#deleteModal').modal('hide');
+
+                });
             });
         });
-    });
-</script>
+    </script>
 @endpush
-
-
-
