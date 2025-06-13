@@ -28,6 +28,11 @@ class ManageQuotes extends Component
         'perPage' => ['except' => 10], // Ajout dans queryString
     ];
 
+      public function closeModal()
+    {
+        $this->reset();
+        $this->dispatch('closeModal');
+    }
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -62,13 +67,14 @@ class ManageQuotes extends Component
 
     public function deleteQuote()
     {
-        if ($this->selectedQuote) {
-            $this->selectedQuote->delete();
-            $this->dispatch('closeModal', 'deleteQuoteModal');
-            $this->dispatch('alert', [
-                'type' => 'success',
-                'message' => __('Quote deleted successfully!')
-            ]);
+        try {
+            if ($this->selectedQuote) {
+                $this->selectedQuote->delete();
+                session()->flash('success', __('Quote deleted successfully!'));
+                return redirect()->route('admin.quotes.index');
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', __('An error occurred: ') . $e->getMessage());
         }
     }
 
@@ -85,9 +91,9 @@ class ManageQuotes extends Component
         $categories = Category::all();
         $quotes = Quote::query()
             ->when($this->search, function ($query) {
-                $query->where(function($q) {
+                $query->where(function ($q) {
                     $q->where('title', 'like', '%' . $this->search . '%')
-                      ->orWhere('project_city', 'like', '%' . $this->search . '%');
+                        ->orWhere('project_city', 'like', '%' . $this->search . '%');
 
                     $q->orWhereHas('customer', function ($subq) {
                         $subq->where('email', 'like', '%' . $this->search . '%');
@@ -107,10 +113,3 @@ class ManageQuotes extends Component
         ]);
     }
 }
-
-
-
-
-
-
-

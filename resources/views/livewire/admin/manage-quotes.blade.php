@@ -1,18 +1,23 @@
 <div>
-    <div class="row">
+    <div class="col-12">
         <!-- Filtres et recherche -->
-        <div class="col-12 mb-4">
+        <div class="card shadow-sm mb-4">
             <div class="card shadow-sm">
+                <div class="card-header"
+                    style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                    <h5 class="mb-0"><i class="fas fa-filter mr-2"></i>@lang('Filter Quotes')</h5>
+                </div>
                 <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-4">
+                    <div class="row ">
+                        <div class="col-md-4 mb-2">
                             <div class="input-group">
-                                <span class="input-group-text bg-primary text-white"><i class="fas fa-search"></i></span>
+                                <span class="input-group-text bg-primary text-white"><i
+                                        class="fas fa-search"></i></span>
                                 <input type="text" wire:model.live.debounce.300ms="search" class="form-control"
                                     placeholder="@lang('Search quotes...')">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-2">
                             <div class="input-group">
                                 <span class="input-group-text bg-primary text-white"><i
                                         class="fas fa-filter"></i></span>
@@ -24,7 +29,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3  mb-2">
                             <div class="input-group">
                                 <span class="input-group-text bg-primary text-white"><i class="fas fa-list"></i></span>
                                 <select wire:model.live="perPage" class="form-select">
@@ -35,7 +40,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 mb-2">
                             <button wire:click="resetFilters" class="btn btn-secondary w-100">
                                 <i class="fas fa-undo-alt mr-1"></i> @lang('Reset')
                             </button>
@@ -112,7 +117,7 @@
                                                     class="btn btn-sm btn-info mx-2" title="@lang('View Details')">
                                                     <i class="fas fa-eye "></i>
                                                 </button>
-                                              
+
                                                 <!-- Suppression du bouton de changement de statut -->
                                                 <button wire:click="showDeleteForm({{ $quote->id }})"
                                                     class="btn btn-sm btn-danger" title="@lang('Delete')">
@@ -169,8 +174,8 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">@lang('Cancel')</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        wire:click="closeModal">@lang('Cancel')</button>
                     <button wire:click="deleteQuote" class="btn btn-danger">@lang('Delete')</button>
                 </div>
             </div>
@@ -265,8 +270,9 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">@lang('Close')</button>
+               
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        wire:click="closeModal">@lang('Cancel')</button>
                     @if ($selectedQuote)
                         <a href="{{ route('admin.quotes.edit', $selectedQuote) }}" class="btn btn-primary">
                             <i class="fas fa-edit me-1"></i> @lang('Edit')
