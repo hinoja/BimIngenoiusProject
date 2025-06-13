@@ -18,9 +18,7 @@
             <a class="nav-link dropdown-toggle px-2" href="#" id="langDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 style="display: flex; align-items: center;">
-                <img src="{{ asset('assets/back/img/flags/' . app()->getLocale() . '.svg') }}"
-                    alt="{{ strtoupper(app()->getLocale()) }}" width="22" height="16" class="mr-1"
-                    style="border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                <i class="fas fa-globe mr-2"></i>
                 <span style="font-weight: 500;">{{ strtoupper(app()->getLocale()) }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 animate__animated animate__fadeIn"

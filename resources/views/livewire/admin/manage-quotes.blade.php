@@ -55,7 +55,7 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover  mb-0">
+                        <table class="table table-hover table-striped  mb-0">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="text-center" style="width: 50px;">#</th>
@@ -109,13 +109,10 @@
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
                                                 <button wire:click="showDetails({{ $quote->id }})"
-                                                    class="btn btn-sm btn-info" title="@lang('View Details')">
-                                                    <i class="fas fa-eye"></i>
+                                                    class="btn btn-sm btn-info mx-2" title="@lang('View Details')">
+                                                    <i class="fas fa-eye "></i>
                                                 </button>
-                                                <a href="{{ route('admin.quotes.edit', $quote) }}"
-                                                    class="btn btn-sm btn-primary" title="@lang('Edit')">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
+                                              
                                                 <!-- Suppression du bouton de changement de statut -->
                                                 <button wire:click="showDeleteForm({{ $quote->id }})"
                                                     class="btn btn-sm btn-danger" title="@lang('Delete')">
@@ -156,7 +153,8 @@
     </div>
 
     <!-- Modal de suppression -->
-    <div class="modal fade" id="deleteQuoteModal" tabindex="-1" aria-labelledby="deleteQuoteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteQuoteModal" tabindex="-1" aria-labelledby="deleteQuoteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
@@ -171,7 +169,8 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">@lang('Cancel')</button>
                     <button wire:click="deleteQuote" class="btn btn-danger">@lang('Delete')</button>
                 </div>
             </div>
@@ -179,7 +178,8 @@
     </div>
 
     <!-- Modal de détails -->
-    <div class="modal fade" id="detailsQuoteModal" tabindex="-1" aria-labelledby="detailsQuoteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="detailsQuoteModal" tabindex="-1" aria-labelledby="detailsQuoteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
@@ -202,7 +202,8 @@
                                     </tr>
                                     <tr>
                                         <th>@lang('Budget')</th>
-                                        <td>{{ number_format($selectedQuote->budget, 2) }} {{ $selectedQuote->currency }}</td>
+                                        <td>{{ number_format($selectedQuote->budget, 2) }}
+                                            {{ $selectedQuote->currency }}</td>
                                     </tr>
                                     <tr>
                                         <th>@lang('Project City')</th>
@@ -211,7 +212,7 @@
                                     <!-- Suppression de l'affichage du statut -->
                                     <tr>
                                         <th>@lang('Created')</th>
-                                        <td>{{ $selectedQuote->created_at->format('d/m/Y H:i') }}</td>
+                                        <td>{{ $selectedQuote->created_at }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -264,7 +265,8 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Close')</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">@lang('Close')</button>
                     @if ($selectedQuote)
                         <a href="{{ route('admin.quotes.edit', $selectedQuote) }}" class="btn btn-primary">
                             <i class="fas fa-edit me-1"></i> @lang('Edit')
@@ -392,9 +394,3 @@
         });
     </script>
 @endpush
-
-
-
-
-
-

@@ -43,11 +43,42 @@
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        .tag-selector {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .tag-item {
+            display: inline-block;
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #e9ecef;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .tag-item.selected {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 
-    <h2 class="mb-4">@lang('Edit Project')</h2>
-    <div class="step-indicator mb-3">
-        <span class="step-number">Étape {{ $step }} de {{ $totalSteps }}</span>
+    <!-- Indicateur d'étape -->
+    <div class="step-indicator">
+        @lang('Step') {{ $step }} @lang('of') {{ $totalSteps }}:
+        @if($step == 1)
+            @lang('Basic Information')
+        @elseif($step == 2)
+            @lang('Project Details')
+        @elseif($step == 3)
+            @lang('Project Status and Category')
+        @elseif($step == 4)
+            @lang('Project Images and Tags')
+        @endif
     </div>
 
     <form wire:submit.prevent="{{ $step == $totalSteps ? 'updateProject' : 'nextStep' }}">
@@ -131,8 +162,9 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="city" class="font-weight-bold text-dark">@lang('City')</label>
-                        <input type="text" wire:model="city" class="form-control @error('city') is-invalid @enderror"
-                            id="city" placeholder="@lang('Enter the city')">
+                        <input type="text" wire:model="city"
+                            class="form-control @error('city') is-invalid @enderror" id="city"
+                            placeholder="@lang('Enter the city')">
                         @error('city')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -152,7 +184,7 @@
             </div>
         @endif
 
-        <!-- Step 3: Project Attributes -->
+        <!-- Step 3: Project Status and Category -->
         @if ($step == 3)
             <div class="row">
                 <div class="col-md-6">
@@ -161,8 +193,8 @@
                         <select wire:model="status" class="form-control @error('status') is-invalid @enderror"
                             id="status">
                             <option value="">@lang('Select a status')</option>
-                            @foreach ($statuses as $status)
-                                <option value="{{ $status->value }}">{{ __($status->value) }}</option>
+                            @foreach ($statuses as $statusOption)
+                                <option value="{{ $statusOption->value }}">{{ __($statusOption->name) }}</option>
                             @endforeach
                         </select>
                         @error('status')
@@ -176,8 +208,8 @@
                         <select wire:model="size" class="form-control @error('size') is-invalid @enderror"
                             id="size">
                             <option value="">@lang('Select a size')</option>
-                            @foreach ($sizes as $size)
-                                <option value="{{ $size->value }}">{{ __($size->value) }}</option>
+                            @foreach ($sizes as $sizeOption)
+                                <option value="{{ $sizeOption->value }}">{{ __($sizeOption->name) }}</option>
                             @endforeach
                         </select>
                         @error('size')
@@ -208,75 +240,162 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-3">
-                <label for="category_id" class="font-weight-bold text-dark">@lang('Category')</label>
-                <select wire:model="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                    id="category_id">
-                    <option value="">@lang('Select a category')</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        @endif
-
-        <!-- Step 4: Images -->
-        @if ($step == 4)
-            <div class="form-group mb-3">
-                <label class="font-weight-bold text-dark">@lang('Existing Images')</label>
-                @if (!empty($existingImages))
-                    <div class="row">
-                        @foreach ($existingImages as $image)
-                            <div class="col-md-3 mb-3 position-relative">
-                                <img src="{{ asset('storage/' . $image['name']) }}"
-                                    class="img-fluid rounded shadow-sm" style="max-height: 100px; object-fit: cover;">
-                                <button type="button" wire:click="deleteExistingImage({{ $image['id'] }})"
-                                    class="btn btn-danger btn-sm mt-2">@lang('Remove')</button>
-                            </div>
-                        @endforeach
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="category_id" class="font-weight-bold text-dark">@lang('Category')</label>
+                        <select wire:model="category_id" class="form-control @error('category_id') is-invalid @enderror"
+                            id="category_id">
+                            <option value="">@lang('Select a category')</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                @else
-                    <p>@lang('No existing images')</p>
+                </div>
+                @if ($status === \App\Enums\StatusEnums::Idea->value)
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="plan_id" class="font-weight-bold text-dark">@lang('Plan')</label>
+                        <select wire:model="plan_id" class="form-control @error('plan_id') is-invalid @enderror"
+                            id="plan_id">
+                            <option value="">@lang('Select a plan')</option>
+                            @foreach ($plans as $plan)
+                                <option value="{{ $plan->id }}">{{ $plan->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('plan_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
                 @endif
             </div>
-            <div class="form-group mb-3">
-                <label class="font-weight-bold text-dark">@lang('Add New Images')</label>
-                <input type="file" wire:model="images"
-                    class="form-control @error('images.*') is-invalid @enderror" multiple>
-                @error('images.*')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (!empty($images))
-                <div class="row">
-                    @foreach ($images as $index => $image)
-                        <div class="col-md-3 mb-3 position-relative">
-                            <img src="{{ $image->temporaryUrl() }}" class="img-fluid rounded shadow-sm"
-                                style="max-height: 100px; object-fit: cover;">
-                            <button type="button" wire:click="removeImage({{ $index }})"
-                                class="btn btn-danger btn-sm mt-2">@lang('Remove')</button>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
         @endif
 
-        <!-- Navigation Buttons -->
-        <div class="text-right mt-4">
-            @if ($step > 1)
-                <button type="button" wire:click="previousStep"
-                    class="btn btn-back mr-2">@lang('Back')</button>
+        <!-- Step 4: Project Images and Tags -->
+        @if ($step == 4)
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="images" class="font-weight-bold text-dark">@lang('Project Images')</label>
+                        <input type="file" wire:model="images" class="form-control @error('images') is-invalid @enderror" id="images" multiple>
+                        <small class="form-text text-muted">@lang('You can select multiple images. Maximum size: 2MB per image.')</small>
+                        @error('images')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @error('images.*')
+                            <div class="text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview of new images -->
+            @if (count($images) > 0)
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="font-weight-bold">@lang('New Images Preview')</h5>
+                        <div class="row">
+                            @foreach ($images as $index => $image)
+                                <div class="col-md-3 mb-3">
+                                    <div class="position-relative">
+                                        <img src="{{ $image->temporaryUrl() }}" class="img-fluid" alt="Preview">
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px;" wire:click="removeImage({{ $index }})">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             @endif
-            @if ($step < $totalSteps)
-                <button type="submit" class="btn btn-primary">@lang('Next')</button>
-            @else
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>
-                    @lang('Update')</button>
+
+            <!-- Existing images -->
+            @if (count($existingImages) > 0)
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h5 class="font-weight-bold">@lang('Existing Images')</h5>
+                        <div class="row">
+                            @foreach ($existingImages as $image)
+                                <div class="col-md-3 mb-3">
+                                    <div class="position-relative">
+                                        <img src="{{ Storage::url($image['name']) }}" class="img-fluid" alt="{{ $image['original_name'] }}">
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px;" wire:click="deleteExistingImage({{ $image['id'] }})">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             @endif
-            <a href="{{ route('admin.projects.index') }}" class="btn btn-cancel ml-2">@lang('Cancel')</a>
+
+            <!-- Tags selection -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="font-weight-bold text-dark">@lang('Project Tags')</label>
+                        <div class="tag-selector">
+                            @foreach ($tags as $tag)
+                                <div class="tag-item {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}"
+                                     wire:click="$set('selectedTags', {{ json_encode(in_array($tag->id, $selectedTags)
+                                                                ? array_diff($selectedTags, [$tag->id])
+                                                                : array_merge($selectedTags, [$tag->id])) }})">
+                                    {{ $tag->name }}
+                                </div>
+                            @endforeach
+                        </div>
+                        @error('selectedTags')
+                            <div class="text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Navigation buttons -->
+        <div class="d-flex justify-content-between mt-4">
+            <div>
+                @if ($step > 1)
+                    <button type="button" class="btn btn-back" wire:click="previousStep">
+                        <i class="fas fa-arrow-left mr-1"></i> @lang('Previous')
+                    </button>
+                @endif
+            </div>
+            <div>
+                <a href="{{ route('admin.projects.index') }}" class="btn btn-cancel mr-2">
+                    <i class="fas fa-times mr-1"></i> @lang('Cancel')
+                </a>
+                @if ($step < $totalSteps)
+                    <button type="submit" class="btn btn-primary">
+                        @lang('Next') <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                @else
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save mr-1"></i> @lang('Update Project')
+                    </button>
+                @endif
+            </div>
         </div>
     </form>
+
+    @if (session()->has('success'))
+        <div class="alert alert-success mt-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="alert alert-danger mt-4">
+            {{ session('error') }}
+        </div>
+    @endif
 </div>
+
+

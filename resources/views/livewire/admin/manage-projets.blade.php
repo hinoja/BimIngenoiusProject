@@ -69,13 +69,13 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover table-striped mb-0">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="text-center" style="width: 50px;">#</th>
                                     <th scope="col" style="min-width: 180px;">@lang('Title')</th>
                                     <th scope="col" style="min-width: 120px;">@lang('Category')</th>
-                                    <th scope="col" style="min-width: 100px;">@lang('Status')</th>
+                                    <th scope="col" style="min-width: 80px;">@lang('Status')</th>
                                     <th scope="col" class="text-center" style="width: 100px;">@lang('Media')</th>
                                     <th scope="col" style="min-width: 100px;">@lang('Dates')</th>
                                     <th scope="col" class="text-center" style="width: 120px;">@lang('Actions')</th>
@@ -128,7 +128,7 @@
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 <a href="{{ route('admin.projects.edit', $project) }}"
-                                                    class="btn btn-sm btn-primary" title="@lang('Edit')">
+                                                    class="btn btn-sm btn-primary mx-2" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button wire:click="showDeleteForm({{ $category->id }})"
@@ -170,14 +170,14 @@
                     <div class="modal-header"
                         style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="deleteProjectModalLabel">@lang('Delete Project')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" wire:click="closeModal" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @lang('Are you sure you want to delete the project') <strong>{{ $fr_title }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
                             data-bs-dismiss="modal">@lang('Cancel')</button>
                         <button type="button" class="btn btn-danger" wire:click="destroyProject"
                             wire:loading.attr="disabled">
@@ -398,7 +398,7 @@
 
 @push('js')
     <script>
-        document.addEventListener('livewire:initialized', () => {
+        document.addEventListener('livewire:init', () => {
             Livewire.on('openDeleteModal', () => {
                 $('#deleteProjectModal').modal('show');
             });
@@ -437,4 +437,3 @@
         });
     </script>
 @endpush
-

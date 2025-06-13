@@ -53,7 +53,7 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover table-striped mb-0">
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center">#</th>
@@ -153,18 +153,12 @@
                 <div class="modal-body">
                     <p>@lang('Are you sure you want to delete this tag? This action cannot be undone.')</p>
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        wire:click="closeModal()">@lang('Cancel')</button>
-                    <button type="button" class="btn btn-danger" wire:click="deleteTag">
-                        <span wire:loading.remove wire:target="deleteTag">@lang('Delete')</span>
-                        <span wire:loading wire:target="deleteTag">@lang('Processing...')</span>
-                    </button>
-                </div> --}}
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         wire:click="closeModal">@lang('Cancel')</button>
-                    <button type="button" class="btn btn-danger" wire:click="deleteTag"    wire:loading.attr="disabled">
+                    <button type="button" class="btn btn-danger" wire:click="deleteTag"
+                        wire:loading.attr="disabled">
                         <span wire:loading wire:target="deleteTag">
                             <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Deleting...')
                         </span>

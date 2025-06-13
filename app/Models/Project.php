@@ -87,3 +87,4 @@ class Project extends Model
         return $start->diffForHumans($end);
     }
 }
+

@@ -18,32 +18,7 @@
     </div>
 @endsection
 
-@push('js')
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Afficher les messages flash avec SweetAlert2
-            @if(session('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Succès',
-                    text: "{{ session('success') }}",
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-            @endif
 
-            @if(session('error'))
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erreur',
-                    text: "{{ session('error') }}",
-                });
-            @endif
-        });
-    </script>
-    @livewireScripts()
-@endpush
 
 @push('css')
     @livewireStyles()

@@ -51,13 +51,12 @@ class ManageCategories extends Component
         }
         $this->reset(['editFrName', 'editEnName', 'editDescription', 'editImage', 'selectedCategory']);
         $this->resetErrorBag();
-        $this->dispatch('openEditModal');
-        $this->resetValidation();
         $this->selectedCategory = $category;
         $this->selectedCategoryId = $id;
         $this->editFrName = $category->fr_name;
         $this->editEnName = $category->en_name;
         $this->editDescription = $category->description;
+        $this->dispatch('openEditModal');
     }
 
     public function showCreateForm()
@@ -140,7 +139,7 @@ class ManageCategories extends Component
     {
         $category = Category::findOrFail($id);
         $this->deleteId = $category->id;
-        $this->fr_name = $category->fr_title;
+        $this->fr_name = $category->fr_name;
         $this->dispatch('openDeleteModal');
     }
 
@@ -167,7 +166,7 @@ class ManageCategories extends Component
     }
     public function showDetails($id)
     {
-        $this->selectedCategory = Category::findOrFail($id); 
+        $this->selectedCategory = Category::findOrFail($id);
         $this->dispatch('openDetailsModal');
     }
     public function render()
@@ -188,4 +187,5 @@ class ManageCategories extends Component
         ]);
     }
 }
+
 

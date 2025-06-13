@@ -9,7 +9,7 @@
 
     <!-- Favicon -->
     {{-- <link href="{{ asset('assets/favicon.png') }}" rel="icon"> --}}
-	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('logo.jpg') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('logo.jpg') }}" />
 
 
     <!-- Fonts -->
@@ -107,54 +107,63 @@
             @include('includes.back.sidebar')
             <div class="main-content">
                 <section class="section">
-                    <!-- Alertes Bootstrap pour les messages flash -->
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i> {{ session('error') }}
-                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (session('message'))
-                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                            <i class="fas fa-info-circle me-2"></i> {{ session('message') }}
-                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
+                   
 
                     <!-- Contenu principal -->
                     @yield('content')
                 </section>
             </div>
             <footer class="main-footer" style="background-color: #2A2E45; color: #F8F9FA; ">
-                <div class="footer-content d-flex justify-content-between align-items-center flex-wrap" style="width: 100%;">
+                <div class="footer-content d-flex justify-content-between align-items-center flex-wrap"
+                    style="width: 100%;">
                     <div class="footer-left" style="font-size: 15px;">
                         Copyright © {{ date('Y') }} <span class="bullet"></span> BIM INGENIOUS BTP
                     </div>
                     <div class="footer-right d-flex align-items-center" style="font-size: 15px;">
                         <span>@lang('Made By')</span>
-                        <a class="ml-1" href="https://bvision-lte.com" target="_blank" style="color: #FF6B35; font-weight: 600; margin-left: 5px; text-decoration: none;">
+                        <a class="ml-1" href="https://bvision-lte.com" target="_blank"
+                            style="color: #FF6B35; font-weight: 600; margin-left: 5px; text-decoration: none;">
                             Better Vision
                         </a>
                         <div class="social-links ml-3">
-                            <a href="#" target="_blank" style="color: #F8F9FA; margin-right: 8px;"><i class="fab fa-facebook"></i></a>
-                            <a href="#" target="_blank" style="color: #F8F9FA; margin-right: 8px;"><i class="fab fa-twitter"></i></a>
-                            <a href="#" target="_blank" style="color: #F8F9FA;"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" target="_blank" style="color: #F8F9FA; margin-right: 8px;"><i
+                                    class="fab fa-facebook"></i></a>
+                            <a href="#" target="_blank" style="color: #F8F9FA; margin-right: 8px;"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#" target="_blank" style="color: #F8F9FA;"><i
+                                    class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Afficher les messages flash avec SweetAlert2
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès',
+                    text: "{{ session('success') }}",
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: "{{ session('error') }}",
+                });
+            @endif
+        });
+    </script>
+
 
     <!-- General JS Scripts -->
     <script src="{{ asset('assets/back/modules/jquery.min.js') }}"></script>
@@ -173,4 +182,3 @@
 </body>
 
 </html>
-

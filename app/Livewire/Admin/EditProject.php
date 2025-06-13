@@ -7,6 +7,7 @@ use App\Models\Project;
 use Livewire\Component;
 use App\Enums\SizeEnums;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Enums\StatusEnums;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
@@ -17,11 +18,13 @@ class EditProject extends Component
     use WithFileUploads;
 
     public $project;
-    public $fr_title, $en_title, $fr_description, $en_description, $company, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id;
+    public $fr_title, $en_title, $fr_description, $en_description, $company, $country, $city, $address, $status, $size, $start_date, $end_date, $category_id, $plan_id;
     public $images = [];
     public $existingImages = [];
     public $step = 1;
     public $totalSteps = 4;
+    public $selectedTags = [];
+    public $availableTags = [];
 
     public function mount(Project $project)
     {
@@ -36,10 +39,13 @@ class EditProject extends Component
         $this->address = $project->address;
         $this->status = $project->status;
         $this->size = $project->size;
-        $this->start_date = $project->start_date->format('Y-m-d');
-        $this->end_date = $project->end_date->format('Y-m-d');
+        $this->start_date = $project->start_date ? $project->start_date->format('Y-m-d') : null;
+        $this->end_date = $project->end_date ? $project->end_date->format('Y-m-d') : null;
         $this->category_id = $project->category_id;
+        $this->plan_id = $project->plan_id;
         $this->existingImages = $project->images->toArray();
+        $this->selectedTags = $project->tags->pluck('id')->toArray();
+        $this->availableTags = Tag::all();
     }
 
     protected function rules()
@@ -58,8 +64,11 @@ class EditProject extends Component
             'start_date' => ['required', 'date', 'before_or_equal:end_date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'category_id' => ['required', 'exists:categories,id'],
+            'plan_id' => ['nullable', 'exists:plans,id'],
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'selectedTags' => ['nullable', 'array'],
+            'selectedTags.*' => ['exists:tags,id'],
         ];
     }
 
@@ -70,7 +79,7 @@ class EditProject extends Component
         } elseif ($this->step == 2) {
             $this->validateOnlyFields(['company', 'country', 'city', 'address']);
         } elseif ($this->step == 3) {
-            $this->validateOnlyFields(['status', 'size', 'start_date', 'end_date', 'category_id']);
+            $this->validateOnlyFields(['status', 'size', 'start_date', 'end_date', 'category_id', 'plan_id']);
         }
         if ($this->step < $this->totalSteps) {
             $this->step++;
@@ -84,9 +93,18 @@ class EditProject extends Component
         }
     }
 
+    public function updatedStatus($value)
+    {
+        // Réinitialiser plan_id si le statut n'est pas Idea
+        if ($value !== StatusEnums::Idea->value) {
+            $this->plan_id = null;
+        }
+    }
+
     public function updateProject()
     {
         $data = $this->validate();
+
         $this->project->update([
             'fr_title' => $this->fr_title,
             'en_title' => $this->en_title,
@@ -102,6 +120,7 @@ class EditProject extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'category_id' => $this->category_id,
+            'plan_id' => $this->status === StatusEnums::Idea->value ? $this->plan_id : null,
         ]);
 
         if ($this->images) {
@@ -114,6 +133,9 @@ class EditProject extends Component
                 ]);
             }
         }
+
+        // Mettre à jour les tags
+        $this->project->tags()->sync($this->selectedTags);
 
         session()->flash('success', __('Project updated successfully!'));
         return redirect()->route('admin.projects.index');
@@ -144,9 +166,12 @@ class EditProject extends Component
     public function render()
     {
         return view('livewire.admin.edit-project', [
-            'categories' => Category::query()->orderBy('name')->get(),
+            'categories' => Category::query()->orderBy('fr_name')->get(),
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),
+            'tags' => Tag::all(),
+            'plans' => $this->status === StatusEnums::Idea->value ? \App\Models\Plan::all() : collect(),
         ]);
     }
 }
+

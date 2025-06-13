@@ -9,7 +9,7 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 
 body {
     -webkit-text-size-adjust: none;
-    background-color: #f5f7fa;
+    background-color: #F8F9FA;
     color: #4a5568;
     height: 100%;
     line-height: 1.6;
@@ -29,7 +29,7 @@ blockquote {
 
 /* Links */
 a {
-    color: #fffaf0;
+    color: #FF6B35;
     text-decoration: none;
 }
 
@@ -39,7 +39,7 @@ a img {
 
 /* Typography */
 h1 {
-    color: #1a202c;
+    color: #2A2E45;
     font-size: 26px;
     font-weight: 700;
     margin: 0 0 20px 0;
@@ -47,6 +47,7 @@ h1 {
 }
 
 h2 {
+    color: #2A2E45;
     font-size: 22px;
     font-weight: 600;
     margin: 0 0 16px 0;
@@ -54,6 +55,7 @@ h2 {
 }
 
 h3 {
+    color: #2A2E45;
     font-size: 18px;
     font-weight: 600;
     margin: 0 0 12px 0;
@@ -81,7 +83,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background: linear-gradient(180deg, #e2e8f0 0%, #ffffff 100%);
+    background-color: #F8F9FA;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -98,14 +100,14 @@ img {
 
 /* Header */
 .header {
-    padding: 40px 0;
+    padding: 30px 0;
     text-align: center;
-    background-color: #ffffff;
-    border-bottom: 3px solid #f6c107;
+    background-color: #2A2E45;
+    border-bottom: 3px solid #FF6B35;
 }
 
 .header a {
-    color: #1a202c;
+    color: #ffffff;
     font-size: 24px;
     font-weight: 700;
     text-decoration: none;
@@ -117,6 +119,8 @@ img {
     height: 90px;
     max-height: 90px;
     width: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Body */
@@ -135,16 +139,16 @@ img {
     -premailer-cellspacing: 0;
     -premailer-width: 600px;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-    margin: 30px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
     padding: 0;
     width: 600px;
 }
 
 .inner-body a {
     word-break: break-all;
-    color: white;
+    color: #FF6B35;
 }
 
 /* Content Wrapper */
@@ -172,7 +176,7 @@ img {
 }
 
 .signature strong {
-    color: #1a202c;
+    color: #2A2E45;
 }
 
 /* Subcopy */
@@ -199,7 +203,7 @@ img {
 }
 
 .url-container a {
-    color: #1a73e8;
+    color: #FF6B35;
     word-break: break-all;
     font-size: 14px;
 }
@@ -213,16 +217,17 @@ img {
     padding: 30px 0;
     text-align: center;
     width: 600px;
+    background-color: #2A2E45;
 }
 
 .footer p {
-    color: #718096;
-    font-size: 12px;
+    color: #ffffff;
+    font-size: 14px;
     text-align: center;
 }
 
 .footer a {
-    color: #1a73e8;
+    color: #FF6B35;
     text-decoration: underline;
 }
 
@@ -239,7 +244,7 @@ img {
     border-bottom: 2px solid #e2e8f0;
     margin: 0;
     padding-bottom: 12px;
-    color: #1a202c;
+    color: #2A2E45;
 }
 
 .table td {

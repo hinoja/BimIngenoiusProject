@@ -16,7 +16,7 @@
                         <div class="card-body px-4 py-5">
                             <!-- Section 1: News Image -->
                             <section class="mb-5">
-                                <h4 class="section-title">@lang('News Image')</h4>
+                         
                                 @if ($news->image)
                                     <div class="modern-image-container">
                                         <div class="image-wrapper">
@@ -64,7 +64,7 @@
                                             </span>
                                         </div>
                                         <div class="detail-item"><strong>@lang('Published At'):</strong>
-                                            {{ $news->published_at ?? 'N/A' }}</div>
+                                            {{ $news->published_at ??  __('pending') }}</div>
                                     </div>
                                 </div>
                             </section>
