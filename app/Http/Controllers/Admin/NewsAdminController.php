@@ -88,7 +88,68 @@ class NewsAdminController extends Controller
      */
     public function edit(News $news)
     {
-        $availableTags = Tag::all()->pluck('name', 'id')->toArray();
-        return view('admin.news.edit', compact('news', 'availableTags'));
+        return view('admin.news.edit', compact('news'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, News $news)
+    {
+        // Cette méthode n'est pas utilisée car nous utilisons Livewire pour l'édition
+        // Mais nous la gardons au cas où nous voudrions revenir à une approche traditionnelle
+        $validated = $request->validate([
+            'fr_title' => 'required|string|max:255',
+            'en_title' => 'required|string|max:255',
+            'fr_content' => 'required|string|min:10',
+            'en_content' => 'required|string|min:10',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tags' => 'nullable|array|max:10',
+            'tags.*' => 'exists:tags,id',
+        ]);
+
+        try {
+            $newsData = [
+                'fr_title' => $validated['fr_title'],
+                'en_title' => $validated['en_title'],
+                'fr_content' => $validated['fr_content'],
+                'en_content' => $validated['en_content'],
+                'slug' => Str::slug($validated['en_title']) . '-' . time(),
+                'published_at' => $request->boolean('publish_now') ? now() : null,
+            ];
+
+            if ($request->hasFile('image')) {
+                // Supprimer l'ancienne image si elle existe
+                if ($news->image && Storage::disk('public')->exists($news->image)) {
+                    Storage::disk('public')->delete($news->image);
+                }
+
+                $imagePath = $request->file('image')->store('news', 'public');
+                $newsData['image'] = $imagePath;
+            } elseif ($request->has('remove_image') && $news->image) {
+                Storage::disk('public')->delete($news->image);
+                $newsData['image'] = null;
+            }
+
+            $news->update($newsData);
+
+            if ($request->has('tags')) {
+                $news->tags()->sync($request->tags);
+            } else {
+                $news->tags()->detach();
+            }
+
+            return redirect()
+                ->route('admin.news.index')
+                ->with('success', __('News updated successfully!'));
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', __('An error occurred: ') . $e->getMessage());
+        }
     }
 }
+
+
+

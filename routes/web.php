@@ -174,7 +174,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     })->name('quotes.edit');
 });
 
+// Routes pour l'administration des news
+// Route::resource('admin/news', \App\Http\Controllers\Admin\NewsAdminController::class)
+//     ->middleware(['auth'])
+//     ->names('admin.news');
+
 require __DIR__ . '/auth.php';
+
+
 
 
 

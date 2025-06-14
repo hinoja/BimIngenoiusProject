@@ -78,7 +78,7 @@
                                                     class="text-muted">{{ Str::limit(strip_tags($news->fr_content ?? ($news->en_content ?? '')), 50) }}</small>
                                             </div>
                                         </td>
-                                        <td>{{ $news->user?->name ?? 'N/A' }}   {{ $news->published_at }}</td>
+                                        <td>{{ $news->user?->name ?? 'N/A' }}   </td>
                                         <td>
 
                                             @if (!$news->published_at )
