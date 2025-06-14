@@ -2,31 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class News extends Model
 {
+    /** @use HasFactory<\Database\Factories\NewsFactory> */
     use HasFactory, SoftDeletes;
+    // MASS ASSIGNMENT
+    public $fillable = ['fr_title', 'en_title', 'fr_content', 'en_content', 'slug', 'image', 'user_id', 'published_at'];
 
-    protected $table = 'news';
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
-    protected $fillable = [
-        'fr_title',
-        'en_title',
-        'fr_content',
-        'en_content',
-        'slug',
-        'image',
-        'published_at',
-        'user_id'
-    ];
-
-    protected $casts = [
-        'published_at' => 'datetime',
-    ];
-
+    // RELATIONSHIPS
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -34,32 +29,61 @@ class News extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'news_tag');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function scopePublished($query)
+    // ACCESSORS
+    public function getTitleAttribute()
     {
-        return $query->whereNotNull('published_at')
-                    ->where('published_at', '<=', now());
+        return $this->{app()->getLocale() . '_title'};
     }
 
-    public function getTitle()
+    public function getContentAttribute()
+    {
+        return $this->{app()->getLocale() . '_content'};
+    }
+
+    public function getMediumContentAttribute()
+    {
+        return Str::words($this->content, 40);
+    }
+
+    public function getImageAttribute($image)
+    {
+        return $image ? asset('storage/' . $image) : asset('assets/defaults/news/news-' . rand(1, 6) . '.jpg');
+    }
+
+    public function getCreatedAtAttribute($created_at)
+    {
+        return $this->getFormatedDateTime($created_at);
+    }
+
+    public function getUpdatedAtAttribute($updated_at)
+    {
+        return $this->getFormatedDateTime($updated_at);
+    }
+
+    public function getPublishedAtAttribute($published_at)
+    {
+        if (!$published_at) {
+            return null;
+        }
+        return $this->getFormatedDateTime($published_at);
+    }
+    function getFormatedDateTime($date)
     {
         $locale = app()->getLocale();
-        return $locale === 'fr' ? $this->fr_title : $this->en_title;
+        Carbon::setLocale($locale);
+        $format = $locale === 'en' ? 'F d, Y ' : 'd M Y ';
+
+        return Carbon::parse($date)->translatedFormat($format);
     }
 
-    public function getContent()
+    /**
+     * Scope a query to only include published News.
+     */
+    public function scopePublished(Builder $query): void
     {
-        $locale = app()->getLocale();
-        return $locale === 'fr' ? $this->fr_content : $this->en_content;
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
+        $query->whereNot('published_at', '=', null);
     }
 }
-
-
-

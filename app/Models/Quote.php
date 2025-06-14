@@ -51,6 +51,15 @@ class Quote extends Model
     {
         return $this->getFormatedDateTime($date);
     }
+    public function getCreatedAtAttribute($created_at)
+    {
+        return $this->getFormatedDateTime($created_at);
+    }
+
+    public function getUpdatedAtAttribute($updated_at)
+    {
+        return $this->getFormatedDateTime($updated_at);
+    }
 
     function getFormatedDateTime($date)
     {
