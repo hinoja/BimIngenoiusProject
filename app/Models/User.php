@@ -28,12 +28,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
         'role_id',
         'slug',
         'is_active',
-        'avatar',
-        'role_id',
-        'password'
+        'email_verified_at',
+        'disabled_by',
+        'disabled_at',
     ];
 
     /**
@@ -46,6 +47,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_active' => 'boolean',
+        'disabled_at' => 'datetime',
+    ];
     /**
      * Get the attributes that should be cast.
      *
@@ -58,13 +72,26 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /**
+     * Get the user's avatar URL.
+     *
+     * @return string
+     */
+    public function getAvatarAttribute($value)
+    {
+        if ($value && Storage::disk('public')->exists($value)) {
+            return Storage::url($value);
+        }
 
+        return asset('assets/img/default-avatar.png');
+    }
     /**
      * Send the password reset notification.
      *
      * @param  string  $token
      * @return void
      */
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
@@ -84,13 +111,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class);
     }
-/**
+    /**
      * Check if disabled account can login
      *
      * @return bool
-     * 
+     *
      */
-    public function canLogin() : bool
+    public function canLogin(): bool
     {
         return $this->is_active || (! $this->is_active && $this->disabled_by === $this->id);
     }
@@ -100,7 +127,13 @@ class User extends Authenticatable
         if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
             return Storage::url($this->avatar);
         }
-            return asset('assets/front/images/avatar1.png');
-     
+        return asset('assets/front/images/avatar1.png');
+    }
+    /**
+     * Vérifie si l'utilisateur a un rôle spécifique.
+     */
+    public function hasRole($roleName)
+    {
+        return $this->role->name === $roleName;
     }
 }

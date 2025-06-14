@@ -213,9 +213,8 @@
                             <!-- Section Avatar -->
                             <div class="text-center mb-4">
                                 <div class="profile-picture-wrapper">
-                                    <img id="profile-picture-preview"
-                                        src="{{ $user->avatar  }}"
-                                        alt="Profile Picture" class="profile-picture">
+                                    <img id="profile-picture-preview" src="{{ $user->avatar }}" alt="Profile Picture"
+                                        class="profile-picture">
                                     <label class="profile-picture-input" for="avatar">
                                         <i class="fas fa-camera"></i>
                                         <input type="file" id="avatar" name="avatar" accept="image/*">
@@ -298,7 +297,7 @@
 
                         <hr>
 
-                        <!-- Formulaire de suppression du compte -->
+                        {{-- <!-- Formulaire de suppression du compte -->
                         <form id="delete-form" method="POST" action="{{ route('profile.destroy') }}">
                             @csrf
                             @method('DELETE')
@@ -317,7 +316,7 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 @lang('Delete Account')
                             </button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </div>

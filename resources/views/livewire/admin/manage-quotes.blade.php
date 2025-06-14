@@ -159,12 +159,12 @@
 
     <!-- Modal de suppression -->
     <div class="modal fade" id="deleteQuoteModal" tabindex="-1" aria-labelledby="deleteQuoteModalLabel"
-        aria-hidden="true">
+        aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
+                <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                     <h5 class="modal-title" id="deleteQuoteModalLabel">@lang('Delete Quote')</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeModal"></button>
                 </div>
                 <div class="modal-body">
                     @if ($selectedQuote)
@@ -173,10 +173,13 @@
                         <p class="text-danger">@lang('This action cannot be undone.')</p>
                     @endif
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        wire:click="closeModal">@lang('Cancel')</button>
-                    <button wire:click="deleteQuote" class="btn btn-danger">@lang('Delete')</button>
+                <div class="modal-footer" style="border-top: 2px solid #FF6B35;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">
+                        <i class="fas fa-times me-1"></i> @lang('Cancel')
+                    </button>
+                    <button type="button" class="btn btn-danger" wire:click="deleteQuote">
+                        <i class="fas fa-trash me-1"></i> @lang('Delete')
+                    </button>
                 </div>
             </div>
         </div>
@@ -270,7 +273,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-               
+
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         wire:click="closeModal">@lang('Cancel')</button>
                     @if ($selectedQuote)
@@ -400,3 +403,5 @@
         });
     </script>
 @endpush
+
+
