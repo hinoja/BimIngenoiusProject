@@ -46,7 +46,7 @@ class ManageProjets extends Component
     public function destroyProject()
     {
         try {
-            $project = Project::findOrFail($this->deleteId);
+            $project = Project::findOrFail($this->deleteId); 
             foreach ($project->images as $image) {
                 Storage::disk('public')->delete($image->name);
                 $image->delete();

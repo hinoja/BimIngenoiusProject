@@ -186,7 +186,6 @@
 
             Livewire.on('closeModal', () => {
                 ['editModal', 'deleteModal'].forEach(modalId => {
-
                     $('#editModal').modal('hide');
                     $('#deleteModal').modal('hide');
 

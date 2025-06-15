@@ -131,7 +131,7 @@
                                                     class="btn btn-sm btn-primary mx-2" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button wire:click="showDeleteForm({{ $category->id }})"
+                                                <button wire:click="showDeleteForm({{ $project->id }})"
                                                     class="btn btn-sm btn-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -164,7 +164,7 @@
 
         <!-- Modal pour la suppression -->
         <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel"
-            aria-hidden="true">
+            aria-hidden="true"   wire:ignore.self>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header"
@@ -193,7 +193,7 @@
             </div>
         </div>
 
-        <!-- Modal pour les détails (inchangé, inclus pour cohérence) -->
+        {{-- <!-- Modal pour les détails (inchangé, inclus pour cohérence) -->
         <div class="modal fade" id="detailsProjectModal" tabindex="-1" aria-labelledby="detailsProjectModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -261,7 +261,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Lightbox pour afficher les images en plein écran -->
         <div class="lightbox" id="lightbox">
