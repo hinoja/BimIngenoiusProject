@@ -126,7 +126,7 @@
             // Décommentez pour désactiver les pièces jointes
             // e.preventDefault();
         });
+    </script>
 
-
-        @livewireScripts()
-    @endpush
+    @livewireScripts()
+@endpush
