@@ -455,7 +455,7 @@
     "Job offer published": "Offre d'emploi publiée",
     "Thank you for using our application!": "Merci d'utiliser cette application ",
     "Consult the list of other available jobs": "Consulter la liste des autres offres d'emploi disponibles",
-    "You receive this e-mail to confirm the publication of your job, the title of which is": "Vous recevez cet e-mail pour vous confirmer effectivement la publication de votre offre d'emploi dont le titre est :",
+    "You receive this e-mail for confirm the publication of your job, the title of which is": "Vous recevez cet e-mail pour vous confirmer effectivement la publication de votre offre d'emploi dont le titre est :",
     "Regards": "Salutations",
     "The password must be at least 8 characters": "Le mot de passe doit comporter au moins 8 caractères",
     "password confirmation does not match.": "La confirmation du mot de passe ne correspond pas",
@@ -1176,7 +1176,21 @@
     "Login Now": "Se connecter maintenant",
     "Thank you for using our application!": "Merci d'utiliser notre application !",
     "Email": "Email",
-    "Password": "Mot de passe"
+    "Password": "Mot de passe",
+    "Home": "Accueil",
+    "Year": "Année",
+    "Projects": "Projets",
+    "Users": "Utilisateurs",
+    "Categories": "Catégories",
+    "Quotes": "Devis",
+    "Messages": "Messages",
+    "News": "Actualités",
+    "Plans": "Plans",
+    "Projects Evolution": "Évolution des Projets",
+    "Incoming Requests": "Demandes Entrantes",
+    "By Category": "Répartition par Catégorie",
+    "Top 10 Countries": "Top 10 des Pays",
+    "By Status": "Répartition par Statut"
 }
 
 

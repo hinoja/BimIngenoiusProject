@@ -124,9 +124,7 @@
         // Gestion des pièces jointes (désactiver si nécessaire)
         document.addEventListener('trix-file-accept', function(e) {
             // Décommentez pour désactiver les pièces jointes
-            // e.preventDefault();
+            e.preventDefault();
         });
     </script>
-
-    @livewireScripts()
 @endpush

@@ -20,10 +20,12 @@
 
 @push('css')
     @livewireStyles
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/trix@2.0.0/dist/trix.css">
 @endpush
 
 @push('js')
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/trix@2.0.0/dist/trix.umd.min.js"></script>
     <script>
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('alert', (data) => {
@@ -38,4 +40,5 @@
         });
     </script>
 @endpush
+
 

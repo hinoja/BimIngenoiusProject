@@ -77,14 +77,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getAvatarAttribute($value)
-    {
-        if ($value && Storage::disk('public')->exists($value)) {
-            return Storage::url($value);
-        }
 
-        return asset('assets/img/default-avatar.png');
-    }
     /**
      * Send the password reset notification.
      *
@@ -122,12 +115,15 @@ class User extends Authenticatable
         return $this->is_active || (! $this->is_active && $this->disabled_by === $this->id);
     }
 
-    public function getAvatarUrlAttribute(): string
+    public function getAvatarAttribute($value)
     {
-        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
-            return Storage::url($this->avatar);
+        // Si l'utilisateur a un avatar et que le fichier existe dans le disque public
+        if ($value && Storage::disk('public')->exists($value)) {
+            return Storage::url($value);
         }
-        return asset('assets/front/images/avatar1.png');
+
+        // Sinon, retourne l'avatar par défaut cohérent pour toutes les vues
+        return asset('assets/back/img/avatar/avatar-1.png');
     }
     /**
      * Vérifie si l'utilisateur a un rôle spécifique.

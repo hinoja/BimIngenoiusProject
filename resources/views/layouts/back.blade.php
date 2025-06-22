@@ -107,7 +107,7 @@
             @include('includes.back.sidebar')
             <div class="main-content">
                 <section class="section">
-                   
+
 
                     <!-- Contenu principal -->
                     @yield('content')

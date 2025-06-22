@@ -55,7 +55,6 @@ class ManageTag extends Component
     {
         $this->resetInputs();
         $this->reset();
-
         $this->dispatch('closeModal');
     }
 

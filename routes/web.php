@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController, TagController, QuoteController, NewsletterController};
+use App\Http\Controllers\Admin\{CategoryController, DashboardController, NewsAdminController, UsersController, ProjectController, PlanController, TagController, QuoteController, NewsletterController};
 use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController as FrontQuoteController, NewsletterController as FrontNewsletterController};
 
 // Front routes
@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
 //---------------------ADMIN ROUTES---------------------
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+    Route::get('dashboard', [ DashboardController::class ,'index'])->name('dashboard');
 
     Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
         Route::get('', 'index')->name('index');

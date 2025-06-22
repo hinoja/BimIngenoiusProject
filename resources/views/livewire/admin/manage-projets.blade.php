@@ -271,6 +271,8 @@
     </div>
 </div>
 
+
+
 @push('css')
     <style>
         /* Tableau amélioré */

@@ -65,6 +65,19 @@
             background-color: #007bff;
             color: white;
         }
+
+        trix-editor {
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 0.25rem;
+            border-color: #ced4da;
+        }
+
+        trix-toolbar {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
     </style>
 
     <!-- Indicateur d'étape -->
@@ -112,8 +125,8 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="fr_description" class="font-weight-bold text-dark">@lang('French Description')</label>
-                        <textarea wire:model="fr_description" class="form-control modern-textarea @error('fr_description') is-invalid @enderror"
-                            id="fr_description" rows="6" placeholder="@lang('Enter the French description')"></textarea>
+                        <input id="fr_description_input" type="hidden" wire:model="fr_description">
+                        <trix-editor input="fr_description_input" class="@error('fr_description') is-invalid @enderror"></trix-editor>
                         @error('fr_description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -122,8 +135,8 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="en_description" class="font-weight-bold text-dark">@lang('English Description')</label>
-                        <textarea wire:model="en_description" class="form-control modern-textarea @error('en_description') is-invalid @enderror"
-                            id="en_description" rows="6" placeholder="@lang('Enter the English description')"></textarea>
+                        <input id="en_description_input" type="hidden" wire:model="en_description">
+                        <trix-editor input="en_description_input" class="@error('en_description') is-invalid @enderror"></trix-editor>
                         @error('en_description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -398,4 +411,51 @@
     @endif
 </div>
 
+@push('scripts')
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+<script>
+    document.addEventListener('livewire:init', function () {
+        // Initialisation des éditeurs Trix
+        initTrixEditors();
+
+        // Réinitialiser les éditeurs Trix après chaque mise à jour Livewire
+        Livewire.hook('morph.updated', () => {
+            initTrixEditors();
+        });
+
+        function initTrixEditors() {
+            // Synchroniser le contenu de Trix avec Livewire
+            document.querySelectorAll('trix-editor').forEach(editor => {
+                editor.addEventListener('trix-change', function (e) {
+                    let inputId = editor.getAttribute('input');
+                    let input = document.getElementById(inputId);
+                    @this.set(input.getAttribute('wire:model'), editor.innerHTML);
+                });
+
+                // Initialiser le contenu de l'éditeur avec les valeurs Livewire
+                let inputId = editor.getAttribute('input');
+                let input = document.getElementById(inputId);
+                let wireModel = input.getAttribute('wire:model');
+
+                if (wireModel) {
+                    @this.get(wireModel).then(value => {
+                        if (value) {
+                            editor.editor.loadHTML(value);
+                        }
+                    });
+                }
+            });
+        }
+
+        // Désactiver le téléchargement de fichiers dans Trix
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        });
+    });
+</script>
+@endpush
+
+@push('styles')
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+@endpush
 

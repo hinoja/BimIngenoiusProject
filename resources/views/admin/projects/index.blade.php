@@ -14,10 +14,23 @@
     </div>
 @endsection
 
-@push('js')
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@push('js') 
+    <script>
+        document.addEventListener('trix-change', function(event) {
+            let input = event.target.inputElement;
+            if (input && input.id === 'fr_description_input') {
+                Livewire.find('{{ $_instance->id ?? '' }}').set('fr_description', input.value);
+            }
+            if (input && input.id === 'en_description_input') {
+                Livewire.find('{{ $_instance->id ?? '' }}').set('en_description', input.value);
+            }
+        });
 
-    @livewireScripts()
+        // Désactiver l'upload de fichiers dans Trix
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        });
+    </script>
 @endpush
 
 @push('css')
