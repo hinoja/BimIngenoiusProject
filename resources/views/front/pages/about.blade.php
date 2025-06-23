@@ -80,7 +80,7 @@
         @include('includes.front.parallax-section')
     </section>
 
-    <section class="team-about">
+    {{-- <section class="team-about">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-sm-6">
@@ -150,7 +150,7 @@
 
             </div>
         </div>
-    </section>
+    </section> --}}
 
     @include('includes.front.action-about')
 

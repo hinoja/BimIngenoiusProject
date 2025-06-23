@@ -48,7 +48,7 @@
 @section('content')
 
 @section('previousUrl', route('front.categories.index'))
-@section('previousTitle', __('Categories'))
+@section('previousTitle', __('Domains'))
 
 <div class="page-content blog-page">
     <div class="container">

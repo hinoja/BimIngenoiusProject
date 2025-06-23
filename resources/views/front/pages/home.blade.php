@@ -43,7 +43,7 @@
                                 data-speed="400"
                                 data-start="1700"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-border tp-resizeme" href="services.html">@lang('Our Services')</a>
+                                <a class="ot-btn btn-border tp-resizeme" href="{{ route('front.categories.index') }}">@lang('Our Domains')</a>
                             </div>
                             <div class="tp-caption sfr str tp-resizeme"
                                 data-x="right"
@@ -52,7 +52,7 @@
                                 data-speed="400"
                                 data-start="1800"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-color tp-resizeme" href="contact.html">@lang('Request a Quote')</a>
+                                <a class="ot-btn btn-color tp-resizeme" href="{{ route('front.quote.form') }}">@lang('Request a Quote')</a>
                             </div>
                         </li>
 
@@ -88,7 +88,7 @@
                                 data-speed="400"
                                 data-start="1800"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-border tp-resizeme" href="project-list.html">@lang('Our Projects')</a>
+                                <a class="ot-btn btn-border tp-resizeme" href="{{ route('front.projects.index') }}">@lang('Our Projects')</a>
                             </div>
                             <div class="tp-caption sfl str tp-resizeme"
                                 data-x="right"
@@ -97,7 +97,7 @@
                                 data-speed="400"
                                 data-start="1700"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-color tp-resizeme" href="contact.html">@lang('Request a Quote')</a>
+                                <a class="ot-btn btn-color tp-resizeme" href="{{ route('front.quote.form') }}">@lang('Request a Quote')</a>
                             </div>
                         </li>
                     </ul>

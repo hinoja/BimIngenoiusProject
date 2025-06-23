@@ -333,9 +333,11 @@
     "No news published yet.": "Aucune actualité publiée pour le moment.",
     "No news project yet.": "Aucun projet publié pour le moment.",
     "Our domains": "Nos domaines",
+    "Our Domains": "Nos domaines",
+    "Domains": "Domaines",
     "project(s)": "projet(s)",
     "Other categories": "Autres catégories",
-    "No category uploaded yet.": "Aucune catégorie n'a encore été ajoutée.",
+    "No domain uploaded yet.": "Aucun domaine n'a encore été ajouté.",
     
     "Already registered?": "Déjà inscrit(e) ?",
     "A new verification link has been sent to the email address you provided during registration.": "Un nouveau lien de vérification a été envoyé à l'adresse email que vous avez indiquée lors de votre inscription.",

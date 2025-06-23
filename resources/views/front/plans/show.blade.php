@@ -4,8 +4,8 @@
 
 @section('content')
 
-    @section('previousUrl', route('front.projects.index'))
-    @section('previousTitle', __('Projects'))
+    @section('previousUrl', route('front.plans.index'))
+    @section('previousTitle', __('Plans'))
 
     <section class="single-project">
         <div class="container">

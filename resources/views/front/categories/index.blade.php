@@ -1,6 +1,6 @@
 @extends('layouts.front')
 
-@section('subtitle', __('Categories'))
+@section('subtitle', __('Domains'))
 
 @section('content')
 
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-secondary text-center" role="alert">
-                        <b class="h5">@lang('No category uploaded yet.')</b>
+                        <b class="h5">@lang('No domain uploaded yet.')</b>
                     </div>
                 </div>
             </div>
