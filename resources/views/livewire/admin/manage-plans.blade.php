@@ -1,4 +1,4 @@
-<div class="container">
+<div class="p-3">
     <div class="row justify-content-center">
         <!-- Bouton pour ajouter un plan -->
         <div class="col-12 mb-3 text-right">
@@ -10,7 +10,8 @@
         <!-- Zone de filtre -->
         <div class="col-12 mb-3">
             <div class="card shadow-sm">
-                <div class="card-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                <div class="card-header"
+                    style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                     <h5 class="mb-0"><i class="fas fa-filter mr-2"></i>@lang('Filter Plans')</h5>
                 </div>
                 <div class="card-body">
@@ -65,27 +66,32 @@
                                         <td>
                                             <div class="d-flex flex-column">
                                                 <span class="fw-bold">{{ $plan->title }}</span>
-                                                <small class="text-muted">{{ Str::limit($plan->description, 50) }}</small>
+                                                <small
+                                                    class="text-muted">{{ Str::limit($plan->description, 50) }}</small>
                                             </div>
                                         </td>
                                         <td>{{ $plan->user?->name ?? 'N/A' }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center gap-2">
-                                                <span class="badge bg-info" data-bs-toggle="tooltip" title="@lang('Images')">
+                                                <span class="badge bg-info" data-bs-toggle="tooltip"
+                                                    title="@lang('Images')">
                                                     <i class="fas fa-image"></i> {{ $plan->images->count() }}
                                                 </span>
                                             </div>
                                         </td>
-                                        <td> @if (!$plan->published_at)
-                                            <span class="badge bg-secondary">@lang('pending')</span>
-                                        @else
-                                            <span class="badge bg-success">
-                                                {{ $plan->published_at }}
-                                            </span>
-                                        @endif</td>
+                                        <td>
+                                            @if (!$plan->published_at)
+                                                <span class="badge bg-secondary">@lang('Pending')</span>
+                                            @else
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check-double"></i>
+                                                </span>
+                                            @endif
+                                        </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.plans.show', $plan) }}" class="btn btn-sm btn-info" title="@lang('View Details')">
+                                                <a href="{{ route('admin.plans.show', $plan) }}"
+                                                    class="btn btn-sm btn-info mr-2" title="@lang('View Details')">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 {{-- <a href="{{ route('admin.plans.edit', $plan) }}" class="btn btn-sm btn-primary" title="@lang('Edit')">
@@ -94,9 +100,11 @@
                                                 <button wire:click="showPublishForm({{ $plan->id }})"
                                                     class="btn btn-sm {{ $plan->published_at ? 'btn-warning' : 'btn-success' }}"
                                                     title="{{ $plan->published_at ? __('Unpublish') : __('Publish') }}">
-                                                    <i class="fas {{ $plan->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }}"></i>
+                                                    <i
+                                                        class="fas {{ $plan->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }}"></i>
                                                 </button>
-                                                <button wire:click="showDeleteForm({{ $plan->id }})" class="btn btn-sm btn-danger" title="@lang('Delete')">
+                                                <button wire:click="showDeleteForm({{ $plan->id }})"
+                                                    class="btn btn-sm btn-danger ml-2" title="@lang('Delete')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -127,10 +135,12 @@
         </div>
 
         <!-- Modal pour la suppression -->
-        <div class="modal fade" id="deletePlanModal" tabindex="-1" aria-labelledby="deletePlanModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deletePlanModal" tabindex="-1" aria-labelledby="deletePlanModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                    <div class="modal-header"
+                        style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="deletePlanModalLabel">@lang('Delete Plan')</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -138,8 +148,10 @@
                         @lang('Are you sure you want to delete the plan') <strong>{{ $fr_title }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
-                        <button type="button" class="btn btn-danger" wire:click="destroyPlan" wire:loading.attr="disabled">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-danger" wire:click="destroyPlan"
+                            wire:loading.attr="disabled">
                             <span wire:loading wire:target="destroyPlan">
                                 <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Deleting...')
                             </span>
@@ -153,55 +165,62 @@
         </div>
 
         <!-- Modal pour la publication/dépublication -->
-        <div class="modal fade" id="publishPlanModal" tabindex="-1" aria-labelledby="publishPlanModalLabel" aria-hidden="true">
+        <div class="modal fade" id="publishPlanModal" tabindex="-1" aria-labelledby="publishPlanModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                    <div class="modal-header"
+                        style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="publishPlanModalLabel">
-                            @if($plan->find($publishId)?->published_at)
+                            @if ($isCurrentlyPublished)
                                 @lang('Unpublish Plan')
                             @else
                                 @lang('Publish Plan')
                             @endif
                         </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @if($plan->find($publishId)?->published_at)
+                        @if ($isCurrentlyPublished)
                             @lang('Are you sure you want to unpublish the plan') <strong>{{ $fr_title }}</strong>?
                         @else
                             @lang('Are you sure you want to publish the plan') <strong>{{ $fr_title }}</strong>?
                         @endif
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            wire:click="closeModal">@lang('Cancel')</button>
                         <button type="button"
-                                class="btn {{ $plan->find($publishId)?->published_at ? 'btn-warning' : 'btn-success' }}"
-                                wire:click="togglePublish"
-                                wire:loading.attr="disabled">
+                            class="btn {{ $plan->find($publishId)?->published_at ? 'btn-warning' : 'btn-success' }}"
+                            wire:click="togglePublish" wire:loading.attr="disabled">
                             <span wire:loading wire:target="togglePublish">
                                 <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Processing...')
                             </span>
                             <span wire:loading.remove wire:target="togglePublish">
-                                @if($plan->find($publishId)?->published_at)
-                                    <i class="fas fa-ban mr-1"></i> @lang('Unpublish')
-                                @else
-                                    <i class="fas fa-check-circle mr-1"></i> @lang('Publish')
-                                @endif
+                                <i
+                                    class="fas {{ $plan->find($publishId)?->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }} mr-1"></i>
+                                {{ $plan->find($publishId)?->published_at ? __('Unpublish') : __('Publish') }}
                             </span>
                         </button>
                     </div>
+
+
                 </div>
             </div>
         </div>
 
         <!-- Modal pour les détails -->
-        <div class="modal fade" id="detailsPlanModal" tabindex="-1" aria-labelledby="detailsPlanModalLabel" aria-hidden="true">
+        <div class="modal fade" id="detailsPlanModal" tabindex="-1" aria-labelledby="detailsPlanModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                    <div class="modal-header"
+                        style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="detailsPlanModalLabel">@lang('Plan Details')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @if ($selectedPlan)
@@ -289,7 +308,8 @@
                                 <div class="col-md-6">
                                     <h6 class="text-muted">@lang('Status')</h6>
                                     <p>
-                                        <span class="badge {{ $selectedPlan->published_at ? 'bg-success' : 'bg-secondary' }}">
+                                        <span
+                                            class="badge {{ $selectedPlan->published_at ? 'bg-success' : 'bg-secondary' }}">
                                             {{ $selectedPlan->published_at ? __('Published') : __('Unpublished') }}
                                         </span>
                                     </p>
@@ -313,7 +333,8 @@
                         @endif
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Close')</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">@lang('Close')</button>
                     </div>
                 </div>
             </div>

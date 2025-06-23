@@ -73,9 +73,9 @@
                             <section class="mb-5">
                                 <h4 class="section-title">@lang('Content')</h4>
                                 <div class="row">
-                                    <div class=" detail-group" style="text-align: justify;">
+                                    <div class="detail-group" style="text-align: justify;">
                                         <div class="detail-item"><strong>@lang('Content'):</strong>
-                                            <div>{!! $news->content ?? 'N/A' !!}</div>
+                                            <p>{!! $news->content ?? 'N/A' !!}</p>
                                         </div>
                                     </div>
 

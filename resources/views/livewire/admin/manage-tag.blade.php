@@ -181,15 +181,11 @@
 
             Livewire.on('openDeleteModal', () => {
                 $('#deleteModal').modal('show');
-
             });
 
             Livewire.on('closeModal', () => {
-                ['editModal', 'deleteModal'].forEach(modalId => {
-                    $('#editModal').modal('hide');
-                    $('#deleteModal').modal('hide');
-
-                });
+                $('#editModal').modal('hide');
+                $('#deleteModal').modal('hide');
             });
         });
     </script>

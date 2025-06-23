@@ -103,24 +103,26 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group mb-3"  >
-                        <label for="fr_description">@lang('French Description')</label>
-                        <input id="fr_description_input" type="hidden" wire:model.defer="fr_description">
-                        <trix-editor input="fr_description_input"></trix-editor>
+                    <div class="form-group mb-3" wire:ignore>
+                        <label for="fr_description" class="font-weight-bold text-dark">@lang('French Description')</label>
+                        <input id="fr_description_input" type="hidden" wire:model="fr_description" value="{{ $fr_description }}">
+                        <trix-editor input="fr_description_input" class="trix-content"
+                                     x-data
+                                     @trix-change="$wire.set('fr_description', $event.target.value)"></trix-editor>
                         @error('fr_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group mb-3">
+                    <div class="form-group mb-3" wire:ignore>
                         <label for="en_description" class="font-weight-bold text-dark">@lang('English Description')</label>
-                        <input id="en_description_input" type="hidden" wire:model.defer="en_description"
-                            name="fen_description">
-                        <trix-editor input="en_description_input"
-                            class="@error('en_description') is-invalid @enderror"></trix-editor>
+                        <input id="en_description_input" type="hidden" wire:model="en_description" value="{{ $en_description }}">
+                        <trix-editor input="en_description_input" class="trix-content"
+                                     x-data
+                                     @trix-change="$wire.set('en_description', $event.target.value)"></trix-editor>
                         @error('en_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -130,7 +132,6 @@
         <!-- Step 2: Project Details -->
         @if ($step == 2)
             <div class="row">
-
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="country" class="font-weight-bold text-dark">@lang('Country')</label>
@@ -321,50 +322,59 @@
     </script>
 </div>
 
-@push('scripts')
-    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-    <script>
-        document.addEventListener('livewire:init', function() {
-            // Initialisation des éditeurs Trix
-            initTrixEditors();
+@push('js')
+<script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+<script>
+    document.addEventListener('livewire:initialized', function () {
+        // Fonction pour initialiser Trix avec Livewire
+        function initializeTrixEditor(editorElement) {
+            const inputId = editorElement.getAttribute('input');
+            const inputElement = document.getElementById(inputId);
 
-            // Réinitialiser les éditeurs Trix après chaque mise à jour Livewire
-            Livewire.hook('morph.updated', () => {
-                initTrixEditors();
-            });
+            if (!inputElement) return;
 
-            function initTrixEditors() {
-                // Synchroniser le contenu de Trix avec Livewire
-                document.querySelectorAll('trix-editor').forEach(editor => {
-                    editor.addEventListener('trix-change', function(e) {
-                        let inputId = editor.getAttribute('input');
-                        let input = document.getElementById(inputId);
-                        @this.set(input.getAttribute('wire:model'), editor.innerHTML);
-                    });
-
-                    // Initialiser le contenu de l'éditeur avec les valeurs Livewire
-                    let inputId = editor.getAttribute('input');
-                    let input = document.getElementById(inputId);
-                    let wireModel = input.getAttribute('wire:model');
-
-                    if (wireModel) {
-                        @this.get(wireModel).then(value => {
-                            if (value) {
-                                editor.editor.loadHTML(value);
-                            }
-                        });
-                    }
-                });
+            // Synchroniser le contenu initial
+            if (inputElement.value) {
+                editorElement.editor.loadHTML(inputElement.value);
             }
 
-            // Désactiver le téléchargement de fichiers dans Trix
-            document.addEventListener('trix-file-accept', function(e) {
-                e.preventDefault();
+            // Écouter les changements et synchroniser avec Livewire
+            editorElement.addEventListener('trix-change', function(event) {
+                const content = event.target.innerHTML;
+                inputElement.value = content;
+
+                // Déclencher un événement input pour notifier Livewire
+                inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+
+                // Utiliser @this.set pour une synchronisation directe
+                const modelName = inputElement.getAttribute('wire:model');
+                if (modelName && window.Livewire) {
+                    @this.set(modelName, content);
+                }
             });
+        }
+
+        // Initialiser tous les éditeurs Trix existants
+        document.querySelectorAll('trix-editor').forEach(initializeTrixEditor);
+
+        // Réinitialiser après chaque mise à jour Livewire
+        Livewire.hook('morph.updated', ({ el, component }) => {
+            el.querySelectorAll('trix-editor').forEach(initializeTrixEditor);
         });
-    </script>
+
+        // Désactiver l'upload de fichiers dans Trix
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        });
+
+        // Gérer l'événement trix-before-initialize pour s'assurer que l'éditeur est prêt
+        document.addEventListener('trix-before-initialize', function(e) {
+            // Configuration globale de Trix si nécessaire
+        });
+    });
+</script>
 @endpush
 
-@push('styles')
+@push('css')
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endpush

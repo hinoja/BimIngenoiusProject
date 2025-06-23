@@ -205,6 +205,11 @@ return [
         'offers_add.*' => 'nouvelle offre :position',
         'subs_name' => 'nom',
         'subject' => 'sujet',
+        ' fr_content' => ' fr_contenu',
+        ' en_content' => ' en_contenu',
+        'fr_title'=> ' fr_titre',
+        'en_title'=> ' en_titre',
+
     ],
 
     'custom-values' => [

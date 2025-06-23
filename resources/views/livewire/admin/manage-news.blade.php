@@ -1,4 +1,4 @@
-<div class="container">
+<div class="p-3">
     <div class="row justify-content-center">
         <!-- Add News Button -->
         <div class="col-12 mb-3 text-right">
@@ -78,10 +78,10 @@
                                                     class="text-muted">{{ Str::limit(strip_tags($news->fr_content ?? ($news->en_content ?? '')), 50) }}</small>
                                             </div>
                                         </td>
-                                        <td>{{ $news->user?->name ?? 'N/A' }}   </td>
+                                        <td>{{ $news->user?->name ?? 'N/A' }} </td>
                                         <td>
 
-                                            @if (!$news->published_at )
+                                            @if (!$news->published_at)
                                                 <span class="badge bg-secondary">@lang('Pending')</span>
                                             @else
                                                 <span class="badge bg-success">
@@ -104,7 +104,6 @@
                                                     title="{{ $news->published_at ? __('Unpublish') : __('Publish') }}">
                                                     <i
                                                         class="fas {{ $news->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }}"></i>
-
                                                 </button>
                                                 <button wire:click="showDeleteForm({{ $news->id }})"
                                                     class="btn btn-sm btn-danger ml-2" title="@lang('Delete')">

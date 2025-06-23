@@ -1,4 +1,4 @@
-<div class="container">
+<div  class="pr-4">
     <div class="row justify-content-center">
         <!-- Bouton pour ajouter un projet -->
         <div class="col-12 mb-3 text-right">
@@ -193,76 +193,6 @@
             </div>
         </div>
 
-        {{-- <!-- Modal pour les détails (inchangé, inclus pour cohérence) -->
-        <div class="modal fade" id="detailsProjectModal" tabindex="-1" aria-labelledby="detailsProjectModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header"
-                        style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
-                        <h5 class="modal-title" id="detailsProjectModalLabel">@lang('Project Details')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        @if ($selectedProject)
-                            @if ($selectedProject->images->isNotEmpty())
-                                <div class="mb-4">
-                                    <h6 class="text-muted">@lang('Images')</h6>
-                                    <div id="projectImagesCarousel" class="carousel slide" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            @foreach ($selectedProject->images as $index => $image)
-                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                    <img src="{{ asset('storage/' . $image->name) }}"
-                                                        class="d-block w-100 rounded image-lightbox"
-                                                        style="max-height: 400px; object-fit: cover;"
-                                                        alt="@lang('Project Image')"
-                                                        data-fullscreen="{{ asset('storage/' . $image->name) }}">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="carousel-indicators">
-                                            @foreach ($selectedProject->images as $index => $image)
-                                                <button type="button" data-bs-target="#projectImagesCarousel"
-                                                    data-bs-slide-to="{{ $index }}"
-                                                    class="{{ $index === 0 ? 'active' : '' }}"
-                                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
-                                                    aria-label="@lang('Slide') {{ $index + 1 }}">
-                                                    <img src="{{ asset('storage/' . $image->name) }}"
-                                                        class="d-block w-100 rounded"
-                                                        style="max-height: 50px; object-fit: cover;">
-                                                </button>
-                                            @endforeach
-                                        </div>
-                                        <button class="carousel-control-prev" type="button"
-                                            data-bs-target="#projectImagesCarousel" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">@lang('Previous')</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button"
-                                            data-bs-target="#projectImagesCarousel" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">@lang('Next')</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="mb-4">
-                                    <h6 class="text-muted">@lang('Images')</h6>
-                                    <p class="text-muted">@lang('No images available for this project.')</p>
-                                </div>
-                            @endif
-                            <!-- Reste du modal des détails inchangé -->
-                        @endif
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">@lang('Close')</button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
         <!-- Lightbox pour afficher les images en plein écran -->
         <div class="lightbox" id="lightbox">
             <span class="close-lightbox">×</span>
@@ -275,9 +205,13 @@
 
 @push('css')
     <style>
+
         /* Tableau amélioré */
-        .table {
+
+          .table {
             font-size: 0.925rem;
+            width: 100%;
+            table-layout: fixed;
         }
 
         .table thead th {

@@ -69,6 +69,10 @@
                 <a class="nav-link" href="{{ route('admin.news.index') }}"><i class="fas fa-newspaper"></i>
                     <span>@lang('News')</span></a>
             </li>
+             <li class="@if (Str::contains($currentUri, 'plans')) active @endif">
+                <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>
+                    <span>@lang('Plans')</span></a>
+            </li>
 
             <!-- Gestion des Newsletters -->
             <li class="dropdown @if (Str::contains($currentUri, 'newsletters')) active @endif">

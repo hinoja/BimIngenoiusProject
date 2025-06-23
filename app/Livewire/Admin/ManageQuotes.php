@@ -28,7 +28,7 @@ class ManageQuotes extends Component
         'perPage' => ['except' => 10], // Ajout dans queryString
     ];
 
-      public function closeModal()
+    public function closeModal()
     {
         $this->reset();
         $this->dispatch('closeModal');

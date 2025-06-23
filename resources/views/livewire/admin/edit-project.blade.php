@@ -71,19 +71,31 @@
             max-height: 300px;
             overflow-y: auto;
             border-radius: 0.25rem;
-            border-color: #ced4da;
+            border: 1px solid #ced4da;
+            margin-top: 5px;
         }
 
         trix-toolbar {
             border-top-left-radius: 0.25rem;
             border-top-right-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            border-bottom: none;
+        }
+
+        /* Style pour les erreurs Trix */
+        .trix-error {
+            border-color: #dc3545;
+        }
+
+        .trix-error trix-toolbar {
+            border-color: #dc3545;
         }
     </style>
 
     <!-- Indicateur d'étape -->
     <div class="step-indicator">
         @lang('Step') {{ $step }} @lang('of') {{ $totalSteps }}:
-        @if($step == 1)
+        @if ($step == 1)
             @lang('Basic Information')
         @elseif($step == 2)
             @lang('Project Details')
@@ -125,20 +137,34 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="fr_description" class="font-weight-bold text-dark">@lang('French Description')</label>
-                        <input id="fr_description_input" type="hidden" wire:model="fr_description">
-                        <trix-editor input="fr_description_input" class="@error('fr_description') is-invalid @enderror"></trix-editor>
+                        <div wire:ignore x-data x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')">
+                            <input id="fr_description_input" type="hidden">
+                            <trix-editor
+                                x-ref="trix"
+                                input="fr_description_input"
+                                @trix-change="$wire.set('fr_description', $event.target.value)"
+                                class="trix-content @error('fr_description') trix-error @enderror"
+                            ></trix-editor>
+                        </div>
                         @error('fr_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="en_description" class="font-weight-bold text-dark">@lang('English Description')</label>
-                        <input id="en_description_input" type="hidden" wire:model="en_description">
-                        <trix-editor input="en_description_input" class="@error('en_description') is-invalid @enderror"></trix-editor>
+                        <div wire:ignore x-data x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')">
+                            <input id="en_description_input" type="hidden">
+                            <trix-editor
+                                x-ref="trix"
+                                input="en_description_input"
+                                @trix-change="$wire.set('en_description', $event.target.value)"
+                                class="trix-content @error('en_description') trix-error @enderror"
+                            ></trix-editor>
+                        </div>
                         @error('en_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -175,9 +201,8 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="city" class="font-weight-bold text-dark">@lang('City')</label>
-                        <input type="text" wire:model="city"
-                            class="form-control @error('city') is-invalid @enderror" id="city"
-                            placeholder="@lang('Enter the city')">
+                        <input type="text" wire:model="city" class="form-control @error('city') is-invalid @enderror"
+                            id="city" placeholder="@lang('Enter the city')">
                         @error('city')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -257,8 +282,8 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="category_id" class="font-weight-bold text-dark">@lang('Category')</label>
-                        <select wire:model="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                            id="category_id">
+                        <select wire:model="category_id"
+                            class="form-control @error('category_id') is-invalid @enderror" id="category_id">
                             <option value="">@lang('Select a category')</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -270,21 +295,21 @@
                     </div>
                 </div>
                 @if ($status === \App\Enums\StatusEnums::Idea->value)
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="plan_id" class="font-weight-bold text-dark">@lang('Plan')</label>
-                        <select wire:model="plan_id" class="form-control @error('plan_id') is-invalid @enderror"
-                            id="plan_id">
-                            <option value="">@lang('Select a plan')</option>
-                            @foreach ($plans as $plan)
-                                <option value="{{ $plan->id }}">{{ $plan->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('plan_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="plan_id" class="font-weight-bold text-dark">@lang('Plan')</label>
+                            <select wire:model="plan_id" class="form-control @error('plan_id') is-invalid @enderror"
+                                id="plan_id">
+                                <option value="">@lang('Select a plan')</option>
+                                @foreach ($plans as $plan)
+                                    <option value="{{ $plan->id }}">{{ $plan->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('plan_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
                 @endif
             </div>
         @endif
@@ -295,7 +320,8 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="images" class="font-weight-bold text-dark">@lang('Project Images')</label>
-                        <input type="file" wire:model="images" class="form-control @error('images') is-invalid @enderror" id="images" multiple>
+                        <input type="file" wire:model="images"
+                            class="form-control @error('images') is-invalid @enderror" id="images" multiple>
                         <small class="form-text text-muted">@lang('You can select multiple images. Maximum size: 2MB per image.')</small>
                         @error('images')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -317,7 +343,9 @@
                                 <div class="col-md-3 mb-3">
                                     <div class="position-relative">
                                         <img src="{{ $image->temporaryUrl() }}" class="img-fluid" alt="Preview">
-                                        <button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px;" wire:click="removeImage({{ $index }})">
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute"
+                                            style="top: 5px; right: 5px;"
+                                            wire:click="removeImage({{ $index }})">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -337,8 +365,11 @@
                             @foreach ($existingImages as $image)
                                 <div class="col-md-3 mb-3">
                                     <div class="position-relative">
-                                        <img src="{{ Storage::url($image['name']) }}" class="img-fluid" alt="{{ $image['original_name'] }}">
-                                        <button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px;" wire:click="deleteExistingImage({{ $image['id'] }})">
+                                        <img src="{{ Storage::url($image['name']) }}" class="img-fluid"
+                                            alt="{{ $image['original_name'] ?? basename($image['name']) }}">
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute"
+                                            style="top: 5px; right: 5px;"
+                                            wire:click="deleteExistingImage({{ $image['id'] }})">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -357,9 +388,9 @@
                         <div class="tag-selector">
                             @foreach ($tags as $tag)
                                 <div class="tag-item {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}"
-                                     wire:click="$set('selectedTags', {{ json_encode(in_array($tag->id, $selectedTags)
-                                                                ? array_diff($selectedTags, [$tag->id])
-                                                                : array_merge($selectedTags, [$tag->id])) }})">
+                                    wire:click="$set('selectedTags', {{ json_encode(
+                                        in_array($tag->id, $selectedTags) ? array_diff($selectedTags, [$tag->id]) : array_merge($selectedTags, [$tag->id]),
+                                    ) }})">
                                     {{ $tag->name }}
                                 </div>
                             @endforeach
@@ -412,50 +443,15 @@
 </div>
 
 @push('scripts')
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-<script>
-    document.addEventListener('livewire:init', function () {
-        // Initialisation des éditeurs Trix
-        initTrixEditors();
-
-        // Réinitialiser les éditeurs Trix après chaque mise à jour Livewire
-        Livewire.hook('morph.updated', () => {
-            initTrixEditors();
-        });
-
-        function initTrixEditors() {
-            // Synchroniser le contenu de Trix avec Livewire
-            document.querySelectorAll('trix-editor').forEach(editor => {
-                editor.addEventListener('trix-change', function (e) {
-                    let inputId = editor.getAttribute('input');
-                    let input = document.getElementById(inputId);
-                    @this.set(input.getAttribute('wire:model'), editor.innerHTML);
-                });
-
-                // Initialiser le contenu de l'éditeur avec les valeurs Livewire
-                let inputId = editor.getAttribute('input');
-                let input = document.getElementById(inputId);
-                let wireModel = input.getAttribute('wire:model');
-
-                if (wireModel) {
-                    @this.get(wireModel).then(value => {
-                        if (value) {
-                            editor.editor.loadHTML(value);
-                        }
-                    });
-                }
-            });
-        }
-
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script>
         // Désactiver le téléchargement de fichiers dans Trix
         document.addEventListener('trix-file-accept', function(e) {
             e.preventDefault();
         });
-    });
-</script>
+    </script>
 @endpush
 
 @push('styles')
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endpush
-

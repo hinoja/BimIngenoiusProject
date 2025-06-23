@@ -190,6 +190,34 @@
                                 family: 'Nunito, Segoe UI, Arial'
                             }
                         }
+                    },
+                    tooltip: {
+                        backgroundColor: '#2A2E45',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#FF6B35',
+                        borderWidth: 1,
+                        padding: 10,
+                        cornerRadius: 8,
+                        displayColors: true,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y;
+                                }
+                                // Pour les graphiques doughnut/pie, afficher le pourcentage
+                                if (context.chart.config.type === 'doughnut' || context.chart.config.type === 'pie') {
+                                    const total = context.chart.getDatasetMeta(0).total;
+                                    const percentage = total > 0 ? ((context.parsed / total) * 100).toFixed(1) + '%' : '0%';
+                                    label = `${context.label}: ${context.parsed} (${percentage})`;
+                                }
+                                return label;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -239,7 +267,7 @@
                     data: {
                         labels: chartData.requestsPerMonth.labels,
                         datasets: [{
-                            label: 'Contacts',
+                            label: 'Messages',
                             data: Object.values(chartData.requestsPerMonth.contacts),
                             borderColor: chartColors.warning,
                             backgroundColor: chartColors.warning_bg,
@@ -320,8 +348,7 @@
                 new Chart(document.getElementById('projectsByStatusChart'), {
                     type: 'doughnut',
                     data: {
-                        labels: chartData.projectsByStatus.labels.map(l => l.charAt(0).toUpperCase() + l
-                            .slice(1).replace('_', ' ')),
+                        labels: chartData.projectsByStatus.labels,
                         datasets: [{
                             data: chartData.projectsByStatus.data,
                             backgroundColor: [

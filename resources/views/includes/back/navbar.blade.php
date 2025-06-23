@@ -52,13 +52,13 @@
                 <a href="{{ route('profile.edit') }}" class="dropdown-item has-icon">
                     <i class="far fa-user"></i> @lang('Profile')
                 </a>
-                <div class="dropdown-divider"></div>
+                
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="dropdown-item has-icon text-danger"
-                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();"
+                        class="dropdown-item has-icon text-danger">
                         <i class="fas fa-sign-out-alt"></i> @lang('Log Out')
-                    </button>
+                    </a>
                 </form>
             </div>
         </li>

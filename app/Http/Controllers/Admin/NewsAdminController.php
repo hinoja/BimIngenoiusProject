@@ -47,8 +47,8 @@ class NewsAdminController extends Controller
             $newsData = [
                 'fr_title' => $validated['fr_title'],
                 'en_title' => $validated['en_title'],
-                'fr_content' => strip_tags($validated['fr_content']),
-                'en_content' => strip_tags($validated['en_content']),
+                'fr_content' => $validated['fr_content'],
+                'en_content' => $validated['en_content'],
                 'slug' => Str::slug($validated['en_title']) . '-' . time(),
                 'user_id' => Auth::id(),
                 'published_at' => $request->boolean('published_at') ? now() : null,
@@ -88,7 +88,8 @@ class NewsAdminController extends Controller
      */
     public function edit(News $news)
     {
-        return view('admin.news.edit', compact('news'));
+        $availableTags = Tag::all()->pluck('name', 'id')->toArray();
+        return view('admin.news.edit', compact('news', 'availableTags'));
     }
 
     /**

@@ -23,6 +23,12 @@ class AddProject extends Component
     public $step = 1;
     public $totalSteps = 5;
 
+
+    // public function mount(): void
+    // {
+    //     $this->en_description = ' Lorem ipsum is a placeholder text commonly..';
+    //     $this->fr_description = ' Lorem ipsum is a placeholder text commonly..';
+    // }
     protected function rules()
     {
         return [
@@ -38,7 +44,7 @@ class AddProject extends Component
             'start_date' => ['required', 'date', 'before_or_equal:end_date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'category_id' => ['required', 'exists:categories,id'],
-            'plan_id' => ['nullable', 'exists:plans,id' ],
+            'plan_id' => ['nullable', 'exists:plans,id'],
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];

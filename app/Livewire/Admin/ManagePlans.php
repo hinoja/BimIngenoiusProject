@@ -14,7 +14,7 @@ class ManagePlans extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $deleteId, $selectedPlan, $publishId;
-    public $fr_title;
+    public $fr_title, $isCurrentlyPublished = false;
     public $filterTitle = '';
     public $filterStatus = '';
 
@@ -59,6 +59,7 @@ class ManagePlans extends Component
         $plan = Plan::findOrFail($id);
         $this->publishId = $plan->id;
         $this->fr_title = $plan->fr_title;
+        $this->isCurrentlyPublished = (bool) $plan->published_at;
         $this->dispatch('openPublishModal');
     }
 
@@ -66,10 +67,16 @@ class ManagePlans extends Component
     {
         try {
             $plan = Plan::findOrFail($this->publishId);
-            $plan->published_at = $plan->published_at ? null : now();
+
+            if ($plan->published_at) {
+                $plan->published_at = null;
+            } else {
+                $plan->published_at = now();
+            }
             $plan->save();
             session()->flash('success', $plan->published_at ? __('Plan published successfully!') : __('Plan unpublished successfully!'));
-            $this->closeModal();
+
+            return redirect()->route('admin.plans.index');
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred while updating the plan: ') . $e->getMessage());
         }
@@ -82,9 +89,9 @@ class ManagePlans extends Component
         if ($this->filterTitle) {
             $query->where(function ($q) {
                 $q->where('fr_title', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('fr_description', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('en_description', 'like', '%' . $this->filterTitle . '%');
+                    ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%')
+                    ->orWhere('fr_description', 'like', '%' . $this->filterTitle . '%')
+                    ->orWhere('en_description', 'like', '%' . $this->filterTitle . '%');
             });
         }
 

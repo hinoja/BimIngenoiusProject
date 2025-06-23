@@ -54,7 +54,6 @@ class ManageTag extends Component
     public function closeModal()
     {
         $this->resetInputs();
-        $this->reset();
         $this->dispatch('closeModal');
     }
 
@@ -76,7 +75,6 @@ class ManageTag extends Component
             $this->resetInputs();
             $this->resetPage();
             return redirect()->route('admin.tags.index');
-
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred: ') . $e->getMessage());
         }
@@ -108,7 +106,6 @@ class ManageTag extends Component
 
             session()->flash('success', __('Tag updated successfully!'));
             $this->closeModal();
-            return redirect()->route('admin.tags.index');
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred: ') . $e->getMessage());
         }
@@ -116,7 +113,8 @@ class ManageTag extends Component
 
     public function showDeleteForm($id)
     {
-        $this->deleteId = $id;
+        $tag = Tag::findOrFail($id);
+        $this->deleteId = $tag->id;
         $this->dispatch('openDeleteModal');
     }
 
@@ -127,8 +125,7 @@ class ManageTag extends Component
             $tag->delete();
 
             session()->flash('success', __('Tag deleted successfully!'));
-            // $this->closeModal();
-            return redirect()->route('admin.tags.index');
+            $this->closeModal();
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred: ') . $e->getMessage());
         }
@@ -139,18 +136,14 @@ class ManageTag extends Component
         $query = Tag::query();
 
         if ($this->searchTerm) {
-            $query->where(function($q) {
+            $query->where(function ($q) {
                 $q->where('fr_name', 'like', '%' . $this->searchTerm . '%')
-                  ->orWhere('en_name', 'like', '%' . $this->searchTerm . '%');
+                    ->orWhere('en_name', 'like', '%' . $this->searchTerm . '%');
             });
         }
 
         return view('livewire.admin.manage-tag', [
-            'tags' => $query->orderBy('created_at', 'desc')->paginate(10)
+            'tags' => $query->orderBy('created_at', 'desc')->paginate(6)
         ]);
     }
 }
-
-
-
-

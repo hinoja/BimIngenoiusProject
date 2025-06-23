@@ -83,18 +83,16 @@ class ManageCategories extends Component
                 'fr_name' => $this->fr_name,
                 'en_name' => $this->en_name,
                 'slug' => Str::slug($this->en_name),
-                'description' => strip_tags($this->description, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>'),
+                'description' => $this->description,
                 'image' => $imagePath,
             ]);
 
             $this->reset(['fr_name', 'en_name', 'description', 'image']);
             session()->flash('success', __('Category created successfully!'));
-            $this->resetPage();
+            $this->closeModal();
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred while creating the category: ') . $e->getMessage());
         }
-
-        return $this->redirect(route('admin.categories.index'), navigate: true);
     }
 
     public function updateCategory()
@@ -117,13 +115,11 @@ class ManageCategories extends Component
                 $category->image = $imagePath;
             }
 
-            $cleanDescription = strip_tags($this->editDescription, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>');
-
             $category->update([
                 'fr_name' => $this->editFrName,
                 'en_name' => $this->editEnName,
                 'slug' => Str::slug($this->editEnName),
-                'description' => $cleanDescription,
+                'description' => $this->editDescription,
             ]);
 
             session()->flash('success', __('Category updated successfully!'));
@@ -131,8 +127,6 @@ class ManageCategories extends Component
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred while updating the category: ') . $e->getMessage());
         }
-
-        return $this->redirect(route('admin.categories.index'), navigate: true);
     }
 
     public function showDeleteForm($id)

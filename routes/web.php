@@ -110,6 +110,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::get('/create', 'create')->name('create');
             Route::get('/{news}', 'show')->name('show');
             Route::get('/{news}/edit', 'edit')->name('edit');
+            Route::put('/{news}/edit', 'update')->name('update');
             Route::post('/news', 'store')->name('store');
         });
     });
@@ -150,12 +151,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('/create', function() {
             return view('admin.newsletters.create');
         })->name('create');
-        Route::get('/{newsletter}/edit', function(App\Models\Newsletter $newsletter) {
-            return view('admin.newsletters.edit', compact('newsletter'));
-        })->name('edit');
         Route::get('/subscribers', function() {
             return view('admin.newsletters.subscribers');
         })->name('subscribers');
+        Route::get('/{newsletter}/edit', function(App\Models\Newsletter $newsletter) {
+            return view('admin.newsletters.edit', compact('newsletter'));
+        })->where('newsletter', '^(?!subscribers$).+')->name('edit');
     });
 });
 

@@ -162,9 +162,10 @@
         aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
+                <div class="modal-header"
+                    style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                     <h5 class="modal-title" id="deleteQuoteModalLabel">@lang('Delete Quote')</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeModal"></button>
+                    <button type="button" class="btn-close" aria-label="Close" wire:click="closeModal"></button>
                 </div>
                 <div class="modal-body">
                     @if ($selectedQuote)
@@ -174,7 +175,7 @@
                     @endif
                 </div>
                 <div class="modal-footer" style="border-top: 2px solid #FF6B35;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeModal">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal">
                         <i class="fas fa-times me-1"></i> @lang('Cancel')
                     </button>
                     <button type="button" class="btn btn-danger" wire:click="deleteQuote">
@@ -274,7 +275,7 @@
                 </div>
                 <div class="modal-footer">
 
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         wire:click="closeModal">@lang('Cancel')</button>
                     @if ($selectedQuote)
                         <a href="{{ route('admin.quotes.edit', $selectedQuote) }}" class="btn btn-primary">
@@ -286,31 +287,29 @@
         </div>
     </div>
 
-    <!-- Suppression du modal de changement de statut -->
+
 
     @push('scripts')
         <script>
             document.addEventListener('livewire:initialized', () => {
-                Livewire.on('openModal', (modalId) => {
-                    let modal = new bootstrap.Modal(document.getElementById(modalId));
-                    modal.show();
+                Livewire.on('openModal', () => {
+                    $('#editModal').modal.show();
                 });
 
                 Livewire.on('closeModal', (modalId) => {
-                    let modalElement = document.getElementById(modalId);
-                    let modal = bootstrap.Modal.getInstance(modalElement);
                     modal.hide();
                 });
+            });
 
-                Livewire.on('alert', (data) => {
-                    Swal.fire({
-                        icon: data.type,
-                        title: data.type === 'success' ? 'Success!' : 'Error!',
-                        text: data.message,
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
-                });
+            Livewire.on('alert', (data) => {
+            Swal.fire({
+                icon: data.type,
+                title: data.type === 'success' ? 'Success!' : 'Error!',
+                text: data.message,
+                timer: 3000,
+                showConfirmButton: false
+            });
+            });
             });
         </script>
     @endpush
@@ -318,7 +317,40 @@
 
 @push('css')
     <style>
-        /* Tableau amélioré */
+        /* Tableau */
+        .table {
+            font-size: 0.925rem;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background-color: var(--dark);
+            color: var(--light);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+            padding: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(255, 107, 53, 0.05);
+        }
+
+        .table td {
+            vertical-align: middle;
+            padding: 0.75rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .table {
             font-size: 0.925rem;
         }
@@ -403,5 +435,3 @@
         });
     </script>
 @endpush
-
-

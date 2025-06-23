@@ -54,6 +54,11 @@ class DashboardController extends Controller
             ->pluck('count', 'status')
             ->toArray();
 
+        // Traduire les libellés de statut
+        $translatedStatusLabels = array_map(function ($status) {
+            return __($status);
+        }, array_keys($projectsByStatus));
+
         // Top 10 des pays avec le plus de projets
         $projectsByCountry = Project::select('country', DB::raw('COUNT(*) as count'))
             ->whereNotNull('country')
@@ -100,7 +105,7 @@ class DashboardController extends Controller
                 'data' => $projectsByCategory->pluck('projects_count')->toArray(),
             ],
             'projectsByStatus' => [
-                'labels' => array_keys($projectsByStatus),
+                'labels' => $translatedStatusLabels,
                 'data' => array_values($projectsByStatus),
             ],
             'projectsByCountry' => [

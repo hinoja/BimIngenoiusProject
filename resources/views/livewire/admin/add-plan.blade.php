@@ -45,24 +45,38 @@
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" wire:ignore>
                             <label for="fr_description"
                                 class="font-weight-bold text-dark mb-2">@lang('French Description')</label>
-                            <textarea wire:model="fr_description" class="form-control modern-textarea summernote" id="fr_description"
-                                placeholder="@lang('Enter the French description')"></textarea>
+                            <input id="fr_description" type="hidden" wire:model.defer="fr_description">
+                            <trix-editor
+                                x-data
+                                x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')"
+                                x-ref="trix"
+                                input="fr_description"
+                                @trix-change="$wire.set('fr_description', $event.target.value)"
+                                class="form-control trix-content @error('fr_description') is-invalid @enderror"
+                            ></trix-editor>
                             @error('fr_description')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" wire:ignore>
                             <label for="en_description"
                                 class="font-weight-bold text-dark mb-2">@lang('English Description')</label>
-                            <textarea wire:model="en_description" class="form-control modern-textarea summernote" id="en_description"
-                                placeholder="@lang('Enter the English description')"></textarea>
+                             <input id="en_description" type="hidden" wire:model.defer="en_description">
+                            <trix-editor
+                                x-data
+                                x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')"
+                                x-ref="trix"
+                                input="en_description"
+                                @trix-change="$wire.set('en_description', $event.target.value)"
+                                class="form-control trix-content @error('en_description') is-invalid @enderror"
+                            ></trix-editor>
                             @error('en_description')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
@@ -142,7 +156,7 @@
 </div>
 
 @push('css')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <style>
         .step-content {
             animation: fadeIn 0.3s ease-in-out;
@@ -172,6 +186,20 @@
             color: white;
         }
 
+        .trix-content {
+            height: auto !important; /* Allow trix to expand */
+        }
+
+        trix-editor.form-control {
+            height: auto;
+            min-height: 200px;
+            padding: .375rem .75rem;
+        }
+
+        trix-editor.is-invalid {
+            border-color: #dc3545;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -183,7 +211,6 @@
                 transform: translateY(0);
             }
         }
-
 
         @keyframes slideIn {
             from {
@@ -214,21 +241,10 @@
 @endpush
 
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.summernote').summernote({
-                height: 200,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
         });
     </script>
 @endpush
