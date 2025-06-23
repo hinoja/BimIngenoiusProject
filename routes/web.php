@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\Admin\{CategoryController, NewsAdminController, UsersController, ProjectController, PlanController};
-use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController};
+use App\Http\Controllers\Admin\{CategoryController, DashboardController, NewsAdminController, UsersController, ProjectController, PlanController, TagController, QuoteController, NewsletterController};
+use App\Http\Controllers\Front\{CategoriesController, PagesController, ProjectsController, PlansController, NewsController, QuoteController as FrontQuoteController, NewsletterController as FrontNewsletterController};
 
 // Front routes
 Route::name('front.')->group(function () {
@@ -42,7 +42,15 @@ Route::name('front.')->group(function () {
     });
 
     // Quote
-    Route::get('/request-quote', QuoteController::class)->name('quote.form');
+    Route::get('/request-quote', [FrontQuoteController::class, 'showForm'])->name('quote.form');
+    Route::post('/request-quote', [FrontQuoteController::class, 'submitForm'])->name('quote.submit');
+
+    // Newsletter subscription (front)
+    Route::controller(FrontNewsletterController::class)->prefix('newsletter')->name('newsletter.')->group(function () {
+        Route::post('/subscribe', 'subscribe')->name('subscribe');
+        Route::get('/confirm/{token}', 'confirm')->name('confirm');
+        Route::get('/unsubscribe/{token}', 'unsubscribe')->name('unsubscribe');
+    });
 });
 
 Route::get('lang/{locale}', [LanguageController::class, 'switchLang'])->name('lang.switch');
@@ -61,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
 //---------------------ADMIN ROUTES---------------------
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+    Route::get('dashboard', [ DashboardController::class ,'index'])->name('dashboard');
 
     Route::prefix('users')->name('users.')->controller(UsersController::class)->group(function () {
         Route::get('', 'index')->name('index');
@@ -102,6 +110,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::get('/create', 'create')->name('create');
             Route::get('/{news}', 'show')->name('show');
             Route::get('/{news}/edit', 'edit')->name('edit');
+            Route::put('/{news}/edit', 'update')->name('update');
             Route::post('/news', 'store')->name('store');
         });
     });
@@ -113,5 +122,72 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::post('categories', 'store')->name('store');
         });
     });
+
+    // Routes pour les tags
+    Route::prefix('tags')->name('tags.')->controller(TagController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::delete('/{tag}', 'destroy')->name('destroy');
+    });
+
+    // Routes pour les devis (quotes)
+    Route::prefix('quotes')->name('quotes.')->group(function () {
+        Route::view('/', 'admin.quotes.index')->name('index');
+        Route::view('/create', 'admin.quotes.create')->name('create');
+        Route::controller(QuoteController::class)->group(function () {
+            Route::get('/{quote}', 'show')->name('show');
+            Route::get('/{quote}/edit', 'edit')->name('edit');
+            Route::get('/categories', 'categories')->name('categories');
+            Route::post('/categories', 'storeCategory')->name('categories.store');
+            Route::delete('/categories/{category}', 'destroyCategory')->name('categories.destroy');
+        });
+    });
+
+    // Routes pour les newsletters
+    Route::prefix('newsletters')->name('newsletters.')->group(function () {
+        Route::get('/', function() {
+            return view('admin.newsletters.index');
+        })->name('index');
+        Route::get('/create', function() {
+            return view('admin.newsletters.create');
+        })->name('create');
+        Route::get('/subscribers', function() {
+            return view('admin.newsletters.subscribers');
+        })->name('subscribers');
+        Route::get('/{newsletter}/edit', function(App\Models\Newsletter $newsletter) {
+            return view('admin.newsletters.edit', compact('newsletter'));
+        })->where('newsletter', '^(?!subscribers$).+')->name('edit');
+    });
 });
+
+// Routes pour la gestion des devis (admin)
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/quotes', function() {
+        return view('admin.quotes.index');
+    })->name('quotes.index');
+
+    Route::get('/quotes/{quote}', function(App\Models\Quote $quote) {
+        return view('admin.quotes.show', compact('quote'));
+    })->name('quotes.show');
+
+    Route::get('/quotes/{quote}/edit', function(App\Models\Quote $quote) {
+        return view('admin.quotes.edit', compact('quote'));
+    })->name('quotes.edit');
+});
+
+// Routes pour l'administration des news
+// Route::resource('admin/news', \App\Http\Controllers\Admin\NewsAdminController::class)
+//     ->middleware(['auth'])
+//     ->names('admin.news');
+
 require __DIR__ . '/auth.php';
+
+
+
+
+
+
+
+
+
+

@@ -128,7 +128,7 @@
                             <!-- Section 3 : Description -->
                             <section class="mb-5">
                                 <h4 class="section-title">@lang('Description')</h4>
-                                <p class="description-text">{{ $project->description ?? 'N/A' }}</p>
+                                <p class="description-text">{!!  $project->description ?? 'N/A' !!}</p>
                             </section>
 
                             <!-- Section 4 : Localisation -->
@@ -165,6 +165,7 @@
 
                         <div class="card-footer text-right elegant-footer">
                             <a href="{{ route('admin.projects.index') }}" class="btn btn-cancel">@lang('Back')</a>
+                            {{-- <a href="{{ route('admin.projects.edit',) }}" class="btn btn-cancel">@lang('Back')</a> --}}
                         </div>
                     </div>
                 </div>

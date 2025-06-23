@@ -16,34 +16,9 @@
 @endsection
 
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
     @livewireScripts()
-    <script type="text/javascript">
-        // Close news modals
-        document.addEventListener('livewire:initialized', () => {
-            Livewire.on('closeModal', () => {
-                $('#deleteNewsModal').modal('hide');
-                $('#detailsNewsModal').modal('hide');
-                $('#publishNewsModal').modal('hide');
-            });
-        });
-
-        // Open news modals
-        document.addEventListener('livewire:initialized', () => {
-            Livewire.on('openDeleteModal', () => {
-                $('#deleteNewsModal').modal('show');
-            });
-
-            Livewire.on('openDetailsModal', () => {
-                $('#detailsNewsModal').modal('show');
-            });
-
-            Livewire.on('openPublishModal', () => {
-                $('#publishNewsModal').modal('show');
-            });
-        });
-    </script>
 @endpush
 
 @push('css')

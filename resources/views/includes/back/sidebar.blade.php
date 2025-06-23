@@ -37,21 +37,30 @@
                 @endif
             @endauth
 
+            <li class="menu-header">@lang('Content Management')</li>
 
-
-            <li class="@if (Str::contains($currentUri, 'project')) active @endif">
+            <li class="@if (Str::contains($currentUri, 'projects')) active @endif">
                 <a class="nav-link" href="{{ route('admin.projects.index') }}"><i class="fas fa-project-diagram"></i>
                     <span>@lang('Projects')</span></a>
             </li>
-            <li class="@if (Str::contains($currentUri, 'plan')) active @endif">
-                <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>
-                    <span>@lang('Plans')</span></a>
-            </li>
-            <li class="@if (Str::contains($currentUri, 'catego')) active @endif">
-                <a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-tags"></i>
+
+            <li class="@if (Str::contains($currentUri, 'categories')) active @endif">
+                <a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-th-large"></i>
                     <span>@lang('Categories')</span></a>
             </li>
-            <li class="@if (Str::contains($currentUri, 'contact')) active @endif">
+
+            <li class="@if (Str::contains($currentUri, 'tags')) active @endif">
+                <a class="nav-link" href="{{ route('admin.tags.index') }}"><i class="fas fa-tags"></i>
+                    <span>@lang('Tags')</span></a>
+            </li>
+            <!-- Gestion des Quotes -->
+            <li class="@if (Str::contains($currentUri, 'quotes')) active @endif">
+                <a class="nav-link" href="{{ route('admin.quotes.index') }}"><i
+                        class="fas fa-file-invoice-dollar me-2"></i>
+                    <span>@lang('Quotes')</span></a>
+            </li>
+
+            <li class="@if (Str::contains($currentUri, 'contacts')) active @endif">
                 <a class="nav-link" href="{{ route('admin.contacts.index') }}"><i class="fas fa-envelope"></i>
                     <span>@lang('Messages')</span></a>
             </li>
@@ -59,6 +68,34 @@
             <li class="@if (Str::contains($currentUri, 'news')) active @endif">
                 <a class="nav-link" href="{{ route('admin.news.index') }}"><i class="fas fa-newspaper"></i>
                     <span>@lang('News')</span></a>
+            </li>
+             <li class="@if (Str::contains($currentUri, 'plans')) active @endif">
+                <a class="nav-link" href="{{ route('admin.plans.index') }}"><i class="fas fa-map"></i>
+                    <span>@lang('Plans')</span></a>
+            </li>
+
+            <!-- Gestion des Newsletters -->
+            <li class="dropdown @if (Str::contains($currentUri, 'newsletters')) active @endif">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-mail-bulk"></i> <span>@lang('Newsletters')</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="@if (Str::contains($currentUri, 'newsletters') && !Str::contains($currentUri, 'subscribers')) active @endif">
+                        <a class="nav-link" href="{{ route('admin.newsletters.index') }}">
+                            <i class="fas fa-envelope-open-text"></i> @lang('All Newsletters')
+                        </a>
+                    </li>
+                    <li class="@if (Str::contains($currentUri, 'newsletters/subscribers')) active @endif">
+                        <a class="nav-link" href="{{ route('admin.newsletters.subscribers') }}">
+                            <i class="fas fa-users"></i> @lang('Subscribers')
+                        </a>
+                    </li>
+                    <li class="@if (Str::contains($currentUri, 'newsletters/create')) active @endif">
+                        <a class="nav-link" href="{{ route('admin.newsletters.create') }}">
+                            <i class="fas fa-plus-circle"></i> @lang('Create Newsletter')
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <li class="@if (Str::contains($currentUri, 'profile')) active @endif">

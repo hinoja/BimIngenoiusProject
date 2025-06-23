@@ -32,3 +32,29 @@ if (! function_exists('formatMoney')) {
         }
     }
 }
+
+if (! function_exists('formField')) {
+    /**
+     * Get a user-friendly translation for a form field
+     *
+     * @param string $field
+     * @return string
+     */
+    function formField(string $field): string
+    {
+        return trans("forms.{$field}", [], app()->getLocale());
+    }
+}
+
+if (! function_exists('validationField')) {
+    /**
+     * Get a user-friendly translation for validation messages
+     *
+     * @param string $field
+     * @return string
+     */
+    function validationField(string $field): string
+    {
+        return trans("validation.attributes.{$field}", [], app()->getLocale());
+    }
+}

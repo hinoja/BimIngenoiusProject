@@ -30,9 +30,8 @@ class ProfileController extends Controller
         $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
-            'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Changé de 'required' à 'nullable'
         ]);
-        dd($request);
 
         $user = $request->user();
         $data = [];
@@ -47,20 +46,19 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            // if ($user->avatar) {
-            //     Storage::disk('public')->delete($user->avatar);
-            // }
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
             $data['avatar'] = $request->file('avatar')->store('users/avatars', 'public');
         }
 
         if (!empty($data)) {
             $user->update($data);
         }
-        dd($data);
+
         session()->flash('success', __('Your profile has been successfully updated! 🎉'));
 
         return redirect()->route('profile.edit');
-
     }
 
     /**
@@ -114,3 +112,5 @@ class ProfileController extends Controller
         return redirect()->to('/');
     }
 }
+
+

@@ -63,10 +63,13 @@ class News extends Model
         return $this->getFormatedDateTime($updated_at);
     }
 
-    // public function getPublishedAtAttribute($published_at)
-    // {
-    //     return $this->getFormatedDateTime($published_at);
-    // }
+    public function getPublishedAtAttribute($published_at)
+    {
+        if (!$published_at) {
+            return null;
+        }
+        return $this->getFormatedDateTime($published_at);
+    }
     function getFormatedDateTime($date)
     {
         $locale = app()->getLocale();
@@ -76,7 +79,7 @@ class News extends Model
         return Carbon::parse($date)->translatedFormat($format);
     }
 
-     /**
+    /**
      * Scope a query to only include published News.
      */
     public function scopePublished(Builder $query): void

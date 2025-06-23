@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Quote;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\CategorySeeder;
 use App\Models\{Category, Tag, Project, News, User};
 use Illuminate\Support\Facades\Hash;
 
@@ -27,7 +28,8 @@ class DatabaseSeeder extends Seeder
             ->hasNews(3)
             ->create();
 
-        \App\Models\User::factory()->create([
+        // Create admin user
+        User::factory()->create([
             'role_id' => 1,
             'name' => 'Admin BIM ingenious BTP',
             'email' => 'admin@bim.com',
@@ -35,26 +37,40 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password')
         ]);
 
-        $tags = Tag::factory(50)->create();
+        // Create tags with unique names
+        $tags = collect();
+        for ($i = 0; $i < 50; $i++) {
+            $frName = fake()->unique()->words(2, true);
+            $enName = fake()->unique()->words(2, true);
 
-        $news = News::query()
-            ->get()
-            ->each(
-                function ($item) use ($tags) {
-                    $item->tags()->attach($tags->random(rand(2, 3)));
-                }
+            $tags->push(Tag::factory()->create([
+                'fr_name' => ucfirst($frName),
+                'en_name' => ucfirst($enName),
+                'slug' => \Str::slug($enName)
+            ]));
+        }
+
+        // Attach tags to news
+        News::all()->each(function ($news) use ($tags) {
+            $news->tags()->attach(
+                $tags->random(rand(2, 3))->pluck('id')->toArray()
             );
+        });
 
-        $categories = Category::query()->get()->take(15);
+        // Create and associate projects
+        $categories = Category::take(15)->get();
 
-        Project::factory()
-            ->count(25)
-            ->create()
-            ->each(function ($project) use ($categories, $tags) {
-                $project->category()->associate($categories->random())->save();
-
-                $project->tags()->attach($tags->random(rand(1, 5))->pluck('id')->toArray());
-            });
+        if ($categories->isNotEmpty() && $tags->isNotEmpty()) {
+            Project::factory()
+                ->count(25)
+                ->create()
+                ->each(function ($project) use ($categories, $tags) {
+                    $project->category()->associate($categories->random())->save();
+                    $project->tags()->attach(
+                        $tags->random(rand(1, 5))->pluck('id')->toArray()
+                    );
+                });
+        }
 
         Quote::factory(50)->create();
     }

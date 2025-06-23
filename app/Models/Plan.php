@@ -60,6 +60,9 @@ class Plan extends Model
     }
     public function getPublishedAtAttribute($published_at)
     {
+        if (!$published_at) {
+            return null;
+        }
         return $this->getFormatedDateTime($published_at);
     }
 
@@ -71,7 +74,7 @@ class Plan extends Model
 
         return Carbon::parse($date)->translatedFormat($format);
     }
-  
+
     /**
      * Scope a query to only include published Plans.
      */

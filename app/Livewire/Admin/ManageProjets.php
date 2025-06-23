@@ -53,7 +53,9 @@ class ManageProjets extends Component
             }
             $project->delete();
             session()->flash('success', __('Project deleted successfully!'));
-            return redirect()->route('admin.projects.index');
+            // return redirect()->route('admin.projects.index');
+            $this->resetInputs();
+            $this->resetPage();
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred while deleting the project: ') . $e->getMessage());
         }
@@ -66,9 +68,9 @@ class ManageProjets extends Component
         if ($this->filterTitle) {
             $query->where(function ($q) {
                 $q->where('fr_title', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('fr_description', 'like', '%' . $this->filterTitle . '%')
-                  ->orWhere('en_description', 'like', '%' . $this->filterTitle . '%');
+                    ->orWhere('en_title', 'like', '%' . $this->filterTitle . '%')
+                    ->orWhere('fr_description', 'like', '%' . $this->filterTitle . '%')
+                    ->orWhere('en_description', 'like', '%' . $this->filterTitle . '%');
             });
         }
 

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="p-3">
     <div class="row justify-content-center">
         <!-- Add News Button -->
         <div class="col-12 mb-3 text-right">
@@ -34,9 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    <div wire:loading class="text-center mt-2">
-                        <i class="fas fa-spinner fa-spin"></i> @lang('Loading...')
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -46,15 +44,15 @@
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover  table-striped mb-0">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="text-center" style="width: 50px;">#</th>
                                     <th scope="col" class="text-center" style="width: 100px;">@lang('Image')</th>
                                     <th scope="col" style="min-width: 180px;">@lang('Title')</th>
                                     <th scope="col" style="min-width: 120px;">@lang('Author')</th>
-                                    <th scope="col" style="min-width: 100px;">@lang('Published At')</th>
-                                    <th scope="col" class="text-center" style="width: 150px;">@lang('Actions')</th>
+                                    <th scope="col" style="min-width: 50px;">@lang('Published')</th>
+                                    <th scope="col" class="text-center" style="width: 170px;">@lang('Actions')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,24 +78,25 @@
                                                     class="text-muted">{{ Str::limit(strip_tags($news->fr_content ?? ($news->en_content ?? '')), 50) }}</small>
                                             </div>
                                         </td>
-                                        <td>{{ $news->user?->name ?? 'N/A' }}</td>
+                                        <td>{{ $news->user?->name ?? 'N/A' }} </td>
                                         <td>
+
                                             @if (!$news->published_at)
                                                 <span class="badge bg-secondary">@lang('Pending')</span>
                                             @else
                                                 <span class="badge bg-success">
-                                                    {{ $news->published_at }}
+                                                    <i class="fas fa-check-double"></i>
                                                 </span>
                                             @endif
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center  ">
                                             <div class="btn-group" role="group">
                                                 <a href="{{ route('admin.news.show', $news) }}"
                                                     class="btn btn-sm btn-info" title="@lang('View Details')">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 <a href="{{ route('admin.news.edit', $news) }}"
-                                                    class="btn btn-sm btn-primary" title="@lang('Edit')">
+                                                    class="btn btn-sm btn-primary mx-2" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button wire:click="showPublishForm({{ $news->id }})"
@@ -105,10 +104,9 @@
                                                     title="{{ $news->published_at ? __('Unpublish') : __('Publish') }}">
                                                     <i
                                                         class="fas {{ $news->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }}"></i>
-                                                 
                                                 </button>
                                                 <button wire:click="showDeleteForm({{ $news->id }})"
-                                                    class="btn btn-sm btn-danger" title="@lang('Delete')">
+                                                    class="btn btn-sm btn-danger ml-2" title="@lang('Delete')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -144,18 +142,20 @@
             aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog">
                 <div class="modal-content">
+
                     <div class="modal-header"
                         style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="deleteNewsModalLabel">@lang('Delete News')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" wire:click="closeModal"></button>
+                        <button type="button" class="close" wire:click="closeModal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         @lang('Are you sure you want to delete the news') <strong>{{ $fr_title ?? 'N/A' }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal" wire:click="closeModal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            wire:click="closeModal">@lang('Cancel')</button>
                         <button type="button" class="btn btn-danger" wire:click="destroyNews"
                             wire:loading.attr="disabled">
                             <span wire:loading wire:target="destroyNews">
@@ -180,8 +180,8 @@
                         <h5 class="modal-title" id="publishNewsModalLabel">
                             {{ $newsItems->find($publishId)?->published_at ? __('Unpublish News') : __('Publish News') }}
                         </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         {{ $newsItems->find($publishId)?->published_at
@@ -190,8 +190,8 @@
                         <strong>{{ $fr_title ?? 'N/A' }}</strong>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal" wire:click="closeModal">@lang('Cancel')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            wire:click="closeModal">@lang('Cancel')</button>
                         <button type="button"
                             class="btn {{ $newsItems->find($publishId)?->published_at ? 'btn-warning' : 'btn-success' }}"
                             wire:click="togglePublish" wire:loading.attr="disabled">
@@ -199,7 +199,8 @@
                                 <i class="fas fa-spinner fa-spin mr-1"></i> @lang('Processing...')
                             </span>
                             <span wire:loading.remove wire:target="togglePublish">
-                                <i class="fas {{ $newsItems->find($publishId)?->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }} mr-1"></i>
+                                <i
+                                    class="fas {{ $newsItems->find($publishId)?->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }} mr-1"></i>
                                 {{ $newsItems->find($publishId)?->published_at ? __('Unpublish') : __('Publish') }}
                             </span>
                         </button>

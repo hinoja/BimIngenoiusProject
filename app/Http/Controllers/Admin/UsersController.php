@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use App\Jobs\SendNewUserCredentialsJob;
 
 class UsersController extends Controller
 {
@@ -42,12 +43,20 @@ class UsersController extends Controller
             'password' => 'required|string|min:8|confirmed'
         ]);
 
+        // Stocker le mot de passe en clair pour l'envoyer par email
+        $plainPassword = $validated['password'];
+
         $validated['password'] = bcrypt($validated['password']);
         $validated['slug'] = Str::slug($validated['name']);
         $validated['is_active'] = true;
 
-        User::create($validated);
-        session()->flash('success', __('User created successfully'));
+        $user = User::create($validated);
+
+        // Envoyer la notification avec les identifiants via un job
+        SendNewUserCredentialsJob::dispatch($user, $plainPassword)
+            ->afterResponse();
+
+        session()->flash('success', __('User created successfully and credentials sent by email'));
 
         return redirect()->route('admin.users.index');
     }
@@ -78,3 +87,9 @@ class UsersController extends Controller
         return back();
     }
 }
+
+
+
+
+
+

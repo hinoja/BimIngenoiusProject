@@ -12,16 +12,27 @@ class Tag extends Model
     /** @use HasFactory<\Database\Factories\TagFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['fr_name', 'en_name', 'slug'];
+
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
 
     public function getRouteKeyName()
     {
         return 'slug';
     }
 
-    public function setNameAttribute($value)
+    // Accesseur pour obtenir le nom dans la langue actuelle
+    public function getNameAttribute()
     {
-        $this->attributes['name'] = $value;
+        return $this->{app()->getLocale() . '_name'};
+    }
+
+    // Mutateur pour définir automatiquement le slug à partir du nom anglais
+    public function setEnNameAttribute($value)
+    {
+        $this->attributes['en_name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 
@@ -35,3 +46,4 @@ class Tag extends Model
         return $this->morphedByMany(News::class, 'taggable');
     }
 }
+

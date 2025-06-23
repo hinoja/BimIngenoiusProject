@@ -138,7 +138,7 @@
                         <div class="text-center">@lang('No project published yet.')</div>
                     @endforelse
                 </div>
-            </div>							
+            </div>
         </div>
     </section>
 
@@ -161,7 +161,7 @@
                     <p>Fusce viverra risus diam, in luctus nulla porta vel. Etiam nunc lorem, dapibus augue vitae, lacinia pharetra eros. Fusce ac egestas purus, non porta est.</p>
                 </div>
             </div>
-    
+
             <div class="col-sm-6">
                 <div class="features box4">
                     <h4><i class="fa fa-crop"></i>@lang('Creative')</h4>
@@ -176,7 +176,7 @@
                     <p>Fusce viverra risus diam, in luctus nulla porta vel. Etiam nunc lorem, dapibus augue vitae, lacinia pharetra eros. Fusce ac egestas purus, non porta est.</p>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -203,7 +203,7 @@
                 <div class="col-md-6">
                     <h2 class="left after">@lang('TESTIMONIALS')</h2>
                     <div class="testi-carousel">
-            
+
                         <div id="sync-3" class="owl-carousel text">
                             <div class="item">
                                 <p>Morbi auctor vel mauris facilisis lacinia. Aenean suscipit lorem leo, et hendrerit odio fermentum et. Donec ac dolor eros. Mauris arcu nunc, iaculis sit amet lacus iaculis, faucibus faucibus nunc. Vestibulum sit amet lacinia massa</p>
@@ -259,7 +259,7 @@
                                 <img src="{{ asset('assets/front/images/testi5.jpg') }}" alt="">
                             </div>
                         </div>
-                            
+
                     </div>
                 </div>
                 <div class="col-md-6">

@@ -14,26 +14,31 @@
         </ul>
     </form>
     <ul class="navbar-nav navbar-right">
-        <div class="dropdown d-inline">
-            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-globe"></i>
-                @if (app()->getLocale() === 'fr')
-                    Fr
-                @else
-                    En
-                @endif
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item has-icon" href="{{ route('lang.switch', 'fr') }}"> Fr</a>
-                <a class="dropdown-item has-icon" href="{{ route('lang.switch', 'en') }}"> En</a>
+        <li class="nav-item dropdown d-flex align-items-center">
+            <a class="nav-link dropdown-toggle px-2" href="#" id="langDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                style="display: flex; align-items: center;">
+                <i class="fas fa-globe mr-2"></i>
+                <span style="font-weight: 500;">{{ strtoupper(app()->getLocale()) }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 animate__animated animate__fadeIn"
+                aria-labelledby="langDropdown" style="min-width: 110px;">
+                <a class="dropdown-item d-flex align-items-center{{ app()->getLocale() === 'fr' ? ' active' : '' }}"
+                    href="{{ route('lang.switch', 'fr') }}">
+                    <i class="fas fa-flag mr-1"></i> Français
+                </a>
+                <a class="dropdown-item d-flex align-items-center{{ app()->getLocale() === 'en' ? ' active' : '' }}"
+                    href="{{ route('lang.switch', 'en') }}">
+                    <i class="fas fa-flag-usa mr-1"></i> English
+                </a>
             </div>
-        </div>
+        </li>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 @if (auth()->user()->avatar)
-                    <img alt="image" src="{{ auth()->user()->avatar }}"
-                        class="rounded-circle mr-1" width="30" height="30">
+                    <img alt="image" src="{{ auth()->user()->avatar }}" class="rounded-circle mr-1" width="30"
+                        height="30">
                 @else
                     <img alt="image" src="{{ asset('assets/back/img/avatar/avatar-1.png') }}"
                         class="rounded-circle mr-1" width="30" height="30">
@@ -47,7 +52,7 @@
                 <a href="{{ route('profile.edit') }}" class="dropdown-item has-icon">
                     <i class="far fa-user"></i> @lang('Profile')
                 </a>
-                <div class="dropdown-divider"></div>
+                
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();"

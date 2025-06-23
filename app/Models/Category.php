@@ -12,7 +12,7 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['fr_name', 'en_name', "slug", 'fr_description','en_description', 'image'];
+    protected $fillable = ['fr_name', 'en_name', 'slug', 'fr_description', 'en_description', 'image'];
     protected $casts = [
         'deleted_at' => 'datetime',
     ];
@@ -29,17 +29,28 @@ class Category extends Model
     {
         return $this->{app()->getLocale() . '_description'};
     }
-    
+
+    // Méthode pour nettoyer automatiquement le HTML si nécessaire
+    public function setFrDescriptionAttribute($value)
+    {
+        $this->attributes['fr_description'] = $value ? strip_tags($value, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>') : null;
+    }
+
+    public function setEnDescriptionAttribute($value)
+    {
+        $this->attributes['en_description'] = $value ? strip_tags($value, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>') : null;
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';
     }
-    
+
     public function getImageAttribute($image)
     {
         return $image ? asset('storage/' . $image) : asset('assets/defaults/categories/client' . rand(1, 8) . '.png');
     }
-    
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;

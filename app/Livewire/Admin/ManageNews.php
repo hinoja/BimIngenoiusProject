@@ -86,8 +86,8 @@ class ManageNews extends Component
                 $news->published_at = now();
             }
             $news->save();
- 
-            session()->flash('success', $news->published_at ? __('News published successfully!') : __('News unpublished successfully!'));
+
+            session()->flash('success', $news->published_at ? __('News published successfully !') : __('News unpublished successfully !'));
             return redirect()->route('admin.news.index');
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred while updating the news: ') . $e->getMessage());

@@ -30,25 +30,30 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'fr_name' => ['required', 'string', 'min:2', 'unique:categories,fr_name'],
-            'en_name' => ['required', 'string', 'min:2', 'unique:categories,en_name'],
-            'fr_description' => ['required', 'string'],
-            'en_description' => ['required', 'string'],
-            'image' => ['required', 'max:2048', 'mimes:png,jpg,png,jpeg'],
-        ]); 
+        $request->validate([
+            'fr_name' => 'required|string|min:2|unique:categories,fr_name',
+            'en_name' => 'required|string|min:2|unique:categories,en_name',
+            'fr_description' => 'nullable|string',
+            'en_description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
         try {
             $imagePath = null;
             if ($request->hasFile('image')) {
                  $imagePath = $request->file('image')->store('categories', 'public');
             }
 
+            // Nettoyer les descriptions HTML pour éviter les scripts malveillants
+            $fr_description = strip_tags($request->fr_description, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>');
+            $en_description = strip_tags($request->en_description, '<p><br><ul><ol><li><strong><em><u><h1><h2><h3><h4><h5><h6>');
+
             Category::create([
                 'fr_name' => $request->fr_name,
                 'en_name' => $request->en_name,
                 'slug' => Str::slug($request->en_name),
-                'fr_description' =>  $request->fr_description,
-                'en_description' =>  $request->en_description,
+                'fr_description' => $fr_description,
+                'en_description' => $en_description,
                 'image' => $imagePath,
             ]);
 
@@ -92,3 +97,4 @@ class CategoryController extends Controller
         //
     }
 }
+
