@@ -70,9 +70,9 @@
                     <h4>@lang('PROJECT INFO')</h4>
                     <p><strong>@lang('Category:')</strong> {{ $project->category?->name ?? __('N/A') }}</p>
                     <p><strong>@lang('Address:')</strong> {{ $project->country }}, {{ $project->city }}</p>
-                    <p><strong>@lang('Size:')</strong> {{ $project->size->label() }}</p>
+                    <p><strong>@lang('Size:')</strong> {{ $project->size->value }}</p>
                     <p><strong>@lang('Duration:')</strong> {{ $project->duration ?? __('N/A') }}</p>
-                    <p><strong>@lang('Status:')</strong> {{ $project->status->label() }}</p>
+                    <p><strong>@lang('Status:')</strong> {{ $project->status->value }}</p>
                     <p>
                         <strong>@lang('Tags:')</strong>
                         {{ $project->tags->pluck('name')->implode(', ') ?: __('None') }}
@@ -93,7 +93,7 @@
             <div class="col-md-8">
                 <div class="project-des">
                     <h4>{{ $project->title }}</h4>
-                    <p class="text-justify">{{ $project->description }}</p>
+                    <p class="text-justify">{!! $project->description !!}</p>
                 </div>
             </div>
         </div>

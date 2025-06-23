@@ -2,6 +2,21 @@
 
 @section('subtitle', __('Projects'))
 
+@push('css')
+    <style>
+        .project-list-image {
+            width: 100%;
+            max-width: 350px;
+            max-height: 220px;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            border-radius: 4px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+@endpush
+
 @section('content')
 
     @if ($projects->isEmpty())
@@ -34,7 +49,7 @@
                             <div class="col-md-4 col-sm-6 item {{ $project->category->slug }}">
                                 <div class="project-box ">
                                     <a href="{{ route('front.projects.show', $project) }}" class="image-project">
-                                        <img src="{{ $project->image }}" alt="{{ $project->title }}">
+                                        <img src="{{ $project->image }}" alt="{{ $project->title }}" class="project-list-image">
                                         <span class="overlay"></span>
                                     </a>
                                     <h4><a href="{{ route('front.projects.show', $project->slug) }}">{{ $project->title }}</a></h4>

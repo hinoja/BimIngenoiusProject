@@ -183,7 +183,7 @@
     "Title (EN) ": "Titre (EN)",
     "Plan": "Plan",
     "Add New Plan": "Ajouter un nouveau plan",
-    "medium": "moyen",
+    "medium": "Moyen",
     "large": "Grand",
     "All Statuses": "Tous les statuts",
     "All Sizes": "Toutes les tailles",
@@ -399,6 +399,7 @@
     "Other categories": "Autres catégories",
     "No domain uploaded yet.": "Aucun domaine n'a encore été ajouté.",
     "No category uploaded yet.": "Aucune catégorie n'a encore été ajoutée.",
+
     "Already registered?": "Déjà inscrit(e) ?",
     "A new verification link has been sent to the email address you provided during registration.": "Un nouveau lien de vérification a été envoyé à l'adresse email que vous avez indiquée lors de votre inscription.",
     "Email Password Reset Link": "Lien de réinitialisation du mot de passe par e-mail",

@@ -10,6 +10,6 @@ enum SizeEnums: string
 
     public function label(): string
     {
-        return __('enums.size.' . $this->value);
+        return __($this->value);
     }
 }

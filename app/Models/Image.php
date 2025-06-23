@@ -20,6 +20,6 @@ class Image extends Model
 
     public function getPathAttribute()
     {
-        return $this->name ? asset('storage/' . $this->name) : asset('assets/defaults/projects/project-' . rand(1, 1) . '.jpg');
+        return asset('storage/' . $this->name);
     }
 }
