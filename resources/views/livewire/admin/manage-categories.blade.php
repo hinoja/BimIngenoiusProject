@@ -81,17 +81,17 @@
                 <form wire:submit.prevent="addCategory">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="fr_name">@lang('French Name')</label>
+                            <label for="fr_name" class="font-weight-bold text-dark mb-2">@lang('forms.fr_name')</label>
                             <input type="text" id="fr_name" wire:model="fr_name"
-                                class="form-control @error('fr_name') is-invalid @enderror" placeholder="@lang('French Name')" />
+                                class="form-control @error('fr_name') is-invalid @enderror" placeholder="@lang('forms.fr_name')" />
                             @error('fr_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group mt-2">
-                            <label for="en_name">@lang('English Name')</label>
+                            <label for="en_name" class="font-weight-bold text-dark mb-2">@lang('forms.en_name')</label>
                             <input type="text" id="en_name" wire:model="en_name"
-                                class="form-control @error('en_name') is-invalid @enderror" placeholder="@lang('English Name')" />
+                                class="form-control @error('en_name') is-invalid @enderror" placeholder="@lang('forms.en_name')" />
                             @error('en_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -102,17 +102,22 @@
                             init() {
                                 this.$nextTick(() => {
                                     this.instance = new Trix.Editor(this.$refs.trix);
-                                    this.instance.editor.loadHTML(this.content || '');
 
+                                    // Charger le contenu initial
+                                    if (this.content) {
+                                        this.instance.editor.loadHTML(this.content);
+                                    }
+
+                                    // Écouter les changements du contenu depuis Livewire
                                     this.$watch('content', (value) => {
-                                        if (this.instance.editor.composition.toString() !== value) {
-                                            this.instance.editor.loadHTML(value || '');
+                                        if (value && this.instance.editor.composition.toString() !== value) {
+                                            this.instance.editor.loadHTML(value);
                                         }
                                     });
                                 });
                             }
                         }" @trix-change="content = $event.target.value">
-                            <label for="description">@lang('Description')</label>
+                            <label for="description" class="font-weight-bold text-dark mb-2">@lang('forms.description')</label>
                             <input id="description" type="hidden" name="description" :value="content">
                             <trix-editor input="description" x-ref="trix"
                                 class="form-control trix-content @error('description') is-invalid @enderror"></trix-editor>
@@ -121,7 +126,7 @@
                             @enderror
                         </div>
                         <div class="form-group mt-2">
-                            <label for="image">@lang('Image')</label>
+                            <label for="image" class="font-weight-bold text-dark mb-2">@lang('forms.image')</label>
                             <input type="file" id="image" wire:model="image" class="form-control @error('image') is-invalid @enderror" />
                             @error('image')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -224,19 +229,19 @@
                 <form wire:submit.prevent="updateCategory">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="editFrName">@lang('French Name')</label>
+                            <label for="editFrName" class="font-weight-bold text-dark mb-2">@lang('forms.editFrName')</label>
                             <input type="text" id="editFrName" wire:model="editFrName"
                                 class="form-control @error('editFrName') is-invalid @enderror"
-                                placeholder="@lang('French Name')" />
+                                placeholder="@lang('forms.editFrName')" />
                             @error('editFrName')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group mt-2">
-                            <label for="editEnName">@lang('English Name')</label>
+                            <label for="editEnName" class="font-weight-bold text-dark mb-2">@lang('forms.editEnName')</label>
                             <input type="text" id="editEnName" wire:model="editEnName"
                                 class="form-control @error('editEnName') is-invalid @enderror"
-                                placeholder="@lang('English Name')" />
+                                placeholder="@lang('forms.editEnName')" />
                             @error('editEnName')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -263,7 +268,7 @@
                                 });
                             }
                         }" @trix-change="content = $event.target.value" wire:ignore>
-                            <label for="editDescription">@lang('Description')</label>
+                            <label for="editDescription" class="font-weight-bold text-dark mb-2">@lang('forms.editDescription')</label>
                             <input id="editDescription" type="hidden" name="editDescription" :value="content">
                             <trix-editor input="editDescription" x-ref="trix"
                                 class="form-control trix-content @error('editDescription') is-invalid @enderror"></trix-editor>
@@ -271,9 +276,8 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
                         <div class="form-group mt-2">
-                            <label for="editImage">@lang('Image')</label>
+                            <label for="editImage" class="font-weight-bold text-dark mb-2">@lang('forms.editImage')</label>
                             <input type="file" id="editImage" wire:model="editImage" class="form-control @error('editImage') is-invalid @enderror" />
                             @error('editImage')
                                 <div class="invalid-feedback">{{ $message }}</div>

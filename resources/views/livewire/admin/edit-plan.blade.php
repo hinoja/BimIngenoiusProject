@@ -117,6 +117,21 @@
             color: #2A2E45;
         }
 
+        /* Trix Editor Styles */
+        .trix-content {
+            height: auto !important;
+        }
+
+        trix-editor.form-control {
+            height: auto;
+            min-height: 200px;
+            padding: .375rem .75rem;
+        }
+
+        trix-editor.is-invalid {
+            border-color: #dc3545;
+        }
+
         /* Animation d'entrée */
         @keyframes slideIn {
             from {
@@ -177,20 +192,62 @@
 
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group" x-data="{
+                        content: @entangle('fr_description'),
+                        instance: null,
+                        init() {
+                            this.$nextTick(() => {
+                                this.instance = new Trix.Editor(this.$refs.trix);
+
+                                // Charger le contenu initial
+                                if (this.content) {
+                                    this.instance.editor.loadHTML(this.content);
+                                }
+
+                                // Écouter les changements du contenu depuis Livewire
+                                this.$watch('content', (value) => {
+                                    if (value && this.instance.editor.composition.toString() !== value) {
+                                        this.instance.editor.loadHTML(value);
+                                    }
+                                });
+                            });
+                        }
+                    }" @trix-change="content = $event.target.value" wire:ignore>
                         <label for="fr_description" class="font-weight-bold text-dark mb-2">@lang('French Description')</label>
-                        <textarea wire:model="fr_description" class="form-control modern-textarea @error('fr_description') is-invalid @enderror"
-                            id="fr_description" placeholder="@lang('Enter the French description')"></textarea>
+                        <input id="fr_description" type="hidden" name="fr_description" :value="content">
+                        <trix-editor input="fr_description" x-ref="trix"
+                            class="form-control trix-content @error('fr_description') is-invalid @enderror"></trix-editor>
                         @error('fr_description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group" x-data="{
+                        content: @entangle('en_description'),
+                        instance: null,
+                        init() {
+                            this.$nextTick(() => {
+                                this.instance = new Trix.Editor(this.$refs.trix);
+
+                                // Charger le contenu initial
+                                if (this.content) {
+                                    this.instance.editor.loadHTML(this.content);
+                                }
+
+                                // Écouter les changements du contenu depuis Livewire
+                                this.$watch('content', (value) => {
+                                    if (value && this.instance.editor.composition.toString() !== value) {
+                                        this.instance.editor.loadHTML(value);
+                                    }
+                                });
+                            });
+                        }
+                    }" @trix-change="content = $event.target.value" wire:ignore>
                         <label for="en_description" class="font-weight-bold text-dark mb-2">@lang('English Description')</label>
-                        <textarea wire:model="en_description" class="form-control modern-textarea @error('en_description') is-invalid @enderror"
-                            id="en_description" placeholder="@lang('Enter the English description')"></textarea>
+                        <input id="en_description" type="hidden" name="en_description" :value="content">
+                        <trix-editor input="en_description" x-ref="trix"
+                            class="form-control trix-content @error('en_description') is-invalid @enderror"></trix-editor>
                         @error('en_description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -200,8 +257,8 @@
 
             <div class="form-group mb-4">
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="published_at" wire:model="published_at">
-                    <label class="custom-control-label" for="published_at">@lang('Publish Plan')</label>
+                    <input type="checkbox" class="custom-control-input" id="is_active" wire:model="published_at">
+                    <label class="custom-control-label" for="is_active">@lang('Publish Plan Immediately')</label>
                 </div>
                 @error('published_at')
                     <div class="text-danger">{{ $message }}</div>
@@ -252,12 +309,12 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mr-3" wire:loading.attr="disabled">
+                <button type="submit" class="btn btn-primary me-3" wire:loading.attr="disabled" wire:target="updatePlan">
                     <span wire:loading wire:target="updatePlan">
-                        <i class="fas fa-spinner fa-spin mr-2"></i>@lang('Updating...')
+                        <i class="fas fa-spinner fa-spin me-2"></i>@lang('Updating...')
                     </span>
                     <span wire:loading.remove wire:target="updatePlan">
-                        <i class="fas fa-save mr-2"></i>@lang('Update Plan')
+                        <i class="fas fa-save me-2"></i>@lang('Update Plan')
                     </span>
                 </button>
                 <a href="{{ route('admin.plans.index') }}" class="btn btn-cancel">@lang('Cancel')</a>
@@ -266,7 +323,12 @@
     </div>
 </div>
 
+@push('css')
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+@endpush
+
 @push('scripts')
+    <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const fileInput = document.querySelector('.custom-file-input');
@@ -275,6 +337,10 @@
                 const label = fileCount > 0 ? `${fileCount} @lang('files selected')` : '@lang('Choose images (multiple)')';
                 this.nextElementSibling.textContent = label;
             });
+        });
+
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
         });
     </script>
 @endpush

@@ -91,14 +91,14 @@
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
                                                 <a href="{{ route('admin.plans.show', $plan) }}"
-                                                    class="btn btn-sm btn-info mr-2" title="@lang('View Details')">
+                                                    class="btn btn-sm btn-info" title="@lang('View Details')">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                {{-- <a href="{{ route('admin.plans.edit', $plan) }}" class="btn btn-sm btn-primary" title="@lang('Edit')">
+                                                <a href="{{ route('admin.plans.edit', $plan) }}" class="mx-2  btn btn-sm btn-primary" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
-                                                </a> --}}
+                                                </a>
                                                 <button wire:click="showPublishForm({{ $plan->id }})"
-                                                    class="btn btn-sm {{ $plan->published_at ? 'btn-warning' : 'btn-success' }}"
+                                                    class=" btn btn-sm {{ $plan->published_at ? 'btn-warning' : 'btn-success' }}"
                                                     title="{{ $plan->published_at ? __('Unpublish') : __('Publish') }}">
                                                     <i
                                                         class="fas {{ $plan->published_at ? 'fa-eye-slash' : 'fa-paper-plane' }}"></i>
