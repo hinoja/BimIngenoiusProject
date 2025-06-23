@@ -19,7 +19,7 @@
                                 <h4 class="section-title">@lang('2D Plan Image')</h4>
                                 @if ($plan->image2D)
                                     <div class="image-wrapper ">
-                                        <img  class="d-block gallery-image" src="{{ asset('storage/' . $plan->image2D) }}"
+                                        <img class="d-block gallery-image" src="{{ asset('storage/' . $plan->image2D) }}"
                                             alt="{{ $plan->title ?? 'News Image' }}">
                                         <div class="image-overlay">
                                             <div class="overlay-content">
@@ -149,7 +149,10 @@
                                 <div class="row">
                                     <div class="col-md-12 detail-group">
                                         <div class="detail-item"><strong>@lang('Description'):</strong>
-                                            {!! $plan->description ?? 'N/A' !!}</div>
+                                            <div class="wysiwyg-box">
+                                                {!! $plan->description ?? 'N/A' !!}
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -232,6 +235,54 @@
 
 @push('css')
     <style>
+        .wysiwyg-box {
+            background-color: #f4f8fb;
+            padding: 1.5rem;
+            border-left: 4px solid #007bff;
+            border-radius: 6px;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.02);
+            font-family: "Georgia", serif;
+            font-size: 0.97rem;
+            line-height: 1.75;
+            color: #343a40;
+            margin-top: 1rem;
+        }
+
+        .wysiwyg-box p {
+            margin-bottom: 1rem;
+        }
+
+        .wysiwyg-box h1,
+        .wysiwyg-box h2,
+        .wysiwyg-box h3 {
+            color: #0056b3;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .wysiwyg-box ul,
+        .wysiwyg-box ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .wysiwyg-box blockquote {
+            border-left: 3px solid #007bff;
+            padding-left: 1rem;
+            color: #555;
+            font-style: italic;
+            background-color: #e9f2fb;
+            margin: 1rem 0;
+        }
+
+        .wysiwyg-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
         /* Styles pour le carrousel moderne */
         .modern-carousel-container {
             max-width: 800px;

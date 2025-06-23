@@ -63,7 +63,7 @@
                 </table>
             </div>
             <div class="card-footer text-right">
-                {{ $categories->links('pagination::bootstrap-4') }}
+                {{ $categories->links() }}
             </div>
         </div>
     </div>
@@ -83,7 +83,8 @@
                         <div class="form-group">
                             <label for="fr_name" class="font-weight-bold text-dark mb-2">@lang('forms.fr_name')</label>
                             <input type="text" id="fr_name" wire:model="fr_name"
-                                class="form-control @error('fr_name') is-invalid @enderror" placeholder="@lang('forms.fr_name')" />
+                                class="form-control @error('fr_name') is-invalid @enderror"
+                                placeholder="@lang('forms.fr_name')" />
                             @error('fr_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -91,7 +92,8 @@
                         <div class="form-group mt-2">
                             <label for="en_name" class="font-weight-bold text-dark mb-2">@lang('forms.en_name')</label>
                             <input type="text" id="en_name" wire:model="en_name"
-                                class="form-control @error('en_name') is-invalid @enderror" placeholder="@lang('forms.en_name')" />
+                                class="form-control @error('en_name') is-invalid @enderror"
+                                placeholder="@lang('forms.en_name')" />
                             @error('en_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -116,7 +118,8 @@
                                     });
                                 });
                             }
-                        }" @trix-change="content = $event.target.value">
+                        }"
+                            @trix-change="content = $event.target.value">
                             <label for="description" class="font-weight-bold text-dark mb-2">@lang('forms.description')</label>
                             <input id="description" type="hidden" name="description" :value="content">
                             <trix-editor input="description" x-ref="trix"
@@ -127,7 +130,8 @@
                         </div>
                         <div class="form-group mt-2">
                             <label for="image" class="font-weight-bold text-dark mb-2">@lang('forms.image')</label>
-                            <input type="file" id="image" wire:model="image" class="form-control @error('image') is-invalid @enderror" />
+                            <input type="file" id="image" wire:model="image"
+                                class="form-control @error('image') is-invalid @enderror" />
                             @error('image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -136,7 +140,8 @@
                     <div class="modal-footer">
                         <button type="button" wire:click="closeModal()"
                             class="btn btn-secondary">@lang('Cancel')</button>
-                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="addCategory">
+                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
+                            wire:target="addCategory">
                             <span wire:loading.remove wire:target="addCategory">@lang('Save')</span>
                             <span wire:loading wire:target="addCategory">@lang('Processing...')</span>
                         </button>
@@ -159,7 +164,8 @@
                     @lang('Are you sure you want to delete this category?')
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="closeModal">@lang('Cancel')</button>
+                    <button type="button" class="btn btn-secondary"
+                        wire:click="closeModal">@lang('Cancel')</button>
                     <button type="button" class="btn btn-danger" wire:click="destroyCategory()"
                         wire:loading.attr="disabled" wire:target="destroyCategory">
                         <span wire:loading wire:target="destroyCategory">
@@ -204,7 +210,9 @@
                         <div class="row mt-3">
                             <div class="col-12">
                                 <h6>@lang('Description')</h6>
-                                <div>{!! $selectedCategory->description !!}</div>
+                                <div class="wysiwyg-box">
+                                    <div>{!! $selectedCategory->description ?? 'N/A' !!}</div>
+                                </div>
                             </div>
                         </div>
                     @endif
@@ -267,8 +275,10 @@
                                     });
                                 });
                             }
-                        }" @trix-change="content = $event.target.value" wire:ignore>
-                            <label for="editDescription" class="font-weight-bold text-dark mb-2">@lang('forms.editDescription')</label>
+                        }"
+                            @trix-change="content = $event.target.value" wire:ignore>
+                            <label for="editDescription"
+                                class="font-weight-bold text-dark mb-2">@lang('forms.editDescription')</label>
                             <input id="editDescription" type="hidden" name="editDescription" :value="content">
                             <trix-editor input="editDescription" x-ref="trix"
                                 class="form-control trix-content @error('editDescription') is-invalid @enderror"></trix-editor>
@@ -278,7 +288,8 @@
                         </div>
                         <div class="form-group mt-2">
                             <label for="editImage" class="font-weight-bold text-dark mb-2">@lang('forms.editImage')</label>
-                            <input type="file" id="editImage" wire:model="editImage" class="form-control @error('editImage') is-invalid @enderror" />
+                            <input type="file" id="editImage" wire:model="editImage"
+                                class="form-control @error('editImage') is-invalid @enderror" />
                             @error('editImage')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -289,8 +300,8 @@
                                 <label>@lang('Current Image')</label>
                                 <div>
                                     <img src="{{ $selectedCategory->image }}"
-                                         style="width: 100px; height: 100px; object-fit: cover;"
-                                         alt="Current image" class="img-thumbnail">
+                                        style="width: 100px; height: 100px; object-fit: cover;" alt="Current image"
+                                        class="img-thumbnail">
                                 </div>
                             </div>
                         @endif
@@ -298,7 +309,8 @@
                     <div class="modal-footer">
                         <button type="button" wire:click="closeModal()"
                             class="btn btn-secondary">@lang('Cancel')</button>
-                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="updateCategory">
+                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
+                            wire:target="updateCategory">
                             <span wire:loading.remove wire:target="updateCategory">@lang('Save')</span>
                             <span wire:loading wire:target="updateCategory">@lang('Processing...')</span>
                         </button>
@@ -312,6 +324,54 @@
 @push('css')
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <style>
+        .wysiwyg-box {
+            background-color: #f4f8fb;
+            padding: 1.5rem;
+            border-left: 4px solid #007bff;
+            border-radius: 6px;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.02);
+            font-family: "Georgia", serif;
+            font-size: 0.97rem;
+            line-height: 1.75;
+            color: #343a40;
+            margin-top: 1rem;
+        }
+
+        .wysiwyg-box p {
+            margin-bottom: 1rem;
+        }
+
+        .wysiwyg-box h1,
+        .wysiwyg-box h2,
+        .wysiwyg-box h3 {
+            color: #0056b3;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .wysiwyg-box ul,
+        .wysiwyg-box ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .wysiwyg-box blockquote {
+            border-left: 3px solid #007bff;
+            padding-left: 1rem;
+            color: #555;
+            font-style: italic;
+            background-color: #e9f2fb;
+            margin: 1rem 0;
+        }
+
+        .wysiwyg-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
         .trix-content.is-invalid {
             border-color: #dc3545;
         }
@@ -333,31 +393,23 @@
     <script>
         document.addEventListener('livewire:init', () => {
 
-            Livewire.on('openModal', () => {
-                new bootstrap.Modal(document.getElementById('createModal')).show();
-            });
-
-            Livewire.on('openDetailsModal', () => {
-                new bootstrap.Modal(document.getElementById('detailsModal')).show();
-            });
 
             Livewire.on('openEditModal', () => {
-                const modal = new bootstrap.Modal(document.getElementById('editModal'));
-                modal.show();
+                $('#editModal').modal('show');
             });
 
             Livewire.on('openDeleteModal', () => {
-                new bootstrap.Modal(document.getElementById('deleteModal')).show();
+                $('#deleteModal').modal('show');
+            });
+
+            Livewire.on('openDetailsModal', () => {
+                $('#detailsModal').modal('show');
             });
 
             Livewire.on('closeModal', () => {
-                // Fermer toutes les modales
-                document.querySelectorAll('.modal').forEach(modal => {
-                    const modalInstance = bootstrap.Modal.getInstance(modal);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
-                });
+                $('#editModal').modal('hide');
+                $('#deleteModal').modal('hide');
+                $('#detailsModal').modal('hide');
             });
         });
     </script>

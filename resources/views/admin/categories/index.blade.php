@@ -40,7 +40,8 @@
                                         <label for="fr_description">@lang('Enter the French description')</label>
                                         <input id="fr_description_input" value="{{ old('fr_description') }}" type="hidden"
                                             name="fr_description">
-                                        <trix-editor input="fr_description_input"  aria-describedby="fr_description_help"></trix-editor>
+                                        <trix-editor input="fr_description_input"
+                                            aria-describedby="fr_description_help"></trix-editor>
                                         @error('fr_description')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

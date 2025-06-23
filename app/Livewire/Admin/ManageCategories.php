@@ -177,9 +177,7 @@ class ManageCategories extends Component
         }
 
         return view('livewire.admin.manage-categories', [
-            'categories' => $query->paginate(10)
+            'categories' => $query->paginate(11)
         ]);
     }
 }
-
-

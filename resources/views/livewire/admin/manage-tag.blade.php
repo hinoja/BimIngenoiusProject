@@ -88,7 +88,7 @@
                         </table>
                     </div>
                     <div class="card-footer text-right">
-                        {{ $tags->links('pagination::bootstrap-4') }}
+                        {{ $tags->links() }}
                     </div>
                 </div>
             </div>
@@ -188,5 +188,6 @@
                 $('#deleteModal').modal('hide');
             });
         });
+
     </script>
 @endpush
