@@ -11,6 +11,6 @@ enum StatusEnums: string
 
     public function label(): string
     {
-        return __('enums.status.' . $this->value);
+        return __($this->value);
     }
 }

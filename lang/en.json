@@ -1,0 +1,9 @@
+{
+    "in_progress": "In progress",
+    "pending": "Pending",
+    "completed": "Completed",
+    "idea": "Idea",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large"
+}
