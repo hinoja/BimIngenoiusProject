@@ -56,7 +56,7 @@
                             <button type="button"
                                 class="btn btn-zoom"
                                 style="position:absolute;bottom:-18px;right:15px;background:rgba(0, 0, 0, 0.247);color:#fff;border:none;border-radius:50%;padding:10px 12px;cursor:pointer;">
-                                <i class="fas fa-search-plus"></i> {{-- Nécessite FontAwesome --}}
+                                <i class="fas fa-search-plus"></i>
                             </button>
                         </a>
                         @if ($project->images->count() > 1)

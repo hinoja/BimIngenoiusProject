@@ -15,7 +15,7 @@ class PlansController extends Controller
             ->with('images:id,name')
             ->paginate(9);
 
-        return view('front.plans.index', [
+        return view('front.plans.index-2', [
             'plans' => $plans,
         ]);
     }

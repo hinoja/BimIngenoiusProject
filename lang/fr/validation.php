@@ -264,6 +264,10 @@ return [
         'newsletter_email' => 'email de la newsletter',
         'newsletter_subject' => 'sujet de la newsletter',
         'newsletter_content' => 'contenu de la newsletter',
+        'currency' => 'devise',
+        'project_city' => 'ville du projet',
+        'zip_code' => 'code postal',
+        'civility' => 'civilité',
     ],
 
     'custom-values' => [

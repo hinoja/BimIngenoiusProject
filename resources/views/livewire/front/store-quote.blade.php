@@ -1,4 +1,4 @@
-<div class="col-md-8 contact-form">
+<div class="contact-form">
     @if (session()->has('success'))
         <div class="alert alert-success text-center">
             <strong>{{ session('success') }}</strong>
@@ -6,16 +6,16 @@
     @endif
 
     <form class="comment-form">
+        <h4 class="mb-4" style="margin-top: 25px;">@lang('Personal Information')</h4>
+        <hr style="margin-top: -10px;">
         <div class="col-md-12">
-            <h4 class="mb-4" style="margin-top: 25px;">@lang('Personal Information')</h4>
-            <hr style="margin-top: -10px;">
 
             <div class="form-group">
                 <label class="labelled" for="civility">@lang('Civility') *</label>
                 <select id="civility" wire:model.defer="civility" class="form-control @error('civility') is-invalid @enderror">
                     <option value="">@lang('Select civility')</option>
                     @foreach ($civilities as $key => $civility)
-                        <option value="{{ $key }}">{{ $civility }}</option>
+                        <option value="{{ $key }}">{{ __($civility) }}</option>
                     @endforeach
                 </select>
                 @error('civility')
@@ -153,6 +153,16 @@
             </div>
         </div>
 
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="checkbox" name="subscribe" id="subscribe">
+                <label class="labelled" for="subscribe" style="margin-left: 5px;">@lang('I would like to receive information about from ') {{ config('app.name') }}</label>
+                @error('subscribe')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
         @if ($errors->any())
             <div class="col-md-12">
                 <div class="alert alert-danger text-center">
@@ -163,7 +173,7 @@
 
         <div class="col-md-12">
             <div class="text-right mt-4">
-                <button wire:click.prevent="store" wire:loading.remove class="ot-btn btn-color" type="submit">@lang('Submit Quote')</button>
+                <button wire:click.prevent="store" wire:loading.remove class="ot-btn btn-color" type="submit">@lang('Submit')</button>
                 <button wire:loading class="ot-btn btn-color" type="button" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     @lang('Submitting')...

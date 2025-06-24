@@ -29,8 +29,8 @@ class Quote extends Model
     ];
 
     const CIVILITY = [
-        'Mrs' => 'Mrs',
-        'Mr' => 'Mr',
+        'Mrs' => 'Madam',
+        'Mr' => 'Sir',
     ];
 
     /**

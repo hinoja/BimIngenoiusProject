@@ -28,7 +28,7 @@ class PlanFactory extends Factory
             'fr_description' => fake()->paragraph(20),
             'en_description' => fake()->paragraph(20),
             'user_id' => \App\Models\User::factory(),
-            'image2D' => 'plans/2d/default-plan.jpg', // Add default image
+            'image2D' => 'plans/images/2d/default-plan.jpg', // Add default image
             'published_at' => fake()->optional()->dateTimeBetween('-1 year', 'now'),
         ];
     }
