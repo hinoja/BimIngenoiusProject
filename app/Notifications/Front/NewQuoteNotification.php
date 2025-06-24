@@ -41,7 +41,7 @@ class NewQuoteNotification extends Notification
                 )
                 ->lineIf(
                     $notifiable->role_id === 1,
-                    trans('A new quote has been submitted by: ') . $this->quote->customer->first_name . ' ' . $this->quote->customer->last_name . '.'
+                    trans('A new quote has been submitted by: ') . $this->quote->customer->first_name . ' ' . $this->quote->customer->last_name . trans(' for plan: ') . $this->quote->plan->title
                 )
                 ->lineIf(
                     $notifiable->role_id === 1,

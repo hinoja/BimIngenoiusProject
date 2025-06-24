@@ -20,6 +20,7 @@ class Quote extends Model
     protected $fillable = [
         'customer_id',
         'category_id',
+        'plan_id',
         'title',
         'details',
         'budget',
@@ -41,10 +42,14 @@ class Quote extends Model
         return $this->belongsTo(Customer::class);
     }
 
-
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
     }
 
     public function getDateAttribute($date)

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Plan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class QuoteFactory extends Factory
         return [
             'customer_id' => Customer::factory(),
             'category_id' => fake()->randomElement($categories),
+            'plan_id' => Plan::factory(),
             'title' => fake()->sentence(4),
             'details' => fake()->paragraph(5),
             'budget' => fake()->randomFloat(2, 1000, 50000),

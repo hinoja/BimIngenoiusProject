@@ -2,17 +2,18 @@
 
 namespace App\Livewire\Front;
 
+use App\Models\Plan;
 use App\Models\User;
 use App\Models\Quote;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Customer;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\Front\StoreQuoteRequest;
 use App\Notifications\Front\NewQuoteNotification;
-use Illuminate\Support\Arr;
 
 class StoreQuote extends Component
 {
@@ -38,11 +39,15 @@ class StoreQuote extends Component
     public $currencies;
     public $categories;
 
-    public function mount()
+    public $plan;
+
+    public function mount($plan = null)
     {
         $this->civilities = Quote::CIVILITY;
         $this->currencies = config('currencies');
         $this->categories = Category::query()->get(['id', 'fr_name', 'en_name']);
+
+        $this->plan = $plan;
     }
 
     public function rules()
@@ -53,8 +58,11 @@ class StoreQuote extends Component
     public function store()
     {
         $validatedData = $this->validate();
+        $validatedData['plan_id'] = $this->plan->id;
+        // dd($validatedData);
 
         $customer = $this->createOrUpdateCustomer($validatedData);
+
         $quote = $this->createQuote($customer, $validatedData);
 
         if ($this->file) {
@@ -65,7 +73,7 @@ class StoreQuote extends Component
 
         session()->flash('success', __('Your quote has been submitted successfully! You will receive a confirmation email shortly.'));
 
-        $this->redirectRoute('front.quote.form');
+        $this->redirectRoute('front.plans.show', $this->plan);
     }
 
     private function createOrUpdateCustomer(array $data): Customer
@@ -78,9 +86,17 @@ class StoreQuote extends Component
 
     private function createQuote(Customer $customer, array $data): Quote
     {
-        return $customer->quotes()->create(
-            Arr::add(array_intersect_key($data, array_flip(['title', 'details', 'budget', 'currency', 'project_city', 'file'])), 'category_id', $data['category'])
-        );
+        $quoteData = [
+            'title'        => $data['title'],
+            'details'      => $data['details'],
+            'budget'       => $data['budget'],
+            'currency'     => $data['currency'],
+            'project_city' => $data['project_city'],
+            'category_id'  => $data['category'],
+            'plan_id'      => $this->plan->id
+        ];
+
+        return $customer->quotes()->create($quoteData);
     }
 
     private function handleFileUpload(Quote $quote): void

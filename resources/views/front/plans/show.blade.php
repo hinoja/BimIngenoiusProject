@@ -100,7 +100,7 @@
                             @lang('Our team will review your project and respond according to your needs.')
                         </p>
                     </div>
-                    @livewire('front.store-quote')
+                    @livewire('front.store-quote', ['plan' => $plan])
                 </div>
 
             </div>

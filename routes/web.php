@@ -42,8 +42,8 @@ Route::name('front.')->group(function () {
     });
 
     // Quote
-    Route::get('/request-quote', [FrontQuoteController::class, 'showForm'])->name('quote.form');
-    Route::post('/request-quote', [FrontQuoteController::class, 'submitForm'])->name('quote.submit');
+    // Route::get('/request-quote', [FrontQuoteController::class, 'showForm'])->name('quote.form');
+    // Route::post('/request-quote', [FrontQuoteController::class, 'submitForm'])->name('quote.submit');
 
     // Newsletter subscription (front)
     Route::controller(FrontNewsletterController::class)->prefix('newsletter')->name('newsletter.')->group(function () {

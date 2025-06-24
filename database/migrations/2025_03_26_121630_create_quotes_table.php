@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('category_id')->constrained();
+            $table->foreignId('plan_id')->nullable()->constrained();
             $table->string('title');
-            $table->decimal('budget');
+            $table->decimal('budget', 20);
             $table->string('currency');
             $table->string('project_city');
             $table->text('details');
