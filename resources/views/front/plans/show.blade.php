@@ -74,7 +74,7 @@
                 <div class="col-md-6">
                     <h4 class="intro-text text-center" style="margin-bottom: 25px;">@lang('Plan Image')</h4>
                     <div class="row postion-relative">
-                        <a href="{{ asset('storage/' . $plan->image2D) }}"  class="glightbox d-block" style="position:relative;">
+                        <a href="{{ asset('storage/' . $plan->image2D) }}" class="glightbox d-block" style="position:relative;">
                             <img src="{{ asset('storage/' . $plan->image2D) }}" alt="{{ $plan->title }}" class="plan-image-small">
                             <button type="button"
                                 class="btn btn-zoom"
