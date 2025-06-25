@@ -66,6 +66,11 @@ class Project extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    public function quotes()
+    {
+        return $this->morphMany(Quote::class, 'quotable');
+    }
+
     public function getFormattedStartDateAttribute()
     {
         return Carbon::parse($this->start_date)->locale(app()->getLocale())->isoFormat('LL');

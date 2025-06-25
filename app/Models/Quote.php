@@ -20,13 +20,14 @@ class Quote extends Model
     protected $fillable = [
         'customer_id',
         'category_id',
-        'plan_id',
         'title',
         'details',
         'budget',
         'currency',
         'project_city',
         'file',
+        'quotable_id',
+        'quotable_type',
     ];
 
     const CIVILITY = [
@@ -50,6 +51,11 @@ class Quote extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function quotable()
+    {
+        return $this->morphTo();
     }
 
     public function getDateAttribute($date)

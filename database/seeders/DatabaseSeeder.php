@@ -4,11 +4,12 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Quote;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\CategorySeeder;
-use App\Models\{Category, Tag, Project, News, User};
 use Illuminate\Support\Facades\Hash;
+use App\Models\{Category, Tag, Project, News, User};
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,7 +47,7 @@ class DatabaseSeeder extends Seeder
             $tags->push(Tag::factory()->create([
                 'fr_name' => ucfirst($frName),
                 'en_name' => ucfirst($enName),
-                'slug' => \Str::slug($enName)
+                'slug' => Str::slug($enName)
             ]));
         }
 

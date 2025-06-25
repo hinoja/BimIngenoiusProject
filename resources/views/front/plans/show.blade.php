@@ -51,6 +51,11 @@
 
     <section class="single-project">
         <div class="container">
+            @if (session()->has('success'))
+                <div class="alert alert-success text-center">
+                    <strong>{{ session('success') }}</strong>
+                </div>
+            @endif
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-md-12">
                     <div class="project-slider owl-carousel">
@@ -100,7 +105,7 @@
                             @lang('Our team will review your project and respond according to your needs.')
                         </p>
                     </div>
-                    @livewire('front.store-quote', ['plan' => $plan])
+                    @livewire('front.store-quote', ['quotable' => $plan])
                 </div>
 
             </div>

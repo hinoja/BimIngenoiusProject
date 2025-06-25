@@ -35,7 +35,7 @@ class Plan extends Model
 
     public function quotes()
     {
-        return $this->hasMany(Quote::class);
+        return $this->morphMany(Quote::class, 'quotable');
     }
 
       // ACCESSORS

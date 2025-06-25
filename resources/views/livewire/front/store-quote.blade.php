@@ -1,9 +1,9 @@
 <div class="contact-form">
-    @if (session()->has('success'))
+    {{-- @if (session()->has('success'))
         <div class="alert alert-success text-center">
             <strong>{{ session('success') }}</strong>
         </div>
-    @endif
+    @endif --}}
 
     <form class="comment-form">
         <h4 class="mb-4" style="margin-top: 25px;">@lang('Personal Information')</h4>
@@ -104,8 +104,8 @@
 
             <div class="row">
                 <div class="form-group col-md-8">
-                    <label class="labelled" for="details">@lang('Budget') *</label>
-                    <input id="budget" wire:model.defer="budget" type="number" step="0.01" class="form-control @error('budget') is-invalid @enderror" placeholder="@lang('Budget')">
+                    <label class="labelled" for="budget">@lang('Budget') *</label>
+                    <input id="budget" wire:model.lazy="budget" type="number" step="0.01" class="form-control @error('budget') is-invalid @enderror" placeholder="@lang('Budget')">
                     @error('budget')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
