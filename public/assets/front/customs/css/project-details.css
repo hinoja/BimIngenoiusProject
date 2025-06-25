@@ -1,0 +1,53 @@
+
+.project-main-image {
+    /* max-width: 400px;
+    max-height: 300px; */
+    /* width: 100%; */
+    object-fit: cover; 
+}
+.s-images img {
+    height: 100px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Modal */
+.custom-modal {
+    display: flex;
+    position: fixed;
+    z-index: 1050;
+    left: 0; top: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.custom-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+.custom-modal-content {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    max-width: 700px;   /* <-- augmente ici (ex: 900px) */
+    width: 95vw;        /* <-- adapte si besoin */
+    margin: auto;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(40px);
+    transition: transform 0.5s;
+}
+.custom-modal.open .custom-modal-content {
+    transform: translateY(0);
+}
+.custom-modal-close {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+}
