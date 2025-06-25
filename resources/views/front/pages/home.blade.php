@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="tp-caption sfr stl tp-resizeme"
-                                @style(['margin-right: 45px' => true])
+                                @style(['margin-right: 5px' => true])
                                 data-x="right"
                                 data-hoffset="-175"
                                 data-y="320"
@@ -52,7 +52,7 @@
                                 data-speed="400"
                                 data-start="1800"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-color tp-resizeme" href="{{ route('front.quote.form') }}">@lang('Request a Quote')</a>
+                                <a class="ot-btn btn-color tp-resizeme" href="{{ route('front.projects.index') }}">@lang('Our Projects')</a>
                             </div>
                         </li>
 
@@ -81,14 +81,14 @@
                             </div>
 
                             <div class="tp-caption sfl stl tp-resizeme"
-                                @style(['margin-right: 45px' => true])
+                                @style(['margin-right: 5px' => true])
                                 data-x="right"
                                 data-hoffset="-175"
                                 data-y="320"
                                 data-speed="400"
                                 data-start="1800"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-border tp-resizeme" href="{{ route('front.projects.index') }}">@lang('Our Projects')</a>
+                                <a class="ot-btn btn-border tp-resizeme" href="{{ route('front.about') }}">@lang('About Us')</a>
                             </div>
                             <div class="tp-caption sfl str tp-resizeme"
                                 data-x="right"
@@ -97,7 +97,7 @@
                                 data-speed="400"
                                 data-start="1700"
                                 data-easing="easeInOut">
-                                <a class="ot-btn btn-color tp-resizeme" href="{{ route('front.quote.form') }}">@lang('Request a Quote')</a>
+                                <a class="ot-btn btn-color tp-resizeme" href="{{ route('front.plans.index') }}">@lang('Our Plans')</a>
                             </div>
                         </li>
                     </ul>
@@ -190,7 +190,7 @@
                     <div class="get-action">
                         <h4>@lang('WORKING WITH US')</h4>
                         <p>@lang('WE DESIGN, CONSTRUCT, REFURBISH AND OPERATE')<br> @lang('OUTSTANDING BUILDINGS').</p>
-                        <div><a href="{{ route('front.quote.form') }}" class="ot-btn btn-color btn-small">@lang('Request a Quote')</a></div>
+                        {{-- <div><a href="{{ route('front.quote.form') }}" class="ot-btn btn-color btn-small">@lang('Request a Quote')</a></div> --}}
                     </div>
                 </div>
             </div>
