@@ -45,6 +45,10 @@ Route::name('front.')->group(function () {
     // Route::get('/request-quote', [FrontQuoteController::class, 'showForm'])->name('quote.form');
     // Route::post('/request-quote', [FrontQuoteController::class, 'submitForm'])->name('quote.submit');
 
+    // Search routes
+    Route::get('/search', [PagesController::class, 'search'])->name('search');
+    
+
     // Newsletter subscription (front)
     Route::controller(FrontNewsletterController::class)->prefix('newsletter')->name('newsletter.')->group(function () {
         Route::post('/subscribe', 'subscribe')->name('subscribe');

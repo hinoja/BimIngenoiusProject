@@ -69,7 +69,26 @@
                 {{-- <li>
                     <a href="{{ route('front.quote.form') }}" class="ot-btn btn-color left" style="border-radius: 10px; padding: 15px 20px;">@lang('Quote')</a>
                 </li> --}}
+                <li class="search-menu">
+                    <a href="#" class="open-search"><i class="fa fa-search"></i></a>
+                </li>
             </ul>
         </nav>
     </div>
 </header>
+
+<div id="searchModal" class="custom-modal" tabindex="-1" aria-hidden="true">
+    <div class="custom-modal-content">
+        <span class="custom-modal-close" id="closeSearchModal" tabindex="0" role="button" aria-label="Close">&times;</span>
+        <div class="custom-modal-header">
+            @lang('Search on the site')
+        </div>
+        <form id="searchForm" action="{{ route('front.search') }}" method="GET" autocomplete="off">
+            <input type="text" name="q" class="form-control" placeholder="@lang('Type your search...')" style="width: 100%; margin-bottom: 20px;" autofocus required minlength="5">
+            <div class="custom-modal-actions">
+                <button type="button" class="ot-btn btn-secondary" id="cancelSearch">@lang('Cancel')</button>
+                <button type="submit" class="ot-btn btn-color">@lang('Search')</button>
+            </div>
+        </form>
+    </div>
+</div>
