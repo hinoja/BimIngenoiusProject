@@ -406,6 +406,15 @@
     "Updated at:": "Mis à jour le :",
     "Published at:": "Publié le :",
     "Request a quote": "Demander un devis",
+    "Sorry,": "Désolé,",
+    "the service is currently unavailable. Please try again later.": "le service est actuellement indisponible. Veuillez réessayer plus tard.",
+    "you are not authorized to access this page.": "vous n'êtes pas autorisé à accéder à cette page.",
+    "your payment is required to access this page.": "votre paiement est requis pour accéder à cette page.",
+    "you do not have permission to access this page.": "vous n'avez pas la permission d'accéder à cette page.",
+    "an unexpected error occurred. Please try again later.": "une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+    "you have made too many requests. Please try again later.": "vous avez effectué trop de demandes. Veuillez réessayer plus tard.",
+    "the page has expired due to inactivity. Please refresh and try again.": "la page a expiré en raison d'une inactivité. Veuillez rafraîchir et réessayer.",
+    "the requested page could not be found.": "la page demandée n'a pas pu être trouvée.",
 
 
     "Already registered?": "Déjà inscrit(e) ?",

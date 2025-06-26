@@ -2,7 +2,8 @@
 @php
     $locale = str_replace('_', '-', app()->getLocale());
     $isHome = request()->routeIs('front.home');
-    $currentRouteName = request()->route()->getName();
+    $currentRouteName = request()->route()?->getName();
+    $isErrorPage = false;
 @endphp
 
 <html class="no-js" lang="{{ $locale }}"><!--<![endif]-->
@@ -62,7 +63,7 @@
     <!-- Main Content -->
     <div id="content">
         <div class="entry-content">
-            @if (!$isHome)
+            @if (!$isHome && $isErrorPage)
                 <div class="page-title">
                     <div class="container">
                         <h1>@yield('subtitle')</h1>
