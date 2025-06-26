@@ -2,6 +2,81 @@
 
 @section('subtitle', __('Home'))
 
+@push('css')
+    <style>
+        /* Latest Projects */
+        .latest-list .image-project img {
+            width: 100%;
+            max-width: 340px;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+            margin: 0 auto;
+            background: #f6f6f6;
+        }
+
+        /* Latest Blog/News */
+        .latest-post .item-post img {
+            width: 100%;
+            max-width: 358px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+            margin: 0 auto;
+            background: #f6f6f6;
+        }
+
+        .latest-post .item-post {
+            height: 440px;
+            display: flex;
+            flex-direction: column;
+        }
+        .latest-post .item-post img {
+            width: 100%;
+            max-width: 358px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+            margin: 0 auto;
+            background: #f6f6f6;
+        }
+        .latest-post .item-post .desc {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .latest-post .item-post .desc h4 {
+            font-size: 1.1em;
+            min-height: 3em;
+            max-height: 3em;
+            line-height: 1.5em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            white-space: normal;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .latest-list .image-project img,
+            .latest-post .item-post img {
+                max-width: 100%;
+                height: 320px;
+            }
+            .latest-post .item-post {
+                height: auto;
+                min-height: 320px;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
 
     <section class="home-slider">
@@ -315,7 +390,7 @@
                             <a href="{{ route('front.news.show', $news_item) }}"><img src="{{ $news_item->image }}" alt="{{ $news_item->title }}"></a>
                             <div class="desc">
                                 <h4><a href="{{ route('front.news.show', $news_item) }}">{{ $news_item->title }}</a></h4>
-                                <p class="text-justify">{{ Str::words($news_item->content, 15) }}</p>
+                                <p class="text-justify">{{ str_replace('&nbsp;', ' ', strip_tags(Str::limit($news_item->content, 120))) }}</p>
                                 <p><a href="{{ route('front.news.show', $news_item) }}" class="more-link">@lang('Continue Reading')</a></p>
                             </div>
                             <p class="date-post">{{ $news_item->published_at }}</p>
