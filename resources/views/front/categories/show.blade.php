@@ -3,44 +3,19 @@
 @section('subtitle', $category->name)
 
 @push('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
     <style>
-        .project-slider {
-            position: relative;
+        .post-thumbail img {
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .project-slider img {
-            width: 100%;
-            height: auto;
+            max-width: 350px;
+            height: 220px;
             object-fit: cover;
-            max-height: 500px;
-        }
-
-        .project-slider .owl-carousel {
-            height: 500px;
-            overflow: hidden;
-        }
-
-        .project-info p {
-            margin-bottom: 0.75rem;
-        }
-
-        .project-info .plan-link {
-            color: #007bff;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .project-info .plan-link:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-        .project-info .no-plan {
-            color: #6c757d;
-            font-style: italic;
+            border-radius: 2px;
+            display: block;
+            margin: 0 auto 1.5rem auto;
+            background: #f6f6f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
         }
     </style>
 @endpush
@@ -59,16 +34,25 @@
 
                     <article class="post">
                         <h1 class="post-title">{{ $category->name }}</h1>
-                        {{-- <p class="post-meta">
-                            <span>February 15, 2016</span>
-                            <a href="#">Authemes</a>
-                            <a href="#">UI/UX Design</a>
-                            <span>3 comments</span>
-                        </p> --}}
-                        <div class="post-thumbail">
-                            <img src="{{ $category->image }}" alt="{{ $category->name }}">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="post-thumbail position-relative">
+                                    <a href="{{ $category->image }}" class="glightbox d-block" style="position:relative;">
+                                        <img src="{{ $category->image }}" alt="{{ $category->name }}">
+                                        <button type="button"
+                                            class="btn btn-zoom"
+                                            style="position:absolute;bottom:5px;right:30px;background:rgba(0, 0, 0, 0.247);color:#fff;border:none;border-radius:50%;padding:10px 12px;cursor:pointer;">
+                                            <i class="fas fa-search-plus"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>@lang('Description')</h4>
+                                <div class="post-content text-justify">{!! $category->description !!}</div>
+                            </div>
                         </div>
-                        <div class="post-content">{{ $category->description }}</div>
                         <div class="post-footer">
                             <div class="tag-post">
                                 <span>@lang('Tags:') <i>{{ $category->projects->count() }} @lang('project(s)')</i></span>
@@ -88,7 +72,7 @@
                         <h4>@lang('Other categories')</h4>
                         <ul>
                             @foreach ($other_categories as $category)
-                                <li><a href="{{ route('front.categories.show', $category) }}">{{ $category->name }}</a></li>
+                                <li><a href="{{ route('front.categories.show', $category) }}">{{ $category->name }}</a></li><br>
                             @endforeach
                         </ul>
                     </aside>
@@ -104,5 +88,11 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript" src="{{ asset('assets/front/js/custom-projects.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('assets/front/js/custom-projects.js') }}"></script> --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            GLightbox({ selector: '.glightbox' });
+        });
+    </script>
 @endpush

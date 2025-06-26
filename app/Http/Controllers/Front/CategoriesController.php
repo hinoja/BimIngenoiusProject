@@ -23,6 +23,7 @@ class CategoriesController extends Controller
     {
         $other_categories = Category::query()
                                 ->withExists('projects')
+                                ->where('id', '!=', $category->id)
                                 ->take(5)
                                 ->get();
 

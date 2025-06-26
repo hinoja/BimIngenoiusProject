@@ -19,7 +19,7 @@
         }
 
         /* Resetting styles from WYSIWIG content */
-        .post-content ul li {
+        /* .post-content ul li {
             display: list-item !important;
             list-style-type: disc !important;
             list-style-position: inside !important;
@@ -35,7 +35,7 @@
         .post-content ol {
             margin-left: 2em;
             padding-left: 1.5em;
-        }
+        } */
     </style>
 @endpush
 
