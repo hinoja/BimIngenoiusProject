@@ -32,6 +32,10 @@ class PagesController extends Controller
         return view('front.pages.turnkey');
     }
 
+    public function ourCompetences() {
+        return view('front.pages.skills');
+    }
+
     public function search(Request $request) {
         $query = trim($request->q);
         if (!$query) {

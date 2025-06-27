@@ -25,10 +25,11 @@
                 <li><a href="{{ route('front.home') }}" class="{{ Str::contains($currentRouteName, 'home') ? 'active' : '' }}">@lang('Home')</a></li>
                 <li class="menu-item-has-children">
                     <div class="arrow-parent"><i class="fa fa-angle-down"></i></div>
-                    <a href="#" class="{{ (Str::contains($currentRouteName, 'about') || Str::contains($currentRouteName, 'turnkey')) ? 'active' : '' }}">@lang('Who are we?')</a>
+                    <a href="#" class="{{ (Str::contains($currentRouteName, 'about') || Str::contains($currentRouteName, 'turnkey')|| Str::contains($currentRouteName, 'skills')) ? 'active' : '' }}">@lang('Who are we?')</a>
                     <ul class="dropdown-menu">
                         <li><a href="{{  route('front.about') }}" class="{{ Str::contains($currentRouteName, 'about') ? 'active' : '' }}">@lang('About')</a></li>
                         <li><a href="{{ route('front.turnkey') }}" class="{{ Str::contains($currentRouteName, 'turnkey') ? 'active' : '' }}">@lang('Turnkey offer')</a></li>
+                        <li><a href="{{ route('front.skills') }}" class="{{ Str::contains($currentRouteName, 'skills') ? 'active' : '' }}">@lang('Technical skills')</a></li>
                     </ul>
                 </li>
                 

@@ -265,110 +265,12 @@
                     <div class="get-action">
                         <h4>@lang('WORKING WITH US')</h4>
                         <p>@lang('WE DESIGN, CONSTRUCT, REFURBISH AND OPERATE')<br> @lang('OUTSTANDING BUILDINGS').</p>
-                        {{-- <div><a href="{{ route('front.quote.form') }}" class="ot-btn btn-color btn-small">@lang('Request a Quote')</a></div> --}}
+                        <div><a href="" class="ot-btn btn-color">@lang('Request a Quote')</a></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    {{-- <section class="testi-partner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2 class="left after">@lang('TESTIMONIALS')</h2>
-                    <div class="testi-carousel">
-
-                        <div id="sync-3" class="owl-carousel text">
-                            <div class="item">
-                                <p>Morbi auctor vel mauris facilisis lacinia. Aenean suscipit lorem leo, et hendrerit odio fermentum et. Donec ac dolor eros. Mauris arcu nunc, iaculis sit amet lacus iaculis, faucibus faucibus nunc. Vestibulum sit amet lacinia massa</p>
-                                <div class="info">
-                                    <strong>Cheryl Cruz</strong>
-                                    <span>Senior Engineer, The Building Co</span>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <p>Aenean suscipit lorem leo, et hendrerit odio fermentum et. Vestibulum sit amet lacinia massa. Donec ac dolor eros. Mauris arcu nunc, iaculis sit amet lacus iaculis, faucibus faucibus nunc.</p>
-                                <div class="info">
-                                    <strong>John Doe</strong>
-                                    <span>Construction Engineer, The Building Co</span>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <p>Nulla eleifend, sapien eget porttitor maximus, nisl ante convallis dolor, nec consequat felis ex a ex. Etiam vestibulum enim euismod dui vestibulum, vitae fringilla nibh consectetur. Integer at volutpat augue.</p>
-                                <div class="info">
-                                    <strong>RICHARD PIERCE</strong>
-                                    <span>Construction Manager, The Building Co</span>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <p>In hac habitasse platea dictumst. Mauris orci lectus, pretium sed vehicula at, aliquet quis tellus. Quisque justo odio, elementum in lobortis nec, accumsan et nisi. Donec mattis ex aliquam enim congue aliquet. </p>
-                                <div class="info">
-                                    <strong>BETTY LANE</strong>
-                                    <span>Project Manager, The Building Co</span>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <p>Sed nec velit interdum, tempor nunc ac, consequat risus. Nunc massa augue, fermentum in dapibus in, mattis non orci. Donec consequat ac eros non elementum. Mauris condimentum imperdiet blandit. Vestibulum sit amet lacinia massa</p>
-                                <div class="info">
-                                    <strong>PETER HART</strong>
-                                    <span>Architect Electric, The Building Co</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="sync-4" class="owl-carousel images">
-                            <div class="testi-img">
-                                <img src="{{ asset('assets/front/images/testi1.jpg') }}" alt="">
-                            </div>
-                            <div class="testi-img">
-                                <img src="{{ asset('assets/front/images/testi2.jpg') }}" alt="">
-                            </div>
-                            <div class="testi-img">
-                                <img src="{{ asset('assets/front/images/testi3.jpg') }}" alt="">
-                            </div>
-                            <div class="testi-img">
-                                <img src="{{ asset('assets/front/images/testi4.jpg') }}" alt="">
-                            </div>
-                            <div class="testi-img">
-                                <img src="{{ asset('assets/front/images/testi5.jpg') }}" alt="">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <h2 class="left after">@lang('OUR PARTNERS')</h2>
-                    <div class="list-logo">
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client1.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client2.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client3.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client4.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client5.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client6.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client7.png') }}" alt=""></a>
-                        </div>
-                        <div class="item-logo">
-                            <a href="#"><img src="{{ asset('assets/front/images/client8.png') }}" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
     <section class="shadow-section">
         <div class="container">

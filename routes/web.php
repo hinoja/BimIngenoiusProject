@@ -15,6 +15,7 @@ Route::name('front.')->group(function () {
         Route::get('/contact', 'contact')->name('contact');
         Route::get('/turnkey-offer', 'turnkey')->name('turnkey');
         Route::get('/quote', 'quote')->name('quote');
+        Route::get('/our-skills', 'ourCompetences')->name('skills');
     });
 
     // Projects routes
