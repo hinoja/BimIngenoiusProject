@@ -191,7 +191,7 @@
     <link href="https://cdn.tailwindcss.com/3.4.1" rel="stylesheet" media="print"
         onload="this.media='all'; this.onload=null;">
     <style>
-  
+
 
         .card {
             border-radius: 16px;
