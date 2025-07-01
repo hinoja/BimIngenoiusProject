@@ -23,6 +23,7 @@ class NewsAdminController extends Controller
         return view('admin.news.create', compact('availableTags'));
     }
 
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -30,8 +31,8 @@ class NewsAdminController extends Controller
             'en_title' => 'required|string|max:255',
             'fr_content' => 'required|string|min:10',
             'en_content' => 'required|string|min:10',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'tags' => 'nullable|array|max:10',
+            'image' => 'required |image|mimes:jpg,jpeg,png|max:2048',
+            'tags' => 'required |array|max:10',
             'tags.*' => 'exists:tags,id',
         ]);
 
@@ -83,72 +84,112 @@ class NewsAdminController extends Controller
     }
 
 
-    /**
+ /**
      * Show the form for editing the specified resource.
+     *
+     * @param News $news
+     * @return \Illuminate\View\View
      */
     public function edit(News $news)
     {
+        // Charger les tags associés à la news
+        $news->load('tags');
+
+        // Récupérer tous les tags disponibles sous forme de tableau associatif (id => name)
         $availableTags = Tag::all()->pluck('name', 'id')->toArray();
+
         return view('admin.news.edit', compact('news', 'availableTags'));
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param News $news
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, News $news)
     {
-        // Cette méthode n'est pas utilisée car nous utilisons Livewire pour l'édition
-        // Mais nous la gardons au cas où nous voudrions revenir à une approche traditionnelle
+        // Validation des données
         $validated = $request->validate([
             'fr_title' => 'required|string|max:255',
             'en_title' => 'required|string|max:255',
             'fr_content' => 'required|string|min:10',
             'en_content' => 'required|string|min:10',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120', // 5MB max
             'tags' => 'nullable|array|max:10',
             'tags.*' => 'exists:tags,id',
+            'published_at' => 'nullable',
+            'remove_image' => 'nullable|boolean',
         ]);
 
         try {
+            // Préparer les données pour la mise à jour
             $newsData = [
                 'fr_title' => $validated['fr_title'],
                 'en_title' => $validated['en_title'],
                 'fr_content' => $validated['fr_content'],
                 'en_content' => $validated['en_content'],
                 'slug' => Str::slug($validated['en_title']) . '-' . time(),
-                'published_at' => $request->boolean('publish_now') ? now() : null,
+                'published_at' => $request->boolean('published_at') ? now() : null,
             ];
 
+            // Gestion de l'image
             if ($request->hasFile('image')) {
                 // Supprimer l'ancienne image si elle existe
                 if ($news->image && Storage::disk('public')->exists($news->image)) {
                     Storage::disk('public')->delete($news->image);
                 }
-
+                // Stocker la nouvelle image
                 $imagePath = $request->file('image')->store('news', 'public');
                 $newsData['image'] = $imagePath;
-            } elseif ($request->has('remove_image') && $news->image) {
+            } elseif ($request->boolean('remove_image') && $news->image) {
+                // Supprimer l'image existante si demandée
                 Storage::disk('public')->delete($news->image);
                 $newsData['image'] = null;
             }
 
+            // Mettre à jour la news
             $news->update($newsData);
 
+            // Synchroniser les tags
             if ($request->has('tags')) {
-                $news->tags()->sync($request->tags);
+                $news->tags()->sync($validated['tags']);
             } else {
                 $news->tags()->detach();
             }
 
+            // Message de succès avec différenciation selon le statut
+            $message = $request->boolean('save_as_draft') ? __('News saved as draft successfully!') : __('News updated successfully!');
+
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', __('News updated successfully!'));
+                ->with('success', $message);
         } catch (\Exception $e) {
             return redirect()
                 ->back()
                 ->withInput()
                 ->with('error', __('An error occurred: ') . $e->getMessage());
         }
+    }
+    /**
+     * Upload d'image pour CKEditor
+     */
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'upload' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:5120', // 5 Mo max
+        ]);
+
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $path = $file->store('news', 'public');
+            $url = asset('storage/' . $path);
+            return response()->json([
+                'url' => $url
+            ]);
+        }
+        return response()->json(['error' => 'No file uploaded.'], 400);
     }
 }
 

@@ -33,8 +33,8 @@ class CategoryController extends Controller
         $request->validate([
             'fr_name' => 'required|string|min:2|unique:categories,fr_name',
             'en_name' => 'required|string|min:2|unique:categories,en_name',
-            'fr_description' => 'nullable|string',
-            'en_description' => 'nullable|string',
+            'fr_description' => 'required|string|min:20',
+            'en_description' => 'required|string|min:20',
             'image' => 'nullable|image|max:2048',
         ]);
 

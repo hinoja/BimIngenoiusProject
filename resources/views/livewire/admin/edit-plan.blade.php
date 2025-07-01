@@ -1,67 +1,232 @@
-<div>
+<div class="container py-8">
+    <div class="plan-form-container">
+        <h2 class="form-title mb-4 text-center">@lang('Edit Plan')</h2>
+        <div class="steps-indicator mb-4">
+            <div class="progress" style="height: 3px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $step == 1 ? 50 : 100 }}%"></div>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+                <span class="step {{ $step == 1 ? 'active' : '' }}">@lang('Basic Information')</span>
+                <span class="step {{ $step == 2 ? 'active' : '' }}">@lang('Images Management')</span>
+            </div>
+        </div>
+
+        <form wire:submit.prevent="updatePlan">
+            @if ($step == 1)
+                <!-- Étape 1 : Informations de base -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fr_title" class="font-weight-bold text-dark mb-2">@lang('French Title')</label>
+                            <input type="text" wire:model="fr_title"
+                                class="form-control @error('fr_title') is-invalid @enderror" id="fr_title"
+                                placeholder="@lang('Enter the French title')">
+                            @error('fr_title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="en_title" class="font-weight-bold text-dark mb-2">@lang('English Title')</label>
+                            <input type="text" wire:model="en_title"
+                                class="form-control @error('en_title') is-invalid @enderror" id="en_title"
+                                placeholder="@lang('Enter the English title')">
+                            @error('en_title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fr_description" class="font-weight-bold text-dark mb-2">@lang('French Description')</label>
+                            <input minlength="50" id="fr_description" type="hidden" wire:model.defer="fr_description">
+                            <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')" x-ref="trix" input="fr_description"
+                                @trix-change="$wire.set('fr_description', $event.target.value)"
+                                class="form-control trix-content @error('fr_description') is-invalid @enderror"></trix-editor>
+                            @error('fr_description')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="en_description" class="font-weight-bold text-dark mb-2">@lang('English Description')</label>
+                            <input minlength="50" id="en_description" type="hidden" wire:model.defer="en_description">
+                            <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')" x-ref="trix" input="en_description"
+                                @trix-change="$wire.set('en_description', $event.target.value)"
+                                class="form-control trix-content @error('en_description') is-invalid @enderror"></trix-editor>
+                            @error('en_description')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="is_active" wire:model="is_active">
+                        <label class="custom-control-label" for="is_active">@lang('Publish Plan Immediately')</label>
+                    </div>
+                    @error('is_active')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="text-center">
+                    <button type="button" wire:click="nextStep" class="btn btn-primary mr-3">@lang('Next')</button>
+                </div>
+            @elseif ($step == 2)
+                <!-- Étape 2 : Gestion des images -->
+                @if ($existing2DImage && !in_array($existing2DImage['id'], $imagesToDelete))
+                    <div class="form-group mb-4">
+                        <label class="font-weight-bold text-dark mb-2">@lang('Existing 2D Image')</label>
+                        <div class="d-flex flex-wrap">
+                            <div class="image-preview-container">
+                                <img src="{{ Storage::url($existing2DImage['path']) }}" class="image-preview" alt="Existing 2D Image">
+                                <span class="remove-image" wire:click="removeExisting2DImage({{ $existing2DImage['id'] }})">×</span>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if (!empty($existing3DImages))
+                    <div class="form-group mb-4">
+                        <label class="font-weight-bold text-dark mb-2">@lang('Existing 3D Images')</label>
+                        <div class="d-flex flex-wrap">
+                            @foreach ($existing3DImages as $image)
+                                @if (!in_array($image['id'], $imagesToDelete))
+                                    <div class="image-preview-container">
+                                        <img src="{{ Storage::url($image['path']) }}" class="image-preview" alt="Existing 3D Image">
+                                        <span class="remove-image" wire:click="removeExisting3DImage({{ $image['id'] }})">×</span>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div class="form-group mb-4">
+                    <label class="font-weight-bold text-dark mb-2">@lang('Update 2D Image')</label>
+                    <div class="custom-file">
+                        <input type="file" wire:model="image2D" class="custom-file-input @error('image2D') is-invalid @enderror" id="image2D">
+                        <label class="custom-file-label" for="image2D">@lang('Choose 2D image')</label>
+                        @error('image2D')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    @if ($image2D)
+                        <div class="image-preview-container mt-3">
+                            <img src="{{ $image2D->temporaryUrl() }}" class="image-preview" alt="2D Image Preview">
+                            <span class="remove-image" wire:click="removeNew2DImage">×</span>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="font-weight-bold text-dark mb-2">@lang('Add 3D Images')</label>
+                    <div class="custom-file">
+                        <input type="file" wire:model="images" multiple class="custom-file-input @error('images') is-invalid @enderror" id="images">
+                        <label class="custom-file-label" for="images">@lang('Choose 3D images (multiple)')</label>
+                        @error('images')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    @if (!empty($images))
+                        <div class="mt-3 d-flex flex-wrap">
+                            @foreach ($images as $index => $image)
+                                <div class="image-preview-container">
+                                    <img src="{{ $image->temporaryUrl() }}" class="image-preview" alt="Preview {{ $index + 1 }}">
+                                    <span class="remove-image" wire:click="removeImage({{ $index }})">×</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                <div class="text-center">
+                    <button type="button" wire:click="previousStep" class="btn btn-cancel mr-3">@lang('Previous')</button>
+                    <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
+                        <span wire:loading wire:target="updatePlan">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>@lang('Updating...')
+                        </span>
+                        <span wire:loading.remove wire:target="updatePlan">
+                            <i class="fas fa-save mr-2"></i>@lang('Update Plan')
+                        </span>
+                    </button>
+                </div>
+            @endif
+        </form>
+    </div>
+</div>
+
+@push('css')
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <style>
-        /* Conteneur principal */
         .plan-form-container {
             background: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             padding: 30px;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            border: 2px solid #FF6B35;
-            animation: slideIn 0.5s ease-in-out;
         }
 
-        /* Champs de formulaire */
+        .form-title {
+            color: #2A2E45;
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .steps-indicator .progress-bar {
+            background-color: #FF6B35;
+        }
+
+        .step {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .step.active {
+            background: #FF6B35;
+            color: white;
+        }
+
         .form-control:focus {
             border-color: #FF6B35;
             box-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
-            outline: none;
         }
 
-        .form-control.is-invalid {
+        .trix-content {
+            height: auto !important;
+        }
+
+        trix-editor.form-control {
+            height: auto;
+            min-height: 200px;
+            padding: .375rem .75rem;
+        }
+
+        trix-editor.is-invalid {
             border-color: #dc3545;
         }
 
-        .invalid-feedback {
-            font-size: 0.9rem;
-            color: #dc3545;
-        }
-
-        .modern-textarea {
-            resize: vertical;
-            min-height: 120px;
-            transition: border-color 0.3s ease;
-        }
-
-        /* Checkbox personnalisée */
-        .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-            background-color: #FF6B35;
-            border-color: #FF6B35;
-        }
-
-        .custom-checkbox .custom-control-label::before {
-            border-radius: 4px;
-        }
-
-        /* Prévisualisation d'image */
         .image-preview-container {
             position: relative;
-            display: inline-block;
             margin: 10px;
         }
 
         .image-preview {
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 200px;
             max-height: 150px;
             object-fit: cover;
+            border-radius: 8px;
             border: 2px solid #FF6B35;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .image-preview:hover {
-            transform: scale(1.05);
         }
 
         .remove-image {
@@ -77,268 +242,33 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease;
-        }
-
-        .remove-image:hover {
-            transform: scale(1.1);
-            background-color: #c82333;
-        }
-
-        /* Boutons */
-        .btn {
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
 
         .btn-primary {
             background-color: #FF6B35;
             border: none;
-            color: #F8F9FA;
         }
 
         .btn-primary:hover {
             background-color: #e65a2e;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
         }
 
         .btn-cancel {
             background-color: #d3d3d3;
             color: #2A2E45;
-            border: none;
         }
 
-        .btn-cancel:hover {
-            background-color: #c0c0c0;
-            color: #2A2E45;
-        }
-
-        /* Trix Editor Styles */
-        .trix-content {
-            height: auto !important;
-        }
-
-        trix-editor.form-control {
-            height: auto;
-            min-height: 200px;
-            padding: .375rem .75rem;
-        }
-
-        trix-editor.is-invalid {
-            border-color: #dc3545;
-        }
-
-        /* Animation d'entrée */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .plan-form-container {
-                padding: 20px;
-            }
-
-            .form-title {
-                font-size: 1.5rem;
-            }
-
             .image-preview {
                 max-height: 100px;
             }
         }
     </style>
-
-    <div class="plan-form-container">
-        <h2 class="form-title mb-4 text-center">@lang('Edit Plan')</h2>
-
-        <form wire:submit.prevent="updatePlan">
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="fr_title" class="font-weight-bold text-dark mb-2">@lang('French Title')</label>
-                        <input type="text" wire:model="fr_title"
-                            class="form-control @error('fr_title') is-invalid @enderror" id="fr_title"
-                            placeholder="@lang('Enter the French title')">
-                        @error('fr_title')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="en_title" class="font-weight-bold text-dark mb-2">@lang('English Title')</label>
-                        <input type="text" wire:model="en_title"
-                            class="form-control @error('en_title') is-invalid @enderror" id="en_title"
-                            placeholder="@lang('Enter the English title')">
-                        @error('en_title')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="form-group" x-data="{
-                        content: @entangle('fr_description'),
-                        instance: null,
-                        init() {
-                            this.$nextTick(() => {
-                                this.instance = new Trix.Editor(this.$refs.trix);
-
-                                // Charger le contenu initial
-                                if (this.content) {
-                                    this.instance.editor.loadHTML(this.content);
-                                }
-
-                                // Écouter les changements du contenu depuis Livewire
-                                this.$watch('content', (value) => {
-                                    if (value && this.instance.editor.composition.toString() !== value) {
-                                        this.instance.editor.loadHTML(value);
-                                    }
-                                });
-                            });
-                        }
-                    }" @trix-change="content = $event.target.value" wire:ignore>
-                        <label for="fr_description" class="font-weight-bold text-dark mb-2">@lang('French Description')</label>
-                        <input id="fr_description" type="hidden" name="fr_description" :value="content">
-                        <trix-editor input="fr_description" x-ref="trix"
-                            class="form-control trix-content @error('fr_description') is-invalid @enderror"></trix-editor>
-                        @error('fr_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group" x-data="{
-                        content: @entangle('en_description'),
-                        instance: null,
-                        init() {
-                            this.$nextTick(() => {
-                                this.instance = new Trix.Editor(this.$refs.trix);
-
-                                // Charger le contenu initial
-                                if (this.content) {
-                                    this.instance.editor.loadHTML(this.content);
-                                }
-
-                                // Écouter les changements du contenu depuis Livewire
-                                this.$watch('content', (value) => {
-                                    if (value && this.instance.editor.composition.toString() !== value) {
-                                        this.instance.editor.loadHTML(value);
-                                    }
-                                });
-                            });
-                        }
-                    }" @trix-change="content = $event.target.value" wire:ignore>
-                        <label for="en_description" class="font-weight-bold text-dark mb-2">@lang('English Description')</label>
-                        <input id="en_description" type="hidden" name="en_description" :value="content">
-                        <trix-editor input="en_description" x-ref="trix"
-                            class="form-control trix-content @error('en_description') is-invalid @enderror"></trix-editor>
-                        @error('en_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-4">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="is_active" wire:model="published_at">
-                    <label class="custom-control-label" for="is_active">@lang('Publish Plan Immediately')</label>
-                </div>
-                @error('published_at')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group mb-4">
-                <label class="font-weight-bold text-dark mb-2">@lang('Existing Images')</label>
-                @if (!empty($existingImages))
-                    <div class="d-flex flex-wrap">
-                        @foreach ($existingImages as $image)
-                            @if (!in_array($image['id'], $imagesToDelete))
-                                <div class="image-preview-container">
-                                    <img src="{{ Storage::url($image['name']) }}" class="image-preview"
-                                        alt="Existing Image">
-                                    <span class="remove-image"
-                                        wire:click="removeExistingImage({{ $image['id'] }})">×</span>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                @else
-                    <p class="text-muted">@lang('No existing images.')</p>
-                @endif
-            </div>
-
-            <div class="form-group mb-4">
-                <label class="font-weight-bold text-dark mb-2">@lang('Add New Images')</label>
-                <div class="custom-file">
-                    <input type="file" wire:model="images" multiple
-                        class="custom-file-input @error('images.*') is-invalid @enderror" id="images">
-                    <label class="custom-file-label" for="images">@lang('Choose images (multiple)')</label>
-                    @error('images.*')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                </div>
-                @if (!empty($images))
-                    <div class="mt-3 d-flex flex-wrap">
-                        @foreach ($images as $index => $image)
-                            <div class="image-preview-container">
-                                <img src="{{ $image->temporaryUrl() }}" class="image-preview"
-                                    alt="Preview {{ $index + 1 }}">
-                                <span class="remove-image" wire:click="removeNewImage({{ $index }})">×</span>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary me-3" wire:loading.attr="disabled" wire:target="updatePlan">
-                    <span wire:loading wire:target="updatePlan">
-                        <i class="fas fa-spinner fa-spin me-2"></i>@lang('Updating...')
-                    </span>
-                    <span wire:loading.remove wire:target="updatePlan">
-                        <i class="fas fa-save me-2"></i>@lang('Update Plan')
-                    </span>
-                </button>
-                <a href="{{ route('admin.plans.index') }}" class="btn btn-cancel">@lang('Cancel')</a>
-            </div>
-        </form>
-    </div>
-</div>
-
-@push('css')
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endpush
 
-@push('scripts')
+@push('js')
     <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInput = document.querySelector('.custom-file-input');
-            fileInput.addEventListener('change', function() {
-                const fileCount = this.files.length;
-                const label = fileCount > 0 ? `${fileCount} @lang('files selected')` : '@lang('Choose images (multiple)')';
-                this.nextElementSibling.textContent = label;
-            });
-        });
-
         document.addEventListener('trix-file-accept', function(e) {
             e.preventDefault();
         });

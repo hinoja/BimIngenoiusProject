@@ -23,6 +23,10 @@ return new class extends Migration
             $table->string('project_city');
             $table->text('details');
             $table->string('file')->nullable();
+            $table->text('response')->nullable();
+            $table->decimal('response_budget', 20, 2)->nullable();
+            $table->string('response_currency')->nullable();
+            $table->timestamp('response_at')->nullable();
             $table->timestamps();
         });
     }

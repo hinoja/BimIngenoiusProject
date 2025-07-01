@@ -12,7 +12,8 @@
                     </div>
 
                     <div class="card-body px-6 py-8 bg-gray-100">
-                        <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data"
+                            class="space-y-6">
                             @csrf
 
                             <!-- Section: Titles -->
@@ -23,22 +24,26 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div class="form-group relative">
                                         <input type="text"
-                                               class="form-control modern-input peer @error('fr_title') is-invalid @enderror"
-                                               id="fr_title" name="fr_title" value="{{ old('fr_title') }}" maxlength="255"
-                                               placeholder=" " aria-describedby="fr_title_help fr_title_error">
-                                        <label for="fr_title" class="form-label absolute left-3 -top-2.5 bg-white px-1 text-sm font-medium text-gray-600 peer-focus:text-primary transition-all duration-200">@lang('French Title')</label>
-                                        <span class="char-counter absolute right-3 top-3 text-sm text-gray-600">{{ strlen(old('fr_title', '')) }}/255</span>
+                                            class="form-control modern-input peer @error('fr_title') is-invalid @enderror"
+                                            id="fr_title" name="fr_title" value="{{ old('fr_title') }}" maxlength="255"
+                                            placeholder=" " aria-describedby="fr_title_help fr_title_error">
+                                        <label for="fr_title"
+                                            class="form-label absolute left-3 -top-2.5 bg-white px-1 text-sm font-medium text-gray-600 peer-focus:text-primary transition-all duration-200">@lang('French Title')</label>
+                                        <span
+                                            class="char-counter absolute right-3 top-3 text-sm text-gray-600">{{ strlen(old('fr_title', '')) }}/255</span>
                                         @error('fr_title')
                                             <span class="error-feedback" role="alert">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group relative">
                                         <input type="text"
-                                               class="form-control modern-input peer @error('en_title') is-invalid @enderror"
-                                               id="en_title" name="en_title" value="{{ old('en_title') }}" maxlength="255"
-                                               placeholder=" " aria-describedby="en_title_help en_title_error">
-                                        <label for="en_title" class="form-label absolute left-3 -top-2.5 bg-white px-1 text-sm font-medium text-gray-600 peer-focus:text-primary transition-all duration-200">@lang('English Title')</label>
-                                        <span class="char-counter absolute right-3 top-3 text-sm text-gray-600">{{ strlen(old('en_title', '')) }}/255</span>
+                                            class="form-control modern-input peer @error('en_title') is-invalid @enderror"
+                                            id="en_title" name="en_title" value="{{ old('en_title') }}" maxlength="255"
+                                            placeholder=" " aria-describedby="en_title_help en_title_error">
+                                        <label for="en_title"
+                                            class="form-label absolute left-3 -top-2.5 bg-white px-1 text-sm font-medium text-gray-600 peer-focus:text-primary transition-all duration-200">@lang('English Title')</label>
+                                        <span
+                                            class="char-counter absolute right-3 top-3 text-sm text-gray-600">{{ strlen(old('en_title', '')) }}/255</span>
                                         @error('en_title')
                                             <span class="error-feedback" role="alert">{{ $message }}</span>
                                         @enderror
@@ -53,17 +58,19 @@
                                 </div>
                                 <div class="space-y-6">
                                     <div class="form-group bg-white rounded-xl p-4 shadow-sm">
-                                        <label for="fr_content" class="block text-primary font-semibold mb-2">@lang('French Content')</label>
-                                        <input id="fr_content_input" type="hidden" name="fr_content" value="{{ old('fr_content') }}">
-                                        <trix-editor input="fr_content_input" class="@error('fr_content') is-invalid @enderror" aria-describedby="fr_content_help"></trix-editor>
+                                        <label for="fr_content"
+                                            class="block text-primary font-semibold mb-2">@lang('French Content')</label>
+                                        <textarea name="fr_content" id="fr_content" class="ckeditor-textarea @error('fr_content') is-invalid @enderror"
+                                            aria-describedby="fr_content_help">{{ old('fr_content') }}</textarea>
                                         @error('fr_content')
                                             <span class="error-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group bg-white rounded-xl p-4 shadow-sm">
-                                        <label for="en_content" class="block text-primary font-semibold mb-2">@lang('English Content')</label>
-                                        <input id="en_content_input" type="hidden" name="en_content" value="{{ old('en_content') }}">
-                                        <trix-editor input="en_content_input" class="@error('en_content') is-invalid @enderror" aria-describedby="en_content_help"></trix-editor>
+                                        <label for="en_content"
+                                            class="block text-primary font-semibold mb-2">@lang('English Content')</label>
+                                        <textarea name="en_content" id="en_content" class="ckeditor-textarea @error('en_content') is-invalid @enderror"
+                                            aria-describedby="en_content_help">{{ old('en_content') }}</textarea>
                                         @error('en_content')
                                             <span class="error-feedback">{{ $message }}</span>
                                         @enderror
@@ -77,22 +84,48 @@
                                     <i class="fas fa-image text-primary"></i> @lang('Featured Image')
                                 </div>
                                 <div class="form-group bg-white rounded-xl p-4 shadow-sm">
-                                    <label class="form-label text-primary mb-3 block font-semibold">@lang('Choose an image')</label>
-                                    <div class="custom-file relative">
-                                        <input type="file" name="image"
-                                               class="custom-file-input @error('image') is-invalid @enderror" id="image"
-                                               accept="image/*" aria-describedby="image_help">
-                                        <label class="custom-file-label" for="image">@lang('Choose an image')</label>
-                                        @error('image')
-                                            <span class="error-feedback">{{ $message }}</span>
-                                        @enderror
+                                    <label
+                                        class="form-label text-primary mb-3 block font-semibold">@lang('Choose an image')</label>
+
+                                    <!-- Container pour l'upload -->
+                                    <div class="upload-container">
+                                        <div class="custom-file-upload">
+                                            <input type="file" name="image"
+                                                class="custom-file-input @error('image') is-invalid @enderror"
+                                                id="image" accept="image/*" aria-describedby="image_help image_error">
+                                            <label class="custom-file-label @error('image') error-border @enderror"
+                                                for="image">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span class="upload-text">@lang('Choose an image')</span>
+                                            </label>
+                                        </div>
+
+                                        <!-- Message d'aide -->
+                                        <small class="text-gray-500 mt-2 block" id="image_help">
+                                            @lang('Accepted formats: JPG, PNG, GIF. Maximum size: 5MB')
+                                        </small>
                                     </div>
-                                    <div id="image-preview-container" class="mt-3 hidden relative">
+
+                                    <!-- Message d'erreur placé en dehors du conteneur d'upload -->
+                                    @error('image')
+                                        <div class="error-feedback mt-3" role="alert" id="image_error">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
+                                    <!-- Prévisualisation -->
+                                    <div id="image-preview-container" class="mt-4 hidden relative">
                                         <img id="image-preview" class="image-preview" alt="Image Preview">
-                                        <span class="remove-image" onclick="removeImage()">×</span>
+                                        <button type="button" class="remove-image-btn" onclick="removeImage()">
+                                            <i class="fas fa-times"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+
+
+
 
                             <!-- Section: Tags -->
                             <div class="section-card">
@@ -101,11 +134,11 @@
                                 </div>
                                 <div class="form-group bg-white rounded-xl p-4 shadow-sm">
                                     <select id="tags" name="tags[]" class="tom-select modern-input w-full" multiple
-                                            aria-describedby="tags_help">
+                                        aria-describedby="tags_help">
                                         <option value="" disabled>@lang('Select or type to search tags')</option>
                                         @foreach ($availableTags as $id => $name)
                                             <option value="{{ $id }}"
-                                                    {{ in_array($id, old('tags', [])) ? 'selected' : '' }}>
+                                                {{ in_array($id, old('tags', [])) ? 'selected' : '' }}>
                                                 {{ $name }}
                                             </option>
                                         @endforeach
@@ -122,22 +155,27 @@
                                 <div class="section-header">
                                     <i class="fas fa-paper-plane text-primary"></i> @lang('Publication')
                                 </div>
-                                <div class="form-group modern-check bg-white rounded-xl p-4 shadow-sm flex items-center">
-                                    <input type="checkbox" class="form-check-input" id="published_at" name="published_at"
-                                           {{ old('published_at') ? 'checked' : '' }} aria-label="Publish immediately">
-                                    <label class="form-check-label text-primary ml-3 font-semibold" for="published_at">
-                                        @lang('Publish Immediately')
+                                <div class="form-group modern-check bg-white rounded-xl p-4 shadow-sm">
+                                    <label class="toggle-switch" for="published_at">
+                                        <input type="checkbox" class="toggle-input" id="published_at"
+                                            name="published_at" {{ old('published_at') ? 'checked' : '' }}
+                                            aria-label="Publish immediately">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label">@lang('Publish Immediately')</span>
                                     </label>
                                 </div>
                             </div>
 
                             <!-- Buttons -->
-                            <div class="flex justify-end gap-4">
-                                <a href="{{ route('admin.news.index') }}" class="btn btn-cancel flex items-center gap-2">
-                                    <i class="fas fa-times"></i> @lang('Cancel')
+                            <div class="action-buttons">
+                                <a href="{{ route('admin.news.index') }}" class="btn btn-cancel">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>@lang('Cancel')</span>
                                 </a>
-                                <button type="submit" class="btn btn-primary flex items-center gap-2">
-                                    <i class="fas fa-save"></i> @lang('Save News')
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>@lang('Create News')</span>
                                 </button>
                             </div>
                         </form>
@@ -150,31 +188,21 @@
 
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-    <link href="https://cdn.tailwindcss.com/3.4.1" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <link href="https://cdn.tailwindcss.com/3.4.1" rel="stylesheet" media="print"
+        onload="this.media='all'; this.onload=null;">
     <style>
-        :root {
-            --primary: #FF6B35;
-            --dark: #2A2E45;
-            --light: #F8F9FA;
-            --gray: #6b7280;
-            --gray-light: #e5e7eb;
-            --primary-hover: #e65a1e;
-            --error: #dc3545;
-            --error-light: #fee2e2;
-        }
+  
 
         .card {
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
-
         .card-header {
             background-color: var(--dark);
             color: var(--light);
             border-bottom: 2px solid var(--primary);
             border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+            border-top-right-radius: 10px;
         }
 
         .card-body {
@@ -189,7 +217,7 @@
             background: #fff;
             padding: 1.5rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .section-header {
@@ -244,40 +272,47 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
-        .custom-file {
+        /* Upload d'image amélioré */
+        .custom-file-upload {
             position: relative;
+            display: inline-block;
+            width: 100%;
         }
 
         .custom-file-input {
-            border: 1px solid var(--gray-light);
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            background: #fff;
-            cursor: pointer;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .custom-file-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 8px rgba(255, 107, 53, 0.2);
-            outline: none;
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
         }
 
         .custom-file-label {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px dashed var(--gray-light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             color: var(--gray);
-            background: #fff;
-            border-radius: 10px;
-            text-align: left;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            pointer-events: none;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .custom-file-label:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-file-label i {
+            font-size: 1.5rem;
+            color: var(--primary);
         }
 
         .image-preview-container {
@@ -286,9 +321,9 @@
         }
 
         .image-preview {
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            max-height: 120px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            max-height: 150px;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
@@ -297,53 +332,224 @@
             transform: scale(1.05);
         }
 
-        .remove-image {
+        .remove-image-btn {
             position: absolute;
             top: -8px;
             right: -8px;
-            background-color: var(--error);
+            background: linear-gradient(135deg, var(--error) 0%, #b91c1c 100%);
             color: white;
+            border: none;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
         }
 
-        .remove-image:hover {
+        .remove-image-btn:hover {
             transform: scale(1.1);
-            background-color: #c82333;
+            box-shadow: 0 6px 12px rgba(220, 53, 69, 0.4);
         }
 
-        /* Trix Editor Styles */
-        trix-editor {
-            min-height: 200px;
-            max-height: 400px;
-            overflow-y: auto;
+        /* Toggle Switch moderne */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .toggle-slider {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--gray-light);
+            border-radius: 15px;
+            transition: background 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-input:checked+.toggle-slider {
+            background: var(--primary);
+        }
+
+        .toggle-input:checked+.toggle-slider::before {
+            transform: translateX(30px);
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        /* Boutons modernes */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            /* padding: 0.875rem 1.75rem;
+                                font-size: 1rem; */
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: scale(1.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 6px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(255, 107, 53, 0.4);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+        }
+
+        .btn-draft {
+            background: linear-gradient(135deg, var(--draft) 0%, #4f46e5 100%);
+            color: white;
+            box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-draft:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, #818cf8 0%, var(--draft) 100%);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--dark);
             border: 1px solid var(--gray-light);
-            border-radius: 10px;
-            padding: 0.75rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            border-color: var(--gray);
+        }
+
+        /* CKEditor Styles */
+        .ckeditor-textarea {
+            display: none;
+        }
+
+        .ck-editor {
+            border: 1px solid var(--gray-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: border-color 0.3s ease;
+            overflow: hidden;
         }
 
-        trix-editor:focus {
+        .ck-editor.ck-focused {
             border-color: var(--primary);
-            box-shadow: 0 0 8px rgba(255, 107, 53, 0.2);
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.15);
         }
 
-        trix-toolbar {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            background: var(--light);
-            padding: 0.5rem;
+        .ck-editor__main {
+            min-height: 250px;
         }
 
-        trix-editor.is-invalid {
+        .ck-content {
+            min-height: 250px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .ck-toolbar {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid var(--gray-light);
+            padding: 0.75rem;
+        }
+
+        .ck-toolbar .ck-button {
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .ck-toolbar .ck-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .ck-editor.is-invalid .ck-editor__main {
             border-color: var(--error) !important;
         }
 
@@ -364,7 +570,7 @@
         }
 
         .ts-control .item {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: #fff;
             padding: 0.5rem 1rem;
             border-radius: 20px;
@@ -372,82 +578,43 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
         }
 
         .ts-control .item:hover {
-            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
         }
 
         .ts-dropdown {
             border: 1px solid var(--gray-light);
             border-radius: 10px;
             background: #fff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
             max-height: 240px;
             overflow-y: auto;
             z-index: 1000;
-        }
-
-        .modern-check .form-check-input {
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 2px solid var(--dark);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .modern-check .form-check-input:checked {
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 10px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 8px rgba(255, 107, 53, 0.2);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(230, 90, 30, 0.3);
-        }
-
-        .btn-cancel {
-            background-color: var(--gray-light);
-            border: none;
-            color: var(--dark);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-cancel:hover {
-            background-color: #d1d5db;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .text-primary {
             color: var(--primary);
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .card-body {
                 padding: 1rem;
             }
 
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
             .btn {
                 width: 100%;
-                margin-bottom: 0.5rem;
+                min-width: auto;
             }
 
             .image-preview-container {
@@ -455,76 +622,442 @@
             }
 
             .image-preview {
-                max-height: 100px;
+                max-height: 120px;
+            }
+
+            .toggle-switch {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+
+        /* Animation de chargement */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
             }
         }
     </style>
 @endpush
 
 @push('js')
-    <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
     <script>
-        // Initialisation des éditeurs Trix
-        document.addEventListener('trix-initialize', function() {
-            const trixEditors = document.querySelectorAll('trix-editor');
-            trixEditors.forEach(editor => {
-                const inputId = editor.getAttribute('input');
-                const inputElement = document.getElementById(inputId);
-                if (inputElement && inputElement.value) {
-                    editor.editor.loadHTML(inputElement.value);
-                }
-            });
-        });
-
-        // Gestion des pièces jointes (désactiver)
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        });
-
-        // Synchronisation du contenu Trix vers le champ caché
-        document.addEventListener('trix-change', function(event) {
-            const editor = event.target;
-            const inputId = editor.getAttribute('input');
-            const hiddenInput = document.getElementById(inputId);
-            if (hiddenInput) {
-                hiddenInput.value = editor.value;
+        // Configuration pour l'upload d'images
+        class MyUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
             }
-        });
 
-        // Initialisation de TomSelect
+            upload() {
+                return this.loader.file
+                    .then(file => new Promise((resolve, reject) => {
+                        this._initRequest();
+                        this._initListeners(resolve, reject, file);
+                        this._sendRequest(file);
+                    }));
+            }
+
+            abort() {
+                if (this.xhr) {
+                    this.xhr.abort();
+                }
+            }
+
+            _initRequest() {
+                const xhr = this.xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('admin.upload.image') }}', true);
+                xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute(
+                    'content'));
+                xhr.responseType = 'json';
+            }
+
+            _initListeners(resolve, reject, file) {
+                const xhr = this.xhr;
+                const loader = this.loader;
+                const genericErrorText = `Couldn't upload file: ${file.name}.`;
+
+                xhr.addEventListener('error', () => reject(genericErrorText));
+                xhr.addEventListener('abort', () => reject());
+                xhr.addEventListener('load', () => {
+                    const response = xhr.response;
+
+                    if (!response || xhr.status !== 200) {
+                        return reject(response && response.message ? response.message : genericErrorText);
+                    }
+
+                    if (response.url) {
+                        resolve({
+                            default: response.url
+                        });
+                    } else {
+                        reject(genericErrorText);
+                    }
+                });
+
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', evt => {
+                        if (evt.lengthComputable) {
+                            loader.uploadTotal = evt.total;
+                            loader.uploaded = evt.loaded;
+                        }
+                    });
+                }
+            }
+
+            _sendRequest(file) {
+                const data = new FormData();
+                data.append('upload', file);
+                this.xhr.send(data);
+            }
+        }
+
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new MyUploadAdapter(loader);
+            };
+        }
+
+        // Initialisation des éditeurs CKEditor
         document.addEventListener('DOMContentLoaded', function() {
+            // Configuration CKEditor avec upload d'images
+            const editorConfig = {
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strikethrough',
+                        '|',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'outdent',
+                        'indent',
+                        '|',
+                        'undo',
+                        'redo',
+                        '|',
+                        'link',
+                        'blockQuote',
+                        'insertTable',
+                        'imageUpload',
+                        'mediaEmbed',
+                        '|',
+                        'fontSize',
+                        'fontColor',
+                        'fontBackgroundColor',
+                        'highlight',
+                        '|',
+                        'alignment',
+                        '|',
+                        'sourceEditing'
+                    ]
+                },
+                language: 'fr',
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageStyle:inline',
+                        'imageStyle:block',
+                        'imageStyle:side',
+                        '|',
+                        'toggleImageCaption',
+                        'imageTextAlternative'
+                    ]
+                },
+                licenseKey: '',
+            };
+
+            // Initialiser CKEditor pour le contenu français
+            ClassicEditor
+                .create(document.querySelector('#fr_content'), editorConfig)
+                .then(editor => {
+                    window.frContentEditor = editor;
+
+                    // Gestion de la validation d'erreur
+                    const textarea = document.querySelector('#fr_content');
+                    if (textarea.classList.contains('is-invalid')) {
+                        editor.ui.element.classList.add('is-invalid');
+                    }
+
+                    // Synchroniser le contenu avec le textarea
+                    editor.model.document.on('change:data', () => {
+                        textarea.value = editor.getData();
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'initialisation de l\'éditeur français:', error);
+                });
+
+            // Initialiser CKEditor pour le contenu anglais
+            ClassicEditor
+                .create(document.querySelector('#en_content'), {
+                    ...editorConfig,
+                    language: 'en'
+                })
+                .then(editor => {
+                    window.enContentEditor = editor;
+
+                    // Gestion de la validation d'erreur
+                    const textarea = document.querySelector('#en_content');
+                    if (textarea.classList.contains('is-invalid')) {
+                        editor.ui.element.classList.add('is-invalid');
+                    }
+
+                    // Synchroniser le contenu avec le textarea
+                    editor.model.document.on('change:data', () => {
+                        textarea.value = editor.getData();
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'initialisation de l\'éditeur anglais:', error);
+                });
+
+            // Initialisation de TomSelect
             new TomSelect('#tags', {
                 maxItems: 10,
-                placeholder: '@lang("Select or type to search tags")',
+                placeholder: '@lang('Select or type to search tags')',
                 searchField: ['text'],
                 render: {
                     option: function(data, escape) {
-                        return `<div>${escape(data.text)}</div>`;
+                        return `<div class="px-3 py-2 hover:bg-gray-50 transition-colors">${escape(data.text)}</div>`;
                     },
                     item: function(data, escape) {
-                        return `<div class="py-1 px-2 rounded-full bg-primary text-white">${escape(data.text)}</div>`;
+                        return `<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium">${escape(data.text)}</div>`;
                     }
                 }
             });
         });
 
-        // Gestion de la prévisualisation d'image
+        // Gestion améliorée de la prévisualisation d'image
         function removeImage() {
             const input = document.getElementById('image');
-            input.value = '';
             const previewContainer = document.getElementById('image-preview-container');
+            const label = document.querySelector('.custom-file-label .upload-text');
+
+            input.value = '';
             previewContainer.classList.add('hidden');
+            label.textContent = '@lang('Choose an image')';
+
+            // Animation de suppression
+            previewContainer.style.transform = 'scale(0.8)';
+            previewContainer.style.opacity = '0';
+            setTimeout(() => {
+                previewContainer.style.transform = '';
+                previewContainer.style.opacity = '';
+            }, 300);
         }
 
         document.getElementById('image').addEventListener('change', function(event) {
             const file = event.target.files[0];
+            const label = document.querySelector('.custom-file-label .upload-text');
+
             if (file) {
                 const preview = document.getElementById('image-preview');
                 const previewContainer = document.getElementById('image-preview-container');
-                preview.src = URL.createObjectURL(file);
-                previewContainer.classList.remove('hidden');
+
+                // Validation du fichier
+                if (!file.type.startsWith('image/')) {
+                    alert('@lang('Please select a valid image file')');
+                    this.value = '';
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) { // 5MB
+                    alert('@lang('Image size should be less than 5MB')');
+                    this.value = '';
+                    return;
+                }
+
+                // Mise à jour du label
+                label.textContent = file.name;
+
+                // Prévisualisation avec animation
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+
+                    // Animation d'apparition
+                    previewContainer.style.transform = 'scale(0.8)';
+                    previewContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        previewContainer.style.transform = 'scale(1)';
+                        previewContainer.style.opacity = '1';
+                        previewContainer.style.transition = 'all 0.3s ease';
+                    }, 10);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                label.textContent = '@lang('Choose an image')';
             }
+        });
+
+        // Fonction pour sauvegarder en brouillon
+        function saveDraft() {
+            const form = document.querySelector('form');
+            const draftButton = document.querySelector('.btn-draft');
+            const publishCheckbox = document.getElementById('published_at');
+
+            // Désactiver la publication immédiate pour le brouillon
+            publishCheckbox.checked = false;
+
+            // Animation de chargement
+            draftButton.classList.add('loading');
+            draftButton.disabled = true;
+
+            // Synchroniser le contenu CKEditor
+            if (window.frContentEditor) {
+                document.querySelector('#fr_content').value = window.frContentEditor.getData();
+            }
+            if (window.enContentEditor) {
+                document.querySelector('#en_content').value = window.enContentEditor.getData();
+            }
+
+            // Créer un champ caché pour indiquer qu'il s'agit d'un brouillon
+            const draftInput = document.createElement('input');
+            draftInput.type = 'hidden';
+            draftInput.name = 'save_as_draft';
+            draftInput.value = '1';
+            form.appendChild(draftInput);
+
+            // Soumettre le formulaire
+            form.submit();
+        }
+
+        // Validation avant soumission du formulaire
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const submitButton = e.submitter;
+
+            // Animation de chargement pour le bouton cliqué
+            if (submitButton) {
+                submitButton.classList.add('loading');
+                submitButton.disabled = true;
+            }
+
+            // Synchroniser le contenu CKEditor avec les textareas avant soumission
+            if (window.frContentEditor) {
+                document.querySelector('#fr_content').value = window.frContentEditor.getData();
+            }
+            if (window.enContentEditor) {
+                document.querySelector('#en_content').value = window.enContentEditor.getData();
+            }
+
+            // Validation côté client
+            const frTitle = document.getElementById('fr_title').value.trim();
+            const enTitle = document.getElementById('en_title').value.trim();
+            const frContent = window.frContentEditor ? window.frContentEditor.getData().trim() : '';
+            const enContent = window.enContentEditor ? window.enContentEditor.getData().trim() : '';
+
+            if (!frTitle || !enTitle) {
+                e.preventDefault();
+                alert('@lang('Please fill in both French and English titles')');
+                if (submitButton) {
+                    submitButton.classList.remove('loading');
+                    submitButton.disabled = false;
+                }
+                return;
+            }
+
+            if (!frContent || !enContent) {
+                e.preventDefault();
+                alert('@lang('Please fill in both French and English content')');
+                if (submitButton) {
+                    submitButton.classList.remove('loading');
+                    submitButton.disabled = false;
+                }
+                return;
+            }
+        });
+
+        // Compteurs de caractères en temps réel
+        function updateCharCounter(inputId, counterId) {
+            const input = document.getElementById(inputId);
+            const counter = document.querySelector(`#${inputId} + label + .char-counter`);
+
+            if (input && counter) {
+                input.addEventListener('input', function() {
+                    const currentLength = this.value.length;
+                    const maxLength = this.getAttribute('maxlength') || 255;
+                    counter.textContent = `${currentLength}/${maxLength}`;
+
+                    // Changer la couleur si proche de la limite
+                    if (currentLength > maxLength * 0.9) {
+                        counter.style.color = 'var(--error)';
+                    } else if (currentLength > maxLength * 0.75) {
+                        counter.style.color = 'var(--warning)';
+                    } else {
+                        counter.style.color = 'var(--gray)';
+                    }
+                });
+            }
+        }
+
+        // Initialiser les compteurs
+        updateCharCounter('fr_title');
+        updateCharCounter('en_title');
+
+        // Amélioration de l'expérience utilisateur avec des transitions
+        document.querySelectorAll('.modern-input, .custom-file-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+                this.parentElement.style.transition = 'transform 0.2s ease';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = '';
+            });
+        });
+
+        // Sauvegarde automatique (optionnelle)
+        let autoSaveTimeout;
+
+        function autoSave() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(() => {
+                // Ici vous pouvez implémenter la sauvegarde automatique
+                console.log('Auto-save triggered');
+            }, 30000); // Sauvegarde toutes les 30 secondes
+        }
+
+        // Déclencher l'auto-save sur les changements
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('input', autoSave);
         });
     </script>
 @endpush

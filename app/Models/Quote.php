@@ -8,15 +8,8 @@ use Carbon\Carbon;
 
 class Quote extends Model
 {
-    /** @use HasFactory<\Database\Factories\QuoteFactory> */
     use HasFactory;
 
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'customer_id',
         'category_id',
@@ -28,6 +21,10 @@ class Quote extends Model
         'file',
         'quotable_id',
         'quotable_type',
+        'response',
+        'response_budget',
+        'response_currency',
+        'response_at',
     ];
 
     const CIVILITY = [
@@ -35,9 +32,6 @@ class Quote extends Model
         'Mr' => 'Sir',
     ];
 
-    /**
-     * Relationships
-     */
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -48,10 +42,12 @@ class Quote extends Model
         return $this->belongsTo(Category::class);
     }
 
+
     public function plan()
     {
         return $this->belongsTo(Plan::class);
     }
+
 
     public function quotable()
     {
@@ -62,6 +58,7 @@ class Quote extends Model
     {
         return $this->getFormatedDateTime($date);
     }
+
     public function getCreatedAtAttribute($created_at)
     {
         return $this->getFormatedDateTime($created_at);
@@ -71,12 +68,16 @@ class Quote extends Model
     {
         return $this->getFormatedDateTime($updated_at);
     }
+    public function getResponseAtAttribute($response_at)
+    {
+        return $this->getFormatedDateTime($response_at);
+    }
 
-    function getFormatedDateTime($date)
+    protected function getFormatedDateTime($date)
     {
         $locale = app()->getLocale();
         Carbon::setLocale($locale);
-        $format = $locale === 'en' ? 'F d, Y' : 'd M Y ';
+        $format = $locale === 'en' ? 'F d, Y' : 'd M Y';
 
         return Carbon::parse($date)->translatedFormat($format);
     }

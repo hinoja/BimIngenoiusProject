@@ -45,36 +45,26 @@
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <div class="form-group" wire:ignore>
+                        <div class="form-group"  >
                             <label for="fr_description"
                                 class="font-weight-bold text-dark mb-2">@lang('French Description')</label>
-                            <input id="fr_description" type="hidden" wire:model.defer="fr_description">
-                            <trix-editor
-                                x-data
-                                x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')"
-                                x-ref="trix"
-                                input="fr_description"
+                            <input minlength="50" id="fr_description" type="hidden" wire:model.defer="fr_description">
+                            <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')" x-ref="trix" input="fr_description"
                                 @trix-change="$wire.set('fr_description', $event.target.value)"
-                                class="form-control trix-content @error('fr_description') is-invalid @enderror"
-                            ></trix-editor>
+                                class="form-control trix-content @error('fr_description') is-invalid @enderror"></trix-editor>
                             @error('fr_description')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group" wire:ignore>
+                        <div class="form-group"  >
                             <label for="en_description"
                                 class="font-weight-bold text-dark mb-2">@lang('English Description')</label>
-                             <input id="en_description" type="hidden" wire:model.defer="en_description">
-                            <trix-editor
-                                x-data
-                                x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')"
-                                x-ref="trix"
-                                input="en_description"
+                            <input minlength="50"  id="en_description" type="hidden" wire:model.defer="en_description">
+                            <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')" x-ref="trix" input="en_description"
                                 @trix-change="$wire.set('en_description', $event.target.value)"
-                                class="form-control trix-content @error('en_description') is-invalid @enderror"
-                            ></trix-editor>
+                                class="form-control trix-content @error('en_description') is-invalid @enderror"></trix-editor>
                             @error('en_description')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -119,9 +109,9 @@
                     <label class="font-weight-bold text-dark mb-2">@lang('3D Images')</label>
                     <div class="custom-file">
                         <input type="file" wire:model="images" multiple
-                            class="custom-file-input @error('images.*') is-invalid @enderror" id="images">
+                            class="custom-file-input @error('images') is-invalid @enderror" id="images">
                         <label class="custom-file-label" for="images">@lang('Choose 3D images (multiple)')</label>
-                        @error('images.*')
+                        @error('images')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -187,7 +177,8 @@
         }
 
         .trix-content {
-            height: auto !important; /* Allow trix to expand */
+            height: auto !important;
+            /* Allow trix to expand */
         }
 
         trix-editor.form-control {

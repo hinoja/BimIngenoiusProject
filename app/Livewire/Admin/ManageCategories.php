@@ -14,8 +14,8 @@ class ManageCategories extends Component
     use WithPagination, WithFileUploads;
 
     protected $paginationTheme = 'bootstrap';
-    public $fr_name, $en_name, $description, $image;
-    public $editFrName, $editEnName, $editDescription, $editImage;
+    public $fr_name, $en_name, $fr_description, $en_description, $image;
+    public $editFrName, $editEnName, $editFrDescription, $editEnDescription, $editImage;
     public $selectedCategoryId, $deleteId;
     public $selectedCategory;
     public $currentPage = 1;
@@ -25,6 +25,7 @@ class ManageCategories extends Component
         'searchTerm' => ['except' => '']
     ];
 
+
     public function updatingSearchTerm()
     {
         $this->resetPage();
@@ -32,7 +33,7 @@ class ManageCategories extends Component
 
     public function closeModal()
     {
-        $this->reset(['fr_name', 'en_name', 'editFrName', 'editEnName', 'editDescription', 'editImage', 'selectedCategory', 'deleteId']);
+        $this->reset(['fr_name', 'en_name', 'editFrName', 'editEnName', 'editFrDescription', 'editEnDescription', 'editImage', 'selectedCategory', 'deleteId']);
         $this->resetErrorBag();
         $this->resetValidation();
         $this->dispatch('closeModal');
@@ -49,58 +50,34 @@ class ManageCategories extends Component
             session()->flash('error', __('Category not found!'));
             return;
         }
-        $this->reset(['editFrName', 'editEnName', 'editDescription', 'editImage', 'selectedCategory']);
+        $this->reset(['editFrName', 'editEnName', 'editFrDescription', 'editEnDescription', 'editImage', 'selectedCategory']);
         $this->resetErrorBag();
         $this->selectedCategory = $category;
         $this->selectedCategoryId = $id;
         $this->editFrName = $category->fr_name;
         $this->editEnName = $category->en_name;
-        $this->editDescription = $category->description;
+        $this->editFrDescription = $category->fr_description;
+        $this->editEnDescription = $category->en_description;
         $this->dispatch('openEditModal');
     }
 
     public function showCreateForm()
     {
-        $this->reset(['fr_name', 'en_name', 'description', 'image']);
+        $this->reset(['fr_name', 'en_name', 'fr_description', 'en_description', 'image']);
         $this->resetErrorBag();
         $this->dispatch('openModal');
         $this->resetValidation();
     }
 
-    public function addCategory()
-    {
-        $this->validate([
-            'fr_name' => ['required', 'string', 'min:2', 'unique:categories,fr_name'],
-            'en_name' => ['required', 'string', 'min:2', 'unique:categories,en_name'],
-            'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
-        ]);
 
-        try {
-            $imagePath = $this->image ? $this->image->store('categories', 'public') : null;
-
-            Category::create([
-                'fr_name' => $this->fr_name,
-                'en_name' => $this->en_name,
-                'slug' => Str::slug($this->en_name),
-                'description' => $this->description,
-                'image' => $imagePath,
-            ]);
-
-            $this->reset(['fr_name', 'en_name', 'description', 'image']);
-            session()->flash('success', __('Category created successfully!'));
-            $this->closeModal();
-        } catch (\Exception $e) {
-            session()->flash('error', __('An error occurred while creating the category: ') . $e->getMessage());
-        }
-    }
 
     public function updateCategory()
     {
         $this->validate([
             'editFrName' => 'required|string|min:2|unique:categories,fr_name,' . $this->selectedCategoryId,
             'editEnName' => 'required|string|min:2|unique:categories,en_name,' . $this->selectedCategoryId,
-            'editDescription' => 'nullable|string',
+            'editFrDescription' => 'required|string|min:30',
+            'editEnDescription' => 'required|string|min:30',
             'editImage' => 'nullable|image|max:2048',
         ]);
 
@@ -119,11 +96,12 @@ class ManageCategories extends Component
                 'fr_name' => $this->editFrName,
                 'en_name' => $this->editEnName,
                 'slug' => Str::slug($this->editEnName),
-                'description' => $this->editDescription,
+                'fr_description' => $this->editFrDescription,
+                'en_description' => $this->editEnDescription,
             ]);
 
             session()->flash('success', __('Category updated successfully!'));
-            $this->closeModal();
+            return redirect()->route('admin.categories.index');
         } catch (\Exception $e) {
             session()->flash('error', __('An error occurred while updating the category: ') . $e->getMessage());
         }

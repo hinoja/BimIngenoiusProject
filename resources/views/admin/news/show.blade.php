@@ -52,8 +52,7 @@
                                         <div class="detail-item"><strong>@lang('Title'):</strong>
                                             {{ $news->title ?? 'N/A' }}</div>
 
-                                        <div class="detail-item"><strong>@lang('Slug'):</strong>
-                                            {{ $news->slug ?? 'N/A' }}</div>
+                                         
                                     </div>
                                     <div class="col-md-6 detail-group">
                                         <div class="detail-item"><strong>@lang('Author'):</strong>

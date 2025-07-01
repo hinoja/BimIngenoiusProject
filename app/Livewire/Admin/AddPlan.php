@@ -23,18 +23,18 @@ class AddPlan extends Component
         return [
             'fr_title' => ['required', 'string', 'min:2', 'unique:plans,fr_title'],
             'en_title' => ['required', 'string', 'min:2', 'unique:plans,en_title'],
-            'fr_description' => ['required', 'string', 'min:10'],
-            'en_description' => ['required', 'string', 'min:10'],
+            'fr_description' => ['required', 'string', 'min:50'],
+            'en_description' => ['required', 'string', 'min:50'],
             'is_active' => ['boolean'],
             'image2D' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'images.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'images' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
 
     public function nextStep()
     {
         $this->validate([
-           'fr_title' => ['required', 'string', 'min:2', 'unique:plans,fr_title'],
+            'fr_title' => ['required', 'string', 'min:2', 'unique:plans,fr_title'],
             'en_title' => ['required', 'string', 'min:2', 'unique:plans,en_title'],
             'fr_description' => 'required|string|min:10',
             'en_description' => 'required|string|min:10',

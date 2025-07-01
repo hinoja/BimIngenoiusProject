@@ -53,8 +53,8 @@ class EditProject extends Component
         return [
             'fr_title' => ['required', 'string', 'min:2', 'unique:projects,fr_title,' . $this->project->id],
             'en_title' => ['required', 'string', 'min:2', 'unique:projects,en_title,' . $this->project->id],
-            'fr_description' => ['required', 'string', 'min:10'],
-            'en_description' => ['required', 'string', 'min:10'],
+            'fr_description' => ['required', 'string', 'min:50'],
+            'en_description' => ['required', 'string', 'min:50'],
             'company' => ['required', 'string', 'min:2'],
             'country' => ['required', 'string', 'min:2'],
             'city' => ['required', 'string', 'min:2'],

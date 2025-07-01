@@ -48,7 +48,7 @@ Route::name('front.')->group(function () {
 
     // Search routes
     Route::get('/search', [PagesController::class, 'search'])->name('search');
-    
+
 
     // Newsletter subscription (front)
     Route::controller(FrontNewsletterController::class)->prefix('newsletter')->name('newsletter.')->group(function () {
@@ -119,6 +119,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::post('/news', 'store')->name('store');
         });
     });
+    // Route pour l'upload d'image CKEditor
+    Route::post('news/upload-image', [NewsAdminController::class, 'uploadImage'])->name('news.upload-image');
+    Route::post('upload-image', [NewsAdminController::class, 'uploadImage'])->name('upload.image');
 
     //CATEGORIES ROUTES
     Route::prefix('categories')->name('categories.')->group(function () {

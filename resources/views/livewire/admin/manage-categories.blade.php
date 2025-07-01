@@ -69,81 +69,206 @@
     </div>
 
 
-    <!-- Create Modal -->
-    <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog"
-        aria-labelledby="createModalLabel" aria-hidden="true">
+
+    <!-- Edit Modal -->
+    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog"
+        aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">@lang('Add a new Category')</h5>
+                    <h5 class="modal-title" id="editModalLabel">@lang('Edit Category')</h5>
                     <button type="button" class="btn-close" wire:click="closeModal()" aria-label="Close"></button>
                 </div>
-                <form wire:submit.prevent="addCategory">
+                <form wire:submit.prevent="updateCategory">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="fr_name" class="font-weight-bold text-dark mb-2">@lang('forms.fr_name')</label>
-                            <input type="text" id="fr_name" wire:model="fr_name"
-                                class="form-control @error('fr_name') is-invalid @enderror"
-                                placeholder="@lang('forms.fr_name')" />
-                            @error('fr_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                        <!-- Nom français (édition) -->
+                        <div class="form-group mb-3">
+                            <label for="editFrName" class="form-label required">
+                                <i class="fas fa-flag me-1 text-primary"></i>
+                                @lang('forms.editFrName')
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="editFrName" wire:model="editFrName"
+                                class="form-control @error('editFrName') is-invalid @enderror"
+                                placeholder="@lang('Entrez le nom en français')" />
+                            @error('editFrName')
+                                <div class="invalid-feedback d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="en_name" class="font-weight-bold text-dark mb-2">@lang('forms.en_name')</label>
-                            <input type="text" id="en_name" wire:model="en_name"
-                                class="form-control @error('en_name') is-invalid @enderror"
-                                placeholder="@lang('forms.en_name')" />
-                            @error('en_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
+
+                        <!-- Nom anglais (édition) -->
+                        <div class="form-group mb-3">
+                            <label for="editEnName" class="form-label required">
+                                <i class="fas fa-flag me-1 text-success"></i>
+                                @lang('forms.editEnName')
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="editEnName" wire:model="editEnName"
+                                class="form-control @error('editEnName') is-invalid @enderror"
+                                placeholder="@lang('Entrez le nom en anglais')" />
+                            @error('editEnName')
+                                <div class="invalid-feedback d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
-                        <div class="form-group mt-2" x-data="{
-                            content: @entangle('description'),
+
+                        <!-- Description française (édition) -->
+                        <div class="form-group mb-3" x-data="{
+                            content: @entangle('editFrDescription'),
                             instance: null,
+                            hasError: @error('editFrDescription') true @else false @enderror,
                             init() {
                                 this.$nextTick(() => {
                                     this.instance = new Trix.Editor(this.$refs.trix);
-
-                                    // Charger le contenu initial
                                     if (this.content) {
                                         this.instance.editor.loadHTML(this.content);
                                     }
-
-                                    // Écouter les changements du contenu depuis Livewire
                                     this.$watch('content', (value) => {
                                         if (value && this.instance.editor.composition.toString() !== value) {
                                             this.instance.editor.loadHTML(value);
                                         }
                                     });
+                                    // Surveiller les erreurs de validation
+                                    this.$watch('hasError', (value) => {
+                                        const editor = this.$refs.trix;
+                                        if (value) {
+                                            editor.classList.add('is-invalid');
+                                        } else {
+                                            editor.classList.remove('is-invalid');
+                                        }
+                                    });
                                 });
                             }
                         }"
-                            @trix-change="content = $event.target.value">
-                            <label for="description" class="font-weight-bold text-dark mb-2">@lang('forms.description')</label>
-                            <input id="description" type="hidden" name="description" :value="content">
-                            <trix-editor input="description" x-ref="trix"
-                                class="form-control trix-content @error('description') is-invalid @enderror"></trix-editor>
-                            @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            @trix-change="content = $event.target.value; hasError = false;">
+                            <label for="editFrDescription" class="form-label">
+                                <i class="fas fa-edit me-1 text-primary"></i>
+                                @lang('forms.editFrDescription') (FR)
+                            </label>
+                            <div class="trix-wrapper">
+                                <input id="editFrDescription" type="hidden" name="editFrDescription"
+                                    :value="content">
+                                <trix-editor input="editFrDescription" x-ref="trix"
+                                    class="form-control trix-content @error('editFrDescription') is-invalid @enderror"
+                                    placeholder="@lang('Entrez la description en français')"></trix-editor>
+                            </div>
+                            @error('editFrDescription')
+                                <div class="invalid-feedback d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    <strong>{{ $message }}</strong>
+                                </div>
                             @enderror
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="image" class="font-weight-bold text-dark mb-2">@lang('forms.image')</label>
-                            <input type="file" id="image" wire:model="image"
-                                class="form-control @error('image') is-invalid @enderror" />
-                            @error('image')
-                                <div class="invalid-feedback">{{ $message }}</div>
+
+                        <!-- Description anglaise (édition) -->
+                        <div class="form-group mb-3" x-data="{
+                            content: @entangle('editEnDescription'),
+                            instance: null,
+                            hasError: @error('editEnDescription') true @else false @enderror,
+                            init() {
+                                this.$nextTick(() => {
+                                    this.instance = new Trix.Editor(this.$refs.trix);
+                                    if (this.content) {
+                                        this.instance.editor.loadHTML(this.content);
+                                    }
+                                    this.$watch('content', (value) => {
+                                        if (value && this.instance.editor.composition.toString() !== value) {
+                                            this.instance.editor.loadHTML(value);
+                                        }
+                                    });
+                                    // Surveiller les erreurs de validation
+                                    this.$watch('hasError', (value) => {
+                                        const editor = this.$refs.trix;
+                                        if (value) {
+                                            editor.classList.add('is-invalid');
+                                        } else {
+                                            editor.classList.remove('is-invalid');
+                                        }
+                                    });
+                                });
+                            }
+                        }"
+                            @trix-change="content = $event.target.value; hasError = false;">
+                            <label for="editEnDescription" class="form-label">
+                                <i class="fas fa-edit me-1 text-success"></i>
+                                @lang('forms.editEnDescription') (EN)
+                            </label>
+                            <div class="trix-wrapper">
+                                <input id="editEnDescription" type="hidden" name="editEnDescription"
+                                    :value="content">
+                                <trix-editor input="editEnDescription" x-ref="trix"
+                                    class="form-control trix-content @error('editEnDescription') is-invalid @enderror"
+                                    placeholder="@lang('Entrez la description en anglais')"></trix-editor>
+                            </div>
+                            @error('editEnDescription')
+                                <div class="invalid-feedback d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    <strong>{{ $message }}</strong>
+                                </div>
                             @enderror
                         </div>
+
+                        <!-- Image (édition) -->
+                        <div class="form-group mb-3">
+                            <label for="editImage" class="form-label">
+                                <i class="fas fa-image me-1 text-info"></i>
+                                @lang('forms.editImage')
+                            </label>
+                            <input type="file" id="editImage" wire:model="editImage"
+                                class="form-control @error('editImage') is-invalid @enderror" accept="image/*" />
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                @lang('Formats acceptés: JPG, PNG, GIF. Taille max: 2MB')
+                            </div>
+                            @error('editImage')
+                                <div class="invalid-feedback d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <!-- Image actuelle -->
+                        @if ($selectedCategory && $selectedCategory->image)
+                            <div class="form-group mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-image me-1 text-secondary"></i>
+                                    @lang('Current Image')
+                                </label>
+                                <div class="current-image-preview">
+                                    <img src="{{ $selectedCategory->image }}"
+                                        style="width: 120px; height: 120px; object-fit: cover;" alt="Current image"
+                                        class="img-thumbnail border-2">
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            @lang('Sélectionnez une nouvelle image pour remplacer celle-ci')
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
-                        <button type="button" wire:click="closeModal()"
-                            class="btn btn-secondary">@lang('Cancel')</button>
+                        <button type="button" wire:click="closeModal()" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i>
+                            @lang('Cancel')
+                        </button>
                         <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
-                            wire:target="addCategory">
-                            <span wire:loading.remove wire:target="addCategory">@lang('Save')</span>
-                            <span wire:loading wire:target="addCategory">@lang('Processing...')</span>
+                            wire:target="updateCategory">
+                            <span wire:loading.remove wire:target="updateCategory">
+                                <i class="fas fa-save me-1"></i>
+                                @lang('Save')
+                            </span>
+                            <span wire:loading wire:target="updateCategory">
+                                <i class="fas fa-spinner fa-spin me-1"></i>
+                                @lang('Processing...')
+                            </span>
                         </button>
                     </div>
                 </form>
@@ -224,106 +349,55 @@
             </div>
         </div>
     </div>
-
-    <!-- Edit Modal -->
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog"
-        aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">@lang('Edit Category')</h5>
-                    <button type="button" class="btn-close" wire:click="closeModal()" aria-label="Close"></button>
-                </div>
-                <form wire:submit.prevent="updateCategory">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="editFrName" class="font-weight-bold text-dark mb-2">@lang('forms.editFrName')</label>
-                            <input type="text" id="editFrName" wire:model="editFrName"
-                                class="form-control @error('editFrName') is-invalid @enderror"
-                                placeholder="@lang('forms.editFrName')" />
-                            @error('editFrName')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="editEnName" class="font-weight-bold text-dark mb-2">@lang('forms.editEnName')</label>
-                            <input type="text" id="editEnName" wire:model="editEnName"
-                                class="form-control @error('editEnName') is-invalid @enderror"
-                                placeholder="@lang('forms.editEnName')" />
-                            @error('editEnName')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group mt-2" x-data="{
-                            content: @entangle('editDescription'),
-                            instance: null,
-                            init() {
-                                this.$nextTick(() => {
-                                    this.instance = new Trix.Editor(this.$refs.trix);
-
-                                    // Charger le contenu initial
-                                    if (this.content) {
-                                        this.instance.editor.loadHTML(this.content);
-                                    }
-
-                                    // Écouter les changements du contenu depuis Livewire
-                                    this.$watch('content', (value) => {
-                                        if (value && this.instance.editor.composition.toString() !== value) {
-                                            this.instance.editor.loadHTML(value);
-                                        }
-                                    });
-                                });
-                            }
-                        }"
-                            @trix-change="content = $event.target.value" wire:ignore>
-                            <label for="editDescription"
-                                class="font-weight-bold text-dark mb-2">@lang('forms.editDescription')</label>
-                            <input id="editDescription" type="hidden" name="editDescription" :value="content">
-                            <trix-editor input="editDescription" x-ref="trix"
-                                class="form-control trix-content @error('editDescription') is-invalid @enderror"></trix-editor>
-                            @error('editDescription')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="editImage" class="font-weight-bold text-dark mb-2">@lang('forms.editImage')</label>
-                            <input type="file" id="editImage" wire:model="editImage"
-                                class="form-control @error('editImage') is-invalid @enderror" />
-                            @error('editImage')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        @if ($selectedCategory && $selectedCategory->image)
-                            <div class="form-group mt-2">
-                                <label>@lang('Current Image')</label>
-                                <div>
-                                    <img src="{{ $selectedCategory->image }}"
-                                        style="width: 100px; height: 100px; object-fit: cover;" alt="Current image"
-                                        class="img-thumbnail">
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" wire:click="closeModal()"
-                            class="btn btn-secondary">@lang('Cancel')</button>
-                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
-                            wire:target="updateCategory">
-                            <span wire:loading.remove wire:target="updateCategory">@lang('Save')</span>
-                            <span wire:loading wire:target="updateCategory">@lang('Processing...')</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <style>
+        /* Styles pour les labels obligatoires */
+        .form-label.required {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-label .text-danger {
+            font-size: 1.1em;
+        }
+
+        /* Amélioration des messages d'erreur */
+
+        /* Styles spécifiques pour les éditeurs Trix */
+        .trix-wrapper {
+            position: relative;
+        }
+
+        .trix-content.is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        .trix-content.is-invalid+.invalid-feedback {
+            display: block !important;
+        }
+
+        /* Animation pour les erreurs */
+        .invalid-feedback {
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Styles pour le conteneur WYSIWYG */
         .wysiwyg-box {
             background-color: #f4f8fb;
             padding: 1.5rem;
@@ -372,10 +446,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        .trix-content.is-invalid {
-            border-color: #dc3545;
-        }
-
+        /* Styles pour les en-têtes de modal */
         .modal-header {
             background-color: #2A2E45;
             color: #F8F9FA;
@@ -385,6 +456,73 @@
         .modal-footer {
             border-top: 2px solid #FF6B35;
         }
+
+        /* Styles pour l'aperçu de l'image actuelle */
+        .current-image-preview {
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .current-image-preview img {
+            border: 2px solid #007bff;
+        }
+
+        /* Amélioration du texte d'aide */
+        .form-text {
+            font-size: 0.875em;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        /* Focus states améliorés */
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .trix-editor:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Styles pour les icônes dans les labels */
+        .form-label i {
+            opacity: 0.8;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                margin: 0.5rem;
+            }
+
+            .invalid-feedback {
+                font-size: 0.8em;
+                padding: 0.4rem 0.6rem;
+            }
+        }
+
+        /* Loading states */
+        .btn[wire\:loading\.attr="disabled"] {
+            position: relative;
+        }
+
+        /* Validation success states */
+        .form-control.is-valid {
+            border-color: #198754;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='m2.3 6.73.8-.77-.8-.77-.8.77zm1.3-2.77L5.04 3 4.3 2.28l-.8.77zm1.08-1.08L6.15 1.4l.8.77-.8.77z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        .trix-content.is-valid {
+            border-color: #198754 !important;
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25) !important;
+        }
     </style>
 @endpush
 
@@ -392,8 +530,6 @@
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
         document.addEventListener('livewire:init', () => {
-
-
             Livewire.on('openEditModal', () => {
                 $('#editModal').modal('show');
             });
