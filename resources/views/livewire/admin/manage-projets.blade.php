@@ -1,4 +1,4 @@
-<div  class="pr-4">
+<div class="pr-4">
     <div class="row justify-content-center">
         <!-- Bouton pour ajouter un projet -->
         <div class="col-12 mb-3 text-right">
@@ -90,8 +90,8 @@
                                         <td>
                                             <div class="d-flex flex-column">
                                                 <span class="fw-bold">{{ $project->title }}</span>
-                                                <small
-                                                    class="text-muted">{{ Str::limit($project->description, 50) }}</small>
+                                                <small class="text-muted">
+                                                    {{ Str::limit(str_replace('&nbsp;', ' ', strip_tags($project->description)), 50) }}
                                             </div>
                                         </td>
                                         <td>{{ $project->category?->name ?? 'N/A' }}</td>
@@ -164,7 +164,7 @@
 
         <!-- Modal pour la suppression -->
         <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel"
-            aria-hidden="true"   wire:ignore.self>
+            aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header"
@@ -205,10 +205,9 @@
 
 @push('css')
     <style>
-
         /* Tableau amélioré */
 
-          .table {
+        .table {
             font-size: 0.925rem;
             width: 100%;
             table-layout: fixed;

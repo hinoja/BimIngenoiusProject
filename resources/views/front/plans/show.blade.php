@@ -1,6 +1,8 @@
 @extends('layouts.front')
 
 @section('subtitle', $plan->title)
+@section('description', __('Explore the details and technical insights of this construction plan.'))
+
 
 @push('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
@@ -109,10 +111,10 @@
                 </div>
 
             </div>
-            
+
         </div>
     </section>
-                
+
 
     {{-- @include('includes.front.action-about') --}}
 

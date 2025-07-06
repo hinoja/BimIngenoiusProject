@@ -1,6 +1,7 @@
 @extends('layouts.front')
 
 @section('subtitle', $project->title)
+@section('description', __('Discover the scope, timeline, and progress of this featured project.'))
 
 @push('css')
     <style>

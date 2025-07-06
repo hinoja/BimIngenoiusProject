@@ -66,8 +66,9 @@
                                         <td>
                                             <div class="d-flex flex-column">
                                                 <span class="fw-bold">{{ $plan->title }}</span>
-                                                <small
-                                                    class="text-muted">{{ Str::limit($plan->description, 50) }}</small>
+                                                <small class="text-muted">
+                                                    {{ Str::limit(str_replace('&nbsp;', ' ', strip_tags($plan->description)), 50) }}
+                                                </small>
                                             </div>
                                         </td>
                                         <td>{{ $plan->user?->name ?? 'N/A' }}</td>
@@ -94,7 +95,8 @@
                                                     class="btn btn-sm btn-info" title="@lang('View Details')">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('admin.plans.edit', $plan) }}" class="mx-2  btn btn-sm btn-primary" title="@lang('Edit')">
+                                                <a href="{{ route('admin.plans.edit', $plan) }}"
+                                                    class="mx-2  btn btn-sm btn-primary" title="@lang('Edit')">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button wire:click="showPublishForm({{ $plan->id }})"
@@ -142,7 +144,8 @@
                     <div class="modal-header"
                         style="background-color: #2A2E45; color: #F8F9FA; border-bottom: 2px solid #FF6B35;">
                         <h5 class="modal-title" id="deletePlanModalLabel">@lang('Delete Plan')</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @lang('Are you sure you want to delete the plan') <strong>{{ $fr_title }}</strong>?

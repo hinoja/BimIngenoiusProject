@@ -9,6 +9,7 @@ use App\Enums\SizeEnums;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Enums\StatusEnums;
+use App\Models\Plan;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -55,7 +56,7 @@ class EditProject extends Component
             'en_title' => ['required', 'string', 'min:2', 'unique:projects,en_title,' . $this->project->id],
             'fr_description' => ['required', 'string', 'min:50'],
             'en_description' => ['required', 'string', 'min:50'],
-            'company' => ['required', 'string', 'min:2'],
+            // 'company' => ['required', 'string', 'min:2'],
             'country' => ['required', 'string', 'min:2'],
             'city' => ['required', 'string', 'min:2'],
             'address' => ['required', 'string', 'min:5'],
@@ -111,7 +112,7 @@ class EditProject extends Component
             'slug' => Str::slug($this->en_title),
             'fr_description' => $this->fr_description,
             'en_description' => $this->en_description,
-            'company' => $this->company,
+            // 'company' => $this->company,
             'country' => $this->country,
             'city' => $this->city,
             'address' => $this->address,
@@ -170,7 +171,7 @@ class EditProject extends Component
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),
             'tags' => Tag::all(),
-            'plans' => $this->status === StatusEnums::Idea->value ? \App\Models\Plan::all() : collect(),
+            'plans' => Plan::query()->orderBy('fr_title')->get(),
         ]);
     }
 }

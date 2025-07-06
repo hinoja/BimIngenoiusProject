@@ -1,6 +1,8 @@
 @extends('layouts.front')
 
 @section('subtitle', __('About'))
+@section('description', __('Learn more about our company values, vision and the team behind our projects.'))
+
 
 @section('content')
 
@@ -14,7 +16,7 @@
 
                     <h4 class="values">@lang('Our Values')</h4>
                     <div class="accordion">
-        
+
                         <div class="accordion_in acc_active">
                             <div class="acc_head"><i class="fa fa-crop"></i> @lang('Creative Design')</div>
                             <div class="acc_content">
@@ -28,7 +30,7 @@
                                 <p class="text-justify">@lang("We believe in maintaining complete transparency with our clients. From project inception to completion, we keep you informed every step of the way. Our transparent approach ensures that there are no surprises, and you are always aware of the progress and any potential challenges. We provide regular updates and detailed reports, so you have a clear understanding of the project's status. Our commitment to transparency builds trust and fosters strong relationships with our clients.")</p>
                             </div>
                         </div>
-                    
+
                         <div class="accordion_in">
                             <div class="acc_head"><i class="fa fa-diamond"></i> @lang('Expertise')</div>
                             <div class="acc_content">
@@ -49,12 +51,12 @@
                                 <p class="text-justify">@lang('We leverage the latest technologies to enhance our construction processes. Our use of advanced tools and techniques ensures superior results. We invest in cutting-edge technology to improve efficiency, accuracy, and safety on our projects. From Building Information Modeling to drone surveys and 3D printing, we utilize a range of innovative technologies to streamline our operations and deliver high-quality work. Our commitment to technology allows us to stay ahead of the curve and provide our clients with the best possible solutions.')</p>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <figure class="vimeo"> 
+                    <figure class="vimeo">
                         <a href="http://player.vimeo.com/video/112734492">
                             <img src="{{ asset('assets/front/images/video-thumb.jpg') }}" alt="" />
                             <img class="btn-play" src="{{ asset('assets/front/images/video-play.png') }}" alt="" />
@@ -67,7 +69,7 @@
                 </div>
 
             </div>
-        </div>					
+        </div>
     </section>
 
     <section class="shadow-section">
@@ -96,7 +98,7 @@
                             </div>
                         </div>
                         <h5>Peter Hart</h5>
-                        <p>@lang('Construction Manager')</p>									
+                        <p>@lang('Construction Manager')</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -112,7 +114,7 @@
                             </div>
                         </div>
                         <h5>Betty Lane</h5>
-                        <p>@lang('Project Manager')</p>									
+                        <p>@lang('Project Manager')</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -128,7 +130,7 @@
                             </div>
                         </div>
                         <h5>Richard Pierce</h5>
-                        <p>@lang('Architect Electric')</p>									
+                        <p>@lang('Architect Electric')</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -144,7 +146,7 @@
                             </div>
                         </div>
                         <h5>Janice Rose</h5>
-                        <p>@lang('Construction Engineer')</p>									
+                        <p>@lang('Construction Engineer')</p>
                     </div>
                 </div>
 

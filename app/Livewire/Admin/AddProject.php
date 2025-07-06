@@ -40,6 +40,7 @@ class AddProject extends Component
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'category_id' => ['required', 'exists:categories,id'],
             'plan_id' => ['nullable', 'exists:plans,id'],
+            'plan_id' => ['nullable', 'exists:plans,id'],
             'images' => ['required', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
@@ -131,10 +132,11 @@ class AddProject extends Component
     {
         return view('livewire.admin.add-project', [
             'categories' => Category::query()->orderBy('fr_name', 'asc')->get(),
+            'plans' => Plan::query()->orderBy('fr_title', 'asc')->get(),
             'statuses' => StatusEnums::cases(),
             'sizes' => SizeEnums::cases(),
             'tags' => Tag::query(['id', 'name'])->get(),
-            'plans' => Plan::query()->select('id', app()->getLocale() . '_title as title')->orderBy('created_at')->get(),
+            // 'plans' => Plan::query()->select('id', app()->getLocale() . '_title as title')->orderBy('created_at')->get(),
         ]);
     }
 }

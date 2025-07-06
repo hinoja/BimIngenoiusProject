@@ -45,7 +45,7 @@
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <div class="form-group"  >
+                        <div class="form-group">
                             <label for="fr_description"
                                 class="font-weight-bold text-dark mb-2">@lang('French Description')</label>
                             <input minlength="50" id="fr_description" type="hidden" wire:model.defer="fr_description">
@@ -58,10 +58,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"  >
+                        <div class="form-group">
                             <label for="en_description"
                                 class="font-weight-bold text-dark mb-2">@lang('English Description')</label>
-                            <input minlength="50"  id="en_description" type="hidden" wire:model.defer="en_description">
+                            <input minlength="50" id="en_description" type="hidden" wire:model.defer="en_description">
                             <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')" x-ref="trix" input="en_description"
                                 @trix-change="$wire.set('en_description', $event.target.value)"
                                 class="form-control trix-content @error('en_description') is-invalid @enderror"></trix-editor>
@@ -99,7 +99,7 @@
                         @enderror
                     </div>
                     @if ($image2D)
-                        <div class="image-preview-container mt-3">
+                        <div class="image-preview-container mt-2">
                             <img src="{{ $image2D->temporaryUrl() }}" class="image-preview" alt="2D Image Preview">
                         </div>
                     @endif
@@ -153,8 +153,8 @@
         }
 
         .img-preview {
-            max-width: 200px;
-            max-height: 200px;
+            max-width: 120px;
+            max-height: 120px;
             object-fit: cover;
             border-radius: 8px;
             margin: 5px;
@@ -225,7 +225,7 @@
             }
 
             .image-preview {
-                max-height: 100px;
+                max-height: 70px;
             }
         }
     </style>

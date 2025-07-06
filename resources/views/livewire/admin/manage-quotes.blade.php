@@ -16,7 +16,8 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-text bg-primary text-white"><i class="fas fa-filter"></i></span>
-                        <select wire:model.live="filterCategory" class="form-select" aria-label="@lang('Filter by category')">
+                        <select wire:model.live="filterCategory" class="form-select form-control"
+                            aria-label="@lang('Filter by category')">
                             <option value="">@lang('All Categories')</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->{app()->getLocale() . '_name'} }}

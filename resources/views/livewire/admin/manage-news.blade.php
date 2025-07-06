@@ -74,8 +74,9 @@
                                             <div class="d-flex flex-column">
                                                 <span
                                                     class="fw-bold">{{ $news->fr_title ?? ($news->en_title ?? 'N/A') }}</span>
-                                                <small
-                                                    class="text-muted">{{ Str::limit(strip_tags($news->fr_content ?? ($news->en_content ?? '')), 50) }}</small>
+                                                <small class="text-muted">
+                                                    {{ Str::limit(strip_tags($news->fr_content ?? ($news->en_content ?? '')), 50) }}
+                                                </small>
                                             </div>
                                         </td>
                                         <td>{{ $news->user?->name ?? 'N/A' }} </td>

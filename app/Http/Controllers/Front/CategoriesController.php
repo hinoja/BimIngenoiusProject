@@ -12,7 +12,7 @@ class CategoriesController extends Controller
     {
         $categories = Category::query()
                         ->latest()
-                        ->paginate(12);
+                        ->paginate(8);
 
         return view('front.categories.index', [
             'categories' => $categories,

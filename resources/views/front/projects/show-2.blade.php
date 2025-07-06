@@ -1,6 +1,7 @@
 @extends('layouts.front')
 
 @section('subtitle', $project->title)
+@section('description', __('Discover the scope, timeline, and progress of this featured project.'))
 
 @push('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
@@ -18,7 +19,7 @@
                 <div class="alert alert-success text-center">
                     <strong>{{ session('success') }}</strong>
                 </div>
-            @endif					
+            @endif
             <div class="row">
 
                 <div class="col-md-6">
@@ -30,11 +31,11 @@
                         <p><strong>@lang('Duration:')</strong> {{ $project->duration }}</p>
                         <p><strong>@lang('Status:')</strong> {{ $project->status->label() }}</p>
                         <p>
-                            <strong>@lang('Tags:')</strong> 
+                            <strong>@lang('Tags:')</strong>
                             {{ $project->tags->pluck('name')->implode(', ') }}
                         </p>
                         @if ($project->plan)
-                            <p><strong>@lang('View the plan associated with this project:')</strong> 
+                            <p><strong>@lang('View the plan associated with this project:')</strong>
                                 <i>
                                     <a href="{{ route('front.plans.show', $project->plan) }}" style="color: #b3b158; font-weight: bold;">
                                         {{ $project->plan->title }}
@@ -52,7 +53,7 @@
                             </button>
                         </div>
                     </div>
-                
+
                     <div class="project-des">
                         <h4>@lang('PROJECT DESCRIPTION')</h4>
                         <p class="text-justify">{!! $project->description !!}</p>

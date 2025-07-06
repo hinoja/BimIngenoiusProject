@@ -67,7 +67,6 @@
         }
 
         trix-editor:focus {
-
             outline: 0;
         }
 
@@ -103,9 +102,19 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
         }
 
         /* Amélioration de l'affichage des erreurs */
@@ -141,6 +150,7 @@
 
     <form wire:submit.prevent="{{ $step == $totalSteps ? 'addProject' : 'nextStep' }}">
         <!-- Step 1: Basic Information -->
+
         @if ($step == 1)
             <div class="row">
                 <div class="col-md-6">
@@ -174,42 +184,35 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="fr_description" class="font-weight-bold text-dark">@lang('French Description')</label>
-                        <div class="trix-editor-wrapper @error('fr_description') is-invalid @enderror" id="fr_description_wrapper"  >
-                            <input minlength="50"  id="fr_description_input"   type="hidden" wire:model.live="fr_description" value="{{ $fr_description }}">
-                            <trix-editor input="fr_description_input"
-                                         class="trix-content"
-                                         data-field="fr_description"
-                                         placeholder="@lang('Enter the French description')"></trix-editor>
-                            <div class="trix-validation-indicator" id="fr_description_indicator"></div>
+                        <div class="trix-editor-wrapper">
+                            <input id="fr_description" type="hidden" wire:model.defer="fr_description">
+                            <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')" x-ref="trix" input="fr_description"
+                                @trix-change="$wire.set('fr_description', $event.target.value)"
+                                class="form-control trix-content @error('fr_description') is-invalid @enderror"
+                                placeholder="@lang('Enter the French description (minimum 50 characters)')"></trix-editor>
+                            @error('fr_description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('fr_description')
-                            <div class="field-error" id="fr_description_error">
-                                <i class="fas fa-exclamation-circle error-icon"></i>{{ $message }}
-                            </div>
-                        @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="en_description" class="font-weight-bold text-dark">@lang('English Description')</label>
-                        <div class="trix-editor-wrapper @error('en_description') is-invalid @enderror" id="en_description_wrapper" wire:ignore.self>
-                            <input minlength="50" id="en_description_input" type="hidden" wire:model.live="en_description" value="{{ $en_description }}">
-                            <trix-editor input="en_description_input"
-                                         class="trix-content"
-                                         data-field="en_description"
-                                         placeholder="@lang('Enter the English description')"></trix-editor>
-                            <div class="trix-validation-indicator" id="en_description_indicator"></div>
+                        <div class="trix-editor-wrapper">
+                            <input id="en_description" type="hidden" wire:model.defer="en_description">
+                            <trix-editor x-data x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')" x-ref="trix" input="en_description"
+                                @trix-change="$wire.set('en_description', $event.target.value)"
+                                class="form-control trix-content @error('en_description') is-invalid @enderror"
+                                placeholder="@lang('Enter the English description (minimum 50 characters)')"></trix-editor>
+                            @error('en_description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('en_description')
-                            <div class="field-error" id="en_description_error">
-                                <i class="fas fa-exclamation-circle error-icon"></i>{{ $message }}
-                            </div>
-                        @enderror
                     </div>
                 </div>
             </div>
         @endif
-
         <!-- Step 2: Project Details -->
         @if ($step == 2)
             <div class="row">
@@ -226,14 +229,12 @@
                         @enderror
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="city" class="font-weight-bold text-dark">@lang('City')</label>
                         <input type="text" wire:model.live="city"
-                            class="form-control @error('city') is-invalid @enderror"
-                            id="city" placeholder="@lang('Enter the city')">
+                            class="form-control @error('city') is-invalid @enderror" id="city"
+                            placeholder="@lang('Enter the city')">
                         @error('city')
                             <div class="invalid-feedback">
                                 <i class="fas fa-exclamation-circle error-icon"></i>{{ $message }}
@@ -241,6 +242,29 @@
                         @enderror
                     </div>
                 </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="plan_id" class="font-weight-bold text-dark">
+                            @lang('Associated Project Plan')
+                        </label>
+                        <select wire:model.live="plan_id" class="form-control @error('plan_id') is-invalid @enderror"
+                            id="plan_id">
+                            <option value="">@lang('Select the existing plan related to this project')</option>
+                            @foreach ($plans as $plan)
+                                <option value="{{ $plan->id }}">{{ $plan->title }}</option>
+                            @endforeach
+                        </select>
+                        @error('plan_id')
+                            <div class="invalid-feedback">
+                                <i class="fas fa-exclamation-circle error-icon"></i>{{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="address" class="font-weight-bold text-dark">@lang('Address')</label>
@@ -442,228 +466,54 @@
     </script>
 </div>
 
-@push('js')
-<script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-<script>
-    document.addEventListener('livewire:initialized', function () {
-        // Variables pour stocker les éditeurs
-        let trixEditors = {};
-
-        // Fonction pour mettre à jour les indicateurs de validation
-        function updateValidationIndicator(fieldName, isValid, content = '') {
-            const indicator = document.getElementById(fieldName + '_indicator');
-            const wrapper = document.getElementById(fieldName + '_wrapper');
-
-            if (indicator) {
-                indicator.innerHTML = '';
-                if (content.trim() !== '') {
-                    if (isValid) {
-                        indicator.innerHTML = '<i class="fas fa-check valid"></i>';
-                        wrapper.classList.remove('is-invalid');
-                    } else {
-                        indicator.innerHTML = '<i class="fas fa-exclamation-triangle invalid"></i>';
-                        wrapper.classList.add('is-invalid');
-                    }
-                } else {
-                    wrapper.classList.remove('is-invalid');
-                }
-            }
-        }
-
-        // Fonction pour valider le contenu
-        function validateContent(content, fieldName) {
-            // Exemple de validation basique - ajustez selon vos besoins
-            const minLength = 10;
-            const isValid = content.trim().length >= minLength;
-
-            updateValidationIndicator(fieldName, isValid, content);
-            return isValid;
-        }
-
-        // Fonction pour initialiser Trix avec Livewire
-        function initializeTrixEditor(editorElement) {
-            const inputId = editorElement.getAttribute('input');
-            const inputElement = document.getElementById(inputId);
-            const fieldName = editorElement.getAttribute('data-field');
-
-            if (!inputElement || !fieldName) return;
-
-            // Stocker la référence de l'éditeur
-            trixEditors[fieldName] = editorElement;
-
-            // Synchroniser le contenu initial
-            if (inputElement.value) {
-                editorElement.editor.loadHTML(inputElement.value);
-                validateContent(inputElement.value, fieldName);
-            }
-
-            // Écouter les changements et synchroniser avec Livewire
-            editorElement.addEventListener('trix-change', function(event) {
-                const content = event.target.innerHTML;
-                inputElement.value = content;
-
-                // Valider le contenu
-                validateContent(content, fieldName);
-
-                // Déclencher un événement input pour notifier Livewire
-                inputElement.dispatchEvent(new Event('input', { bubbles: true }));
-
-                // Synchronisation directe avec Livewire
-                if (window.Livewire && @this) {
-                    @this.set(fieldName, content);
-                }
-            });
-
-            // Validation en temps réel pendant la saisie
-            editorElement.addEventListener('trix-selection-change', function(event) {
-                const content = event.target.innerHTML;
-                validateContent(content, fieldName);
-            });
-
-            // Gestion du focus pour améliorer l'UX
-            editorElement.addEventListener('trix-focus', function(event) {
-                const wrapper = document.getElementById(fieldName + '_wrapper');
-                if (wrapper) {
-                    wrapper.style.borderColor = '#80bdff';
-                    wrapper.style.boxShadow = '0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
-                }
-            });
-
-            editorElement.addEventListener('trix-blur', function(event) {
-                const wrapper = document.getElementById(fieldName + '_wrapper');
-                if (wrapper) {
-                    wrapper.style.borderColor = '';
-                    wrapper.style.boxShadow = '';
-                }
-
-                // Validation finale au blur
-                const content = event.target.innerHTML;
-                validateContent(content, fieldName);
-            });
-        }
-
-        // Initialiser tous les éditeurs Trix existants
-        document.querySelectorAll('trix-editor').forEach(initializeTrixEditor);
-
-        // Réinitialiser après chaque mise à jour Livewire
-        Livewire.hook('morph.updated', ({ el, component }) => {
-            // Réinitialiser les éditeurs Trix seulement s'ils n'existent pas déjà
-            el.querySelectorAll('trix-editor').forEach(editor => {
-                const fieldName = editor.getAttribute('data-field');
-                if (!trixEditors[fieldName]) {
-                    initializeTrixEditor(editor);
-                }
-            });
-        });
-
-        // Écouter les erreurs de validation après chaque requête
-        Livewire.hook('request', ({ fail }) => {
-            fail(({ status, content, preventDefault }) => {
-                // Afficher les erreurs de validation pour les éditeurs Trix
-                setTimeout(() => {
-                    // Forcer l'affichage des erreurs pour les champs Trix
-                    ['fr_description', 'en_description'].forEach(fieldName => {
-                        const wrapper = document.getElementById(fieldName + '_wrapper');
-                        const errorDiv = document.getElementById(fieldName + '_error');
-
-                        if (wrapper && errorDiv && errorDiv.textContent.trim() !== '') {
-                            wrapper.classList.add('is-invalid');
-                            updateValidationIndicator(fieldName, false, '');
-                        }
-                    });
-                }, 100);
-            });
-        });
-
-        // Observer les changements du DOM pour détecter les erreurs
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'childList') {
-                    // Vérifier si des erreurs de validation ont été ajoutées
-                    ['fr_description', 'en_description'].forEach(fieldName => {
-                        const errorDiv = document.getElementById(fieldName + '_error');
-                        const wrapper = document.getElementById(fieldName + '_wrapper');
-
-                        if (errorDiv && wrapper) {
-                            if (errorDiv.style.display !== 'none' && errorDiv.textContent.trim() !== '') {
-                                wrapper.classList.add('is-invalid');
-                                updateValidationIndicator(fieldName, false, '');
-                            } else {
-                                wrapper.classList.remove('is-invalid');
-                            }
-                        }
-                    });
-                }
-            });
-        });
-
-        // Écouter les événements de validation Livewire spécifiquement
-        document.addEventListener('livewire:update', function() {
-            // Forcer la vérification des erreurs après chaque mise à jour
-            setTimeout(() => {
-                ['fr_description', 'en_description'].forEach(fieldName => {
-                    const errorDiv = document.getElementById(fieldName + '_error');
-                    const wrapper = document.getElementById(fieldName + '_wrapper');
-
-                    if (errorDiv && wrapper) {
-                        const hasError = errorDiv.textContent.trim() !== '' &&
-                                       !errorDiv.classList.contains('d-none') &&
-                                       errorDiv.style.display !== 'none';
-
-                        if (hasError) {
-                            wrapper.classList.add('is-invalid');
-                            updateValidationIndicator(fieldName, false, '');
-                            console.log(`Erreur détectée pour ${fieldName}:`, errorDiv.textContent);
-                        } else {
-                            wrapper.classList.remove('is-invalid');
-                            const editor = trixEditors[fieldName];
-                            if (editor) {
-                                const content = editor.editor.getDocument().toString();
-                                validateContent(content, fieldName);
-                            }
-                        }
-                    }
-                });
-            }, 50);
-        });
-
-        // Désactiver l'upload de fichiers dans Trix
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        });
-
-        // Configuration globale de Trix
-        document.addEventListener('trix-before-initialize', function(e) {
-            // Configurer la barre d'outils Trix
-            Trix.config.blockAttributes.default.tagName = "div";
-            Trix.config.blockAttributes.default.breakOnReturn = true;
-        });
-
-        // Nettoyage lors de la destruction des composants
-        document.addEventListener('livewire:navigating', function() {
-            // Nettoyer les références des éditeurs
-            trixEditors = {};
-        });
-    });
-</script>
-@endpush
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <style>
-        /* Styles supplémentaires pour Trix */
-        trix-toolbar .trix-button-group {
-            border-radius: 3px;
+        /* Styles pour Trix */
+        trix-editor {
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            padding: 0.375rem 0.75rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
-        trix-toolbar .trix-button {
-            border-radius: 3px;
+        trix-editor.is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
         }
 
-        /* Amélioration du style des placeholders */
+        trix-editor:focus {
+            outline: 0;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        trix-toolbar {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            border-bottom: none;
+        }
+
+        /* Placeholder pour Trix */
         trix-editor:empty:before {
             color: #6c757d;
             font-style: italic;
+            content: attr(placeholder);
         }
     </style>
+@endpush
+
+@push('js')
+    <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script>
+        // Désactiver l'upload de fichiers dans Trix
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        });
+    </script>
 @endpush

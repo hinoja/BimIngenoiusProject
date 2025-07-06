@@ -59,6 +59,11 @@
             background-color: #e9ecef;
             border-radius: 15px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag-item:hover {
+            background-color: #dee2e6;
         }
 
         .tag-item.selected {
@@ -90,6 +95,24 @@
         .trix-error trix-toolbar {
             border-color: #dc3545;
         }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        .delete-button {
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
     </style>
 
     <!-- Indicateur d'étape -->
@@ -112,10 +135,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="fr_title" class="font-weight-bold text-dark">@lang('French Title')</label>
+                        <label for="fr_title" class="font-weight-bold text-dark">@lang('French Title') <span
+                                class="text-danger">*</span></label>
                         <input type="text" wire:model="fr_title"
                             class="form-control @error('fr_title') is-invalid @enderror" id="fr_title"
-                            placeholder="@lang('Enter the French title')">
+                            placeholder="@lang('Enter the French title')" required>
                         @error('fr_title')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -123,10 +147,11 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="en_title" class="font-weight-bold text-dark">@lang('English Title')</label>
+                        <label for="en_title" class="font-weight-bold text-dark">@lang('English Title') <span
+                                class="text-danger">*</span></label>
                         <input type="text" wire:model="en_title"
                             class="form-control @error('en_title') is-invalid @enderror" id="en_title"
-                            placeholder="@lang('Enter the English title')">
+                            placeholder="@lang('Enter the English title')" required>
                         @error('en_title')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -136,15 +161,21 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="fr_description" class="font-weight-bold text-dark">@lang('French Description')</label>
-                        <div wire:ignore x-data x-init="$refs.trix.editor.loadHTML(@this.get('fr_description') || '')">
-                            <input id="fr_description_input" type="hidden">
-                            <trix-editor
-                                x-ref="trix"
-                                input="fr_description_input"
+                        <label for="fr_description" class="font-weight-bold text-dark">@lang('French Description') <span
+                                class="text-danger">*</span></label>
+                        <div wire:ignore x-data="{
+                            init() {
+                                this.$nextTick(() => {
+                                    if (this.$refs.trix && this.$refs.trix.editor) {
+                                        this.$refs.trix.editor.loadHTML(@this.get('fr_description') || '');
+                                    }
+                                });
+                            }
+                        }">
+                            <input id="fr_description_input" type="hidden" name="fr_description">
+                            <trix-editor x-ref="trix" input="fr_description_input"
                                 @trix-change="$wire.set('fr_description', $event.target.value)"
-                                class="trix-content @error('fr_description') trix-error @enderror"
-                            ></trix-editor>
+                                class="trix-content @error('fr_description') trix-error @enderror"></trix-editor>
                         </div>
                         @error('fr_description')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -153,15 +184,21 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="en_description" class="font-weight-bold text-dark">@lang('English Description')</label>
-                        <div wire:ignore x-data x-init="$refs.trix.editor.loadHTML(@this.get('en_description') || '')">
-                            <input id="en_description_input" type="hidden">
-                            <trix-editor
-                                x-ref="trix"
-                                input="en_description_input"
+                        <label for="en_description" class="font-weight-bold text-dark">@lang('English Description') <span
+                                class="text-danger">*</span></label>
+                        <div wire:ignore x-data="{
+                            init() {
+                                this.$nextTick(() => {
+                                    if (this.$refs.trix && this.$refs.trix.editor) {
+                                        this.$refs.trix.editor.loadHTML(@this.get('en_description') || '');
+                                    }
+                                });
+                            }
+                        }">
+                            <input id="en_description_input" type="hidden" name="en_description">
+                            <trix-editor x-ref="trix" input="en_description_input"
                                 @trix-change="$wire.set('en_description', $event.target.value)"
-                                class="trix-content @error('en_description') trix-error @enderror"
-                            ></trix-editor>
+                                class="trix-content @error('en_description') trix-error @enderror"></trix-editor>
                         </div>
                         @error('en_description')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -176,22 +213,23 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="company" class="font-weight-bold text-dark">@lang('Company')</label>
-                        <input type="text" wire:model="company"
-                            class="form-control @error('company') is-invalid @enderror" id="company"
-                            placeholder="@lang('Enter the company name')">
-                        @error('company')
+                        <label for="country" class="font-weight-bold text-dark">@lang('Country') <span
+                                class="text-danger">*</span></label>
+                        <input type="text" wire:model="country"
+                            class="form-control @error('country') is-invalid @enderror" id="country"
+                            placeholder="@lang('Enter the country')" required>
+                        @error('country')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="country" class="font-weight-bold text-dark">@lang('Country')</label>
-                        <input type="text" wire:model="country"
-                            class="form-control @error('country') is-invalid @enderror" id="country"
-                            placeholder="@lang('Enter the country')">
-                        @error('country')
+                        <label for="city" class="font-weight-bold text-dark">@lang('City') <span
+                                class="text-danger">*</span></label>
+                        <input type="text" wire:model="city" class="form-control @error('city') is-invalid @enderror"
+                            id="city" placeholder="@lang('Enter the city')" required>
+                        @error('city')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -200,11 +238,22 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="city" class="font-weight-bold text-dark">@lang('City')</label>
-                        <input type="text" wire:model="city" class="form-control @error('city') is-invalid @enderror"
-                            id="city" placeholder="@lang('Enter the city')">
-                        @error('city')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <label for="plan_id" class="font-weight-bold text-dark">
+                            @lang('Associated Project Plan')
+                        </label>
+                        <select wire:model="plan_id" class="form-control @error('plan_id') is-invalid @enderror"
+                            id="plan_id">
+                            <option value="">@lang('Select the existing plan related to this project')</option>
+                            @if (isset($plans) && count($plans) > 0)
+                                @foreach ($plans as $plan)
+                                    <option value="{{ $plan->id }}">{{ __($plan->title) }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @error('plan_id')
+                            <div class="invalid-feedback">
+                                <i class="fas fa-exclamation-circle error-icon"></i>{{ $message }}
+                            </div>
                         @enderror
                     </div>
                 </div>
@@ -227,13 +276,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="status" class="font-weight-bold text-dark">@lang('Status')</label>
+                        <label for="status" class="font-weight-bold text-dark">@lang('Status') <span
+                                class="text-danger">*</span></label>
                         <select wire:model="status" class="form-control @error('status') is-invalid @enderror"
-                            id="status">
+                            id="status" required>
                             <option value="">@lang('Select a status')</option>
-                            @foreach ($statuses as $statusOption)
-                                <option value="{{ $statusOption->value }}">{{ __($statusOption->name) }}</option>
-                            @endforeach
+                            @if (isset($statuses) && count($statuses) > 0)
+                                @foreach ($statuses as $statusOption)
+                                    <option value="{{ $statusOption->value }}">{{ __($statusOption->name) }}</option>
+                                @endforeach
+                            @endif
                         </select>
                         @error('status')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -246,9 +298,11 @@
                         <select wire:model="size" class="form-control @error('size') is-invalid @enderror"
                             id="size">
                             <option value="">@lang('Select a size')</option>
-                            @foreach ($sizes as $sizeOption)
-                                <option value="{{ $sizeOption->value }}">{{ __($sizeOption->name) }}</option>
-                            @endforeach
+                            @if (isset($sizes) && count($sizes) > 0)
+                                @foreach ($sizes as $sizeOption)
+                                    <option value="{{ $sizeOption->value }}">{{ __($sizeOption->name) }}</option>
+                                @endforeach
+                            @endif
                         </select>
                         @error('size')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -281,29 +335,36 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="category_id" class="font-weight-bold text-dark">@lang('Category')</label>
+                        <label for="category_id" class="font-weight-bold text-dark">@lang('Category') <span
+                                class="text-danger">*</span></label>
                         <select wire:model="category_id"
-                            class="form-control @error('category_id') is-invalid @enderror" id="category_id">
+                            class="form-control @error('category_id') is-invalid @enderror" id="category_id"
+                            required>
                             <option value="">@lang('Select a category')</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
+                            @if (isset($categories) && count($categories) > 0)
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                         @error('category_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
-                @if ($status === \App\Enums\StatusEnums::Idea->value)
+                @if (isset($status) && defined('App\Enums\StatusEnums::Idea') && $status === \App\Enums\StatusEnums::Idea->value)
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="plan_id" class="font-weight-bold text-dark">@lang('Plan')</label>
+                            <label for="plan_id_idea" class="font-weight-bold text-dark">@lang('Plan')</label>
                             <select wire:model="plan_id" class="form-control @error('plan_id') is-invalid @enderror"
-                                id="plan_id">
+                                id="plan_id_idea">
                                 <option value="">@lang('Select a plan')</option>
-                                @foreach ($plans as $plan)
-                                    <option value="{{ $plan->id }}">{{ $plan->name }}</option>
-                                @endforeach
+                                @if (isset($plans) && count($plans) > 0)
+                                    @foreach ($plans as $plan)
+                                        <option value="{{ $plan->id }}">{{ $plan->name ?? $plan->title }}
+                                        </option>
+                                    @endforeach
+                                @endif
                             </select>
                             @error('plan_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -321,7 +382,8 @@
                     <div class="form-group">
                         <label for="images" class="font-weight-bold text-dark">@lang('Project Images')</label>
                         <input type="file" wire:model="images"
-                            class="form-control @error('images') is-invalid @enderror" id="images" multiple>
+                            class="form-control @error('images') is-invalid @enderror" id="images" multiple
+                            accept="image/*">
                         <small class="form-text text-muted">@lang('You can select multiple images. Maximum size: 2MB per image.')</small>
                         @error('images')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -334,7 +396,7 @@
             </div>
 
             <!-- Preview of new images -->
-            @if (count($images) > 0)
+            @if (isset($images) && count($images) > 0)
                 <div class="row mb-4">
                     <div class="col-12">
                         <h5 class="font-weight-bold">@lang('New Images Preview')</h5>
@@ -342,10 +404,15 @@
                             @foreach ($images as $index => $image)
                                 <div class="col-md-3 mb-3">
                                     <div class="position-relative">
-                                        <img src="{{ $image->temporaryUrl() }}" class="img-fluid" alt="Preview">
-                                        <button type="button" class="btn btn-sm btn-danger position-absolute"
-                                            style="top: 5px; right: 5px;"
-                                            wire:click="removeImage({{ $index }})">
+                                        @if (method_exists($image, 'temporaryUrl'))
+                                            <img src="{{ $image->temporaryUrl() }}" class="img-fluid image-preview"
+                                                alt="Preview">
+                                        @else
+                                            <div class="alert alert-warning">@lang('Image preview not available')</div>
+                                        @endif
+                                        <button type="button"
+                                            class="btn btn-sm btn-danger position-absolute delete-button"
+                                            wire:click="removeImage({{ $index }})" title="@lang('Remove image')">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -357,7 +424,7 @@
             @endif
 
             <!-- Existing images -->
-            @if (count($existingImages) > 0)
+            @if (isset($existingImages) && count($existingImages) > 0)
                 <div class="row mb-4">
                     <div class="col-12">
                         <h5 class="font-weight-bold">@lang('Existing Images')</h5>
@@ -365,13 +432,19 @@
                             @foreach ($existingImages as $image)
                                 <div class="col-md-3 mb-3">
                                     <div class="position-relative">
-                                        <img src="{{ Storage::url($image['name']) }}" class="img-fluid"
-                                            alt="{{ $image['original_name'] ?? basename($image['name']) }}">
-                                        <button type="button" class="btn btn-sm btn-danger position-absolute"
-                                            style="top: 5px; right: 5px;"
-                                            wire:click="deleteExistingImage({{ $image['id'] }})">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                                        @if (isset($image['name']))
+                                            <img src="{{ Storage::url($image['name']) }}"
+                                                class="img-fluid image-preview"
+                                                alt="{{ $image['original_name'] ?? basename($image['name']) }}">
+                                        @endif
+                                        @if (isset($image['id']))
+                                            <button type="button"
+                                                class="btn btn-sm btn-danger position-absolute delete-button"
+                                                wire:click="deleteExistingImage({{ $image['id'] }})"
+                                                title="@lang('Delete image')">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
@@ -386,14 +459,17 @@
                     <div class="form-group">
                         <label class="font-weight-bold text-dark">@lang('Project Tags')</label>
                         <div class="tag-selector">
-                            @foreach ($tags as $tag)
-                                <div class="tag-item {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}"
-                                    wire:click="$set('selectedTags', {{ json_encode(
-                                        in_array($tag->id, $selectedTags) ? array_diff($selectedTags, [$tag->id]) : array_merge($selectedTags, [$tag->id]),
-                                    ) }})">
-                                    {{ $tag->name }}
-                                </div>
-                            @endforeach
+                            @if (isset($tags) && count($tags) > 0)
+                                @foreach ($tags as $tag)
+                                    <div class="tag-item {{ in_array($tag->id, $selectedTags ?? []) ? 'selected' : '' }}"
+                                        wire:click="toggleTag({{ $tag->id }})"
+                                        data-tag-id="{{ $tag->id }}">
+                                        {{ $tag->name }}
+                                    </div>
+                                @endforeach
+                            @else
+                                <p class="text-muted">@lang('No tags available')</p>
+                            @endif
                         </div>
                         @error('selectedTags')
                             <div class="text-danger mt-2">{{ $message }}</div>
@@ -429,15 +505,18 @@
         </div>
     </form>
 
+    <!-- Messages de session -->
     @if (session()->has('success'))
-        <div class="alert alert-success mt-4">
+        <div class="alert alert-success mt-4 alert-dismissible fade show" role="alert">
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
     @if (session()->has('error'))
-        <div class="alert alert-danger mt-4">
+        <div class="alert alert-danger mt-4 alert-dismissible fade show" role="alert">
             {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 </div>
@@ -448,6 +527,20 @@
         // Désactiver le téléchargement de fichiers dans Trix
         document.addEventListener('trix-file-accept', function(e) {
             e.preventDefault();
+        });
+
+        // Gérer les erreurs de chargement d'images
+        document.addEventListener('livewire:load', function() {
+            // Gérer les erreurs d'images
+            document.querySelectorAll('img').forEach(function(img) {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert alert-warning';
+                    errorDiv.textContent = 'Image non disponible';
+                    this.parentNode.insertBefore(errorDiv, this);
+                });
+            });
         });
     </script>
 @endpush
