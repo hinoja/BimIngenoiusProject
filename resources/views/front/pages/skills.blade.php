@@ -568,8 +568,8 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript" src="{{ asset('assets/front/js/custom-about.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/front/js/smk-accordion.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('assets/front/js/custom-about.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/front/js/smk-accordion.js') }}"></script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

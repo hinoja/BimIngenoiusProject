@@ -487,7 +487,7 @@
             <i class="fas fa-drafting-compass floating-icon" style="bottom: 15%; left: 15%; animation-delay: 4s;"></i>
             <i class="fas fa-building floating-icon" style="bottom: 10%; right: 5%; animation-delay: 6s;"></i>
         </div>
- 
+
         @if (session()->has('error'))
             <div class="error-alert">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -757,12 +757,12 @@
                 </div>
             @endif
 
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 <div class="error-alert">
                     <i class="fas fa-exclamation-triangle"></i>
                     <strong>@lang('Please correct the errors in the form and try again.')</strong>
                 </div>
-            @endif
+            @endif --}}
         </form>
     </div>
 </div>

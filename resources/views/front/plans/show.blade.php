@@ -5,7 +5,7 @@
 
 
 @push('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" /> --}}
 
     <style>
         .project-slider .owl-item img {
@@ -116,12 +116,12 @@
     </section>
 
 
-    {{-- @include('includes.front.action-about') --}}
+    @include('includes.front.action-about')
 
 @endsection
 
 @push('js')
-    <script type="text/javascript" src="{{ asset('assets/front/js/custom-projects.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('assets/front/js/custom-projects.js') }}"></script> --}}
 
     <script>
         $(document).ready(function(){
@@ -143,5 +143,5 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script> --}}
 @endpush

@@ -126,7 +126,7 @@
                                     <div class="col-md-6 detail-group">
                                         <div class="detail-item"><strong>@lang('Title'):</strong>
                                             {{ $plan->title ?? 'N/A' }}</div>
-                                      
+
                                     </div>
                                     <div class="col-md-6 detail-group">
                                         <div class="detail-item"><strong>@lang('Author'):</strong>

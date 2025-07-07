@@ -1,9 +1,9 @@
 @extends('layouts.front')
 
-@section('subtitle', $news->title)
+@section('subtitle', isset($news) ? $news->title : 'News')
 
 @php
-    $tags = $news->tags->pluck('name')->implode(', ');
+    $tags = isset($news) && $news->tags ? $news->tags->pluck('name')->implode(', ') : '';
 @endphp
 
 @push('css')
@@ -23,13 +23,11 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            scroll-behavior: smooth;
-        }
+        * { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #b3b158 0%, #b3b158 100%);
+            background: var(--primary-gradient);
             min-height: 100vh;
             position: relative;
         }
@@ -41,18 +39,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
         }
 
-        .container {
-            max-width: 1200px;
-            position: relative;
-            z-index: 1;
-        }
+        .container { max-width: 1200px; position: relative; }
 
         .blog-single {
             background: var(--glass-bg);
@@ -65,14 +57,9 @@
             transition: var(--transition);
         }
 
-        .blog-single:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
+        .blog-single:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
 
-        .post {
-            position: relative;
-        }
+        .post { position: relative; }
 
         .post-header {
             padding: 3rem 3rem 2rem;
@@ -98,7 +85,7 @@
             color: #2c3e50;
             margin-bottom: 1.5rem;
             line-height: 1.2;
-            background: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
+            background: var(--dark-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -106,14 +93,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .post-meta {
@@ -137,10 +118,7 @@
             transition: var(--transition);
         }
 
-        .meta-item:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
+        .meta-item:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); }
 
         .meta-icon {
             width: 16px;
@@ -165,14 +143,12 @@
 
         .post-thumbnail img {
             width: 100%;
-            height: 400px;
+            height: 400px; /* Restauré temporairement pour éviter l'étirement */
             object-fit: cover;
             transition: var(--transition);
         }
 
-        .post-thumbnail:hover img {
-            transform: scale(1.05);
-        }
+        .post-thumbnail:hover img { transform: scale(1.05); }
 
         .zoom-overlay {
             position: absolute;
@@ -188,9 +164,7 @@
             transition: var(--transition);
         }
 
-        .post-thumbnail:hover .zoom-overlay {
-            opacity: 1;
-        }
+        .post-thumbnail:hover .zoom-overlay { opacity: 1; }
 
         .btn-zoom {
             position: absolute;
@@ -258,9 +232,7 @@
             margin-bottom: 1rem;
         }
 
-        .post-content-text p {
-            margin-bottom: 1.5rem;
-        }
+        .post-content-text p { margin-bottom: 1.5rem; }
 
         .post-content-text a {
             color: #b3b158;
@@ -269,10 +241,7 @@
             transition: var(--transition);
         }
 
-        .post-content-text a:hover {
-            color: #b3b158;
-            border-bottom-color: #b3b158;
-        }
+        .post-content-text a:hover { color: #b3b158; border-bottom-color: #b3b158; }
 
         .post-footer {
             padding: 2rem 3rem 3rem;
@@ -285,25 +254,9 @@
             animation: fadeInUp 0.8s ease-out 0.8s both;
         }
 
-        .tag-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .tag-label {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 0.9rem;
-        }
-
-        .tags-container {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
+        .tag-section { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .tag-label { font-weight: 600; color: #2c3e50; font-size: 0.9rem; }
+        .tags-container { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .tag-item {
             background: var(--primary-gradient);
             color: white;
@@ -315,22 +268,10 @@
             cursor: pointer;
         }
 
-        .tag-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
+        .tag-item:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
 
-        .share-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .share-label {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 0.9rem;
-        }
+        .share-section { display: flex; align-items: center; gap: 1rem; }
+        .share-label { font-weight: 600; color: #2c3e50; font-size: 0.9rem; }
 
         .floating-actions {
             position: fixed;
@@ -372,39 +313,16 @@
             height: 4px;
             background: var(--primary-gradient);
             z-index: 1000;
-            transition: width 0.3s ease;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .post-title {
-                font-size: 2rem;
-            }
-
-            .post-header,
-            .post-content {
-                padding: 2rem 1.5rem;
-            }
-
-            .post-thumbnail {
-                margin: 1.5rem;
-            }
-
-            .post-footer {
-                padding: 1.5rem;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .floating-actions {
-                right: 1rem;
-            }
-
-            .post-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
+            .post-title { font-size: 2rem; }
+            .post-header, .post-content { padding: 2rem 1.5rem; }
+            .post-thumbnail { margin: 1.5rem; }
+            .post-footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; }
+            .floating-actions { right: 1rem; }
+            .post-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
         }
 
         /* Animation pour les éléments qui apparaissent au scroll */
@@ -422,7 +340,6 @@
 @endpush
 
 @section('content')
-
     @section('previousUrl', route('front.news.index'))
     @section('previousTitle', __('News'))
 
@@ -450,18 +367,18 @@
 
                         <!-- En-tête de l'article -->
                         <div class="post-header">
-                            <h1 class="post-title">{{ $news->title }}</h1>
+                            <h1 class="post-title">{{ isset($news) ? $news->title : 'Titre non disponible' }}</h1>
                             <div class="post-meta">
                                 <div class="meta-item">
                                     <div class="meta-icon">
                                         <i class="fas fa-calendar"></i>
                                     </div>
                                     <span>
-                                        <strong>@lang('Published at:')</strong> {{ $news->published_at }}
+                                        <strong>@lang('Published at:')</strong> {{ isset($news) ? $news->published_at : 'Date non disponible' }}
                                     </span>
                                 </div>
 
-                                @if (($news->created_at != $news->updated_at) && ($news->updated_at >= $news->published_at))
+                                @if (isset($news) && $news->created_at != $news->updated_at && $news->updated_at >= $news->published_at)
                                     <div class="meta-item">
                                         <div class="meta-icon">
                                             <i class="fas fa-edit"></i>
@@ -477,7 +394,7 @@
                                         <i class="fas fa-user"></i>
                                     </div>
                                     <span>
-                                        <strong>@lang('By:')</strong> {{ $news->user->name }}
+                                        <strong>@lang('By') : </strong> {{ isset($news) && isset($news->user) ? $news->user->name : 'Auteur non disponible' }}
                                     </span>
                                 </div>
                             </div>
@@ -485,14 +402,18 @@
 
                         <!-- Image principale -->
                         <div class="post-thumbnail">
-                            <a href="{{ $news->image }}" class="glightbox d-block">
-                                <img src="{{ $news->image }}" alt="{{ $news->title }}">
-                                <div class="zoom-overlay">
-                                    <div class="btn-zoom">
-                                        <i class="fas fa-search-plus"></i>
+                            @if (isset($news) && $news->image)
+                                <a href="{{ $news->image }}" class="glightbox d-block">
+                                    <img src="{{ $news->image }}" alt="{{ isset($news) ? $news->title : 'Image non disponible' }}">
+                                    <div class="zoom-overlay">
+                                        <div class="btn-zoom">
+                                            <i class="fas fa-search-plus"></i>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            @else
+                                <p>Image non disponible</p>
+                            @endif
                         </div>
 
                         <!-- Contenu de l'article -->
@@ -502,7 +423,7 @@
                                 <div class="content-divider"></div>
                             </div>
                             <div class="post-content-text">
-                                {!! $news->content !!}
+                                {{ isset($news) ? $news->content : 'Contenu non disponible' }}
                             </div>
                         </div>
 
@@ -511,15 +432,21 @@
                             <div class="tag-section">
                                 <span class="tag-label">@lang('Tags:')</span>
                                 <div class="tags-container">
-                                    @foreach($news->tags as $tag)
-                                        <span class="tag-item">{{ $tag->name }}</span>
-                                    @endforeach
+                                    @if (isset($news) && $news->tags)
+                                        @foreach ($news->tags as $tag)
+                                            <span class="tag-item">{{ $tag->name }}</span>
+                                        @endforeach
+                                    @else
+                                        <span class="tag-item">Aucun tag</span>
+                                    @endif
                                 </div>
                             </div>
 
                             <div class="share-section">
-                                <span class="share-label">@lang('Share:')</span>
-                                @include('includes.front.social-media-share', ['data' => $news])
+                                <span class="share-label">@lang('Share'):</span>
+                                @if (isset($news))
+                                    @include('includes.front.social-media-share', ['data' => $news])
+                                @endif
                             </div>
                         </div>
 
@@ -534,11 +461,10 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript" src="{{ asset('assets/front/js/custom-blog-post.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Initialisation de GLightbox
             GLightbox({
                 selector: '.glightbox',
@@ -578,11 +504,13 @@
 
             // Smooth scroll pour les liens internes
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
@@ -611,12 +539,12 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: linear-gradient(135deg, #b3b158 0%, #b3b158 100%);
+                background: var(--primary-gradient);
                 color: white;
                 padding: 1rem 2rem;
                 border-radius: 10px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
+                z-index: 1000;
                 animation: slideInRight 0.3s ease-out;
             `;
             notification.textContent = message;

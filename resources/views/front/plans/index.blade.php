@@ -1,8 +1,7 @@
 @extends('layouts.front')
 
 @section('subtitle', __('Plans'))
- @section('description',__("Discover our collection of carefully crafted plans"))
-
+@section('description', __('Discover our collection of carefully crafted plans'))
 
 @push('css')
     <style>
@@ -338,8 +337,6 @@
                 <p class="empty-state-description">@lang('Check back later for the latest plans and offerings')</p>
             </div>
         @else
-
-
             <!-- Plans Grid -->
             <div class="plans-grid">
                 @foreach ($plans as $plan)
@@ -404,6 +401,7 @@
 
 @push('js')
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Lazy loading des images
             const images = document.querySelectorAll('.plan-card-image img');
